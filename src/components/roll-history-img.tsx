@@ -20,10 +20,13 @@ const mapPointImg = {
   6: Point6Svg,
 };
 
-const RollHistoryImage: FC<{ results: DiceResult[] }> = ({ results }) => (
+const RollHistoryImage: FC<{ results: DiceResult[]; size?: number }> = ({
+  results,
+  size = 16,
+}) => (
   <div className="flex gap-2">
     {results.map((result, index) => (
-      <Image src={mapPointImg[result]} alt="up icon" width={16} key={index} />
+      <Image src={mapPointImg[result]} alt="up icon" width={size} key={index} />
     ))}
   </div>
 );
