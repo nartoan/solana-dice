@@ -9,10 +9,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import DiceHistory, { IResultBet } from "./DiceHistory";
+import RollHistoryItem, { IResultBet } from "./RollHistoryItem";
 
-export default function RollHistory() {
-  const rollHistories: IResultBet[] = [
+export default function RollHistories() {
+  const datas: IResultBet[] = [
     {
       result: "small",
       address: "3hTpq........4TB5fU",
@@ -46,8 +46,8 @@ export default function RollHistory() {
   ];
   return (
     <>
-      {rollHistories.map((rollHistory, index) => (
-        <DiceHistory result={rollHistory} key={index} />
+      {datas.map((rollHistory, index) => (
+        <RollHistoryItem result={rollHistory} key={index} />
       ))}
       <Pagination className="my-[20px]">
         <PaginationContent>
@@ -55,7 +55,9 @@ export default function RollHistory() {
             <PaginationPrevious href="#" />
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink href="#" isActive>1</PaginationLink>
+            <PaginationLink href="#" isActive>
+              1
+            </PaginationLink>
           </PaginationItem>
           <PaginationItem>
             <PaginationLink href="#">2</PaginationLink>

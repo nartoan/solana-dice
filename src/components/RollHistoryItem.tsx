@@ -19,6 +19,10 @@ export type IResultBet = {
   detailResult: DiceResult[];
 };
 
+type IRollHistoryItemProps = {
+  result: IResultBet;
+};
+
 const mapPointImg = {
   1: Point1Svg,
   2: Point2Svg,
@@ -28,20 +32,17 @@ const mapPointImg = {
   6: Point6Svg,
 };
 
-const DiceResultImage = ({ result }: { result: DiceResult }) => (
+const IRollHistoryImage = ({ result }: { result: DiceResult }) => (
   <Image src={mapPointImg[result]} alt="up icon" width={16} />
 );
 
-type IRollHistoryProps = {
-  result: IResultBet;
-};
-const DiceHistory: FC<IRollHistoryProps> = ({ result }) => {
+const RollHistoryItem: FC<IRollHistoryItemProps> = ({ result }) => {
   return (
     <Container className="flex justify-between text-[12px] mt-[15px]">
       <span className="font-bold capitalize w-[40px]">{result.result}</span>
       <div className="flex gap-2">
         {result.detailResult.map((result, index) => (
-          <DiceResultImage result={result} key={index} />
+          <IRollHistoryImage result={result} key={index} />
         ))}
       </div>
       <span className="text-[#C9C9C9]">{result.address}</span>
@@ -49,4 +50,4 @@ const DiceHistory: FC<IRollHistoryProps> = ({ result }) => {
   );
 };
 
-export default DiceHistory;
+export default RollHistoryItem;

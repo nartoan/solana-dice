@@ -8,11 +8,10 @@ import Dice from "@/components/Dice";
 import Header from "@/components/Header";
 import PriceBet from "@/components/PriceBet";
 import WalletSelection from "@/components/WalletSelection";
-import { Badge } from "@/components/ui/badge";
 import { IBetType } from "@/types/bet";
 import { BET_TYPE } from "@/const";
 import Container from "@/components/Container";
-import RollHistory from "@/components/RollHistory";
+import RollHistories from "@/components/RollHistories";
 
 const fontSans = FontSans({ subsets: ["latin"], weight: ["400"] });
 
@@ -80,7 +79,7 @@ export default function Home() {
         </Container>
 
         <p className={`mt-[30px] ${fontSans.className}`}>Roll History</p>
-        <RollHistory />
+        <RollHistories />
       </div>
     </main>
   );
