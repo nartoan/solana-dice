@@ -15,27 +15,27 @@ export default function RollHistories() {
   const datas: IResultBet[] = [
     {
       address: "3hTpq........4TB5fU",
-      result: [4, 5, 6],
+      results: [4, 5, 6],
     },
     {
       address: "3hTpq........4TB5fU",
-      result: [1, 2, 5],
+      results: [1, 2, 5],
     },
     {
       address: "3hTpq........4TB5fU",
-      result: [1, 2, 6],
+      results: [1, 2, 6],
     },
     {
       address: "3hTpq........4TB5fU",
-      result: [4, 5, 6],
+      results: [4, 5, 6],
     },
     {
       address: "3hTpq........4TB5fU",
-      result: [2, 2, 2],
+      results: [2, 2, 2],
     },
     {
       address: "3hTpq........4TB5fU",
-      result: [1, 2, 6],
+      results: [1, 2, 6],
     },
   ];
   return (
