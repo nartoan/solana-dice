@@ -9,14 +9,12 @@ import Point3Svg from "@/assets/img/dice/3.svg";
 import Point4Svg from "@/assets/img/dice/4.svg";
 import Point5Svg from "@/assets/img/dice/5.svg";
 import Point6Svg from "@/assets/img/dice/6.svg";
-import { IBetType } from "@/types/bet";
 import { DiceResult } from "@/types/dice-result";
 import Container from "./Container";
 
 export type IResultBet = {
-  result: IBetType;
   address: string;
-  detailResult: DiceResult[];
+  result: DiceResult[];
 };
 
 type IRollHistoryItemProps = {
@@ -37,11 +35,20 @@ const IRollHistoryImage = ({ result }: { result: DiceResult }) => (
 );
 
 const RollHistoryItem: FC<IRollHistoryItemProps> = ({ result }) => {
+  const totalResult = result.result.reduce((total, item) => total + item, 0);
+
+  let resultText = totalResult <= 10 ? "small" : "big";
+  if (result.result.every((val, _, arr) => val === arr[0])) {
+    resultText = "Three of the kind";
+  }
+
   return (
-    <Container className="flex justify-between text-[12px] mt-[15px]">
-      <span className="font-bold capitalize w-[40px]">{result.result}</span>
+    <Container className="flex justify-between items-center text-[12px] mt-[15px]">
+      <span className="font-bold capitalize w-[60px] h-[23px] flex items-center">
+        {resultText}
+      </span>
       <div className="flex gap-2">
-        {result.detailResult.map((result, index) => (
+        {result.result.map((result, index) => (
           <IRollHistoryImage result={result} key={index} />
         ))}
       </div>

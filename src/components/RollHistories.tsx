@@ -14,34 +14,28 @@ import RollHistoryItem, { IResultBet } from "./RollHistoryItem";
 export default function RollHistories() {
   const datas: IResultBet[] = [
     {
-      result: "small",
       address: "3hTpq........4TB5fU",
-      detailResult: [4, 5, 6],
+      result: [4, 5, 6],
     },
     {
-      result: "big",
       address: "3hTpq........4TB5fU",
-      detailResult: [1, 2, 5],
+      result: [1, 2, 5],
     },
     {
-      result: "small",
       address: "3hTpq........4TB5fU",
-      detailResult: [1, 2, 6],
+      result: [1, 2, 6],
     },
     {
-      result: "small",
       address: "3hTpq........4TB5fU",
-      detailResult: [4, 5, 6],
+      result: [4, 5, 6],
     },
     {
-      result: "big",
       address: "3hTpq........4TB5fU",
-      detailResult: [1, 2, 5],
+      result: [2, 2, 2],
     },
     {
-      result: "small",
       address: "3hTpq........4TB5fU",
-      detailResult: [1, 2, 6],
+      result: [1, 2, 6],
     },
   ];
   return (
