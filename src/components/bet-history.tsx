@@ -5,7 +5,7 @@ import upSvg from "@/assets/img/up.svg";
 import downSvg from "@/assets/img/down.svg";
 import solanaSvg from "@/assets/img/solana.svg";
 import { IBetType } from "@/types/bet";
-import { BET_TYPE } from "@/const";
+import { BET_BIG } from "@/const";
 
 import { ScrollArea } from "./ui/scroll-area";
 
@@ -40,7 +40,7 @@ export default function BetHistory({ typeBet }: IBetHistoryProps) {
         <div className="flex gap-2">
           <span className="font-bold capitalize">{typeBet}</span>
           <Image
-            src={typeBet === BET_TYPE.BIG ? upSvg : downSvg}
+            src={typeBet === BET_BIG ? upSvg : downSvg}
             alt="up icon"
             width={8}
           />
