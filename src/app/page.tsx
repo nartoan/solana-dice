@@ -22,7 +22,7 @@ export default function Home() {
         <div
           className={`bg-[#0B0B1F] h-[130px] flex justify-center items-center text-center mt-[20px] text-[40px] leading-none ${fontSans.className}`}
         >
-          Big & Small Dice
+          <span className="max-w-[300px]">Big & Small Dice</span>
         </div>
         <Container className={`flex flex-col mt-5 gap-[20px]`}>
           <div className="flex justify-between">
