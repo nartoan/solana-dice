@@ -21,9 +21,9 @@ export default function BetButton({
       variant={selectedBet === bet ? "default" : "outline"}
       onClick={() => onClick(bet)}
     >
-      <span className="text-[8px]">Place bet</span>{" "}
-      <span className="font-bold capitalize">{bet}</span>{" "}
-      <span className="text-[8px]">(04-10)</span>
+      <span className="text-[8px]">Place bet</span>
+      <span className="font-bold capitalize">{bet}</span>
+      <span className="text-[8px]">(03-10)</span>
     </Button>
   );
 }

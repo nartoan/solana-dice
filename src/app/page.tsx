@@ -8,8 +8,8 @@ import WalletSelection from "@/components/wallet-selection";
 import Container from "@/components/container";
 import RollHistories from "@/components/roll-histories";
 import Bet from "@/components/bet";
-import { IBetType } from "@/types/bet";
-import { BET_TYPE } from "@/const";
+import { BET_BIG, BET_SMALL } from "@/const";
+import Timer from "@/components/timer";
 
 const fontSans = FontSans({ subsets: ["latin"], weight: ["400"] });
 
@@ -27,9 +27,7 @@ export default function Home() {
         <Container className={`flex flex-col mt-5 gap-[20px]`}>
           <div className="flex justify-between">
             <span className="text-[10px]">Time left until the next game:</span>
-            <span className="w-[92px] h-[20px] bg-primary flex justify-center items-center text-[12px] rounded-sm font-bold">
-              00:56
-            </span>
+            <Timer />
           </div>
           <div className="rounded-[10px] border-solid border border-[#344EAD]">
             <Dice />
@@ -38,10 +36,10 @@ export default function Home() {
         </Container>
         <p className={`mt-[30px] ${fontSans.className}`}>Active Bets</p>
         <Container className="mt-[20px]">
-          <BetHistory typeBet={BET_TYPE.BIG as IBetType} />
+          <BetHistory typeBet={BET_BIG} />
         </Container>
         <Container className="mt-[20px]">
-          <BetHistory typeBet={BET_TYPE.SMALL as IBetType} />
+          <BetHistory typeBet={BET_SMALL} />
         </Container>
 
         <p className={`mt-[30px] ${fontSans.className}`}>Roll History</p>

@@ -4,6 +4,7 @@ import { FC } from "react";
 import { DiceResult } from "@/types/dice-result";
 import Container from "./container";
 import RollHistoryImage from "./roll-history-img";
+import { BET_BIG, BET_SMALL } from "@/const";
 
 export type IResultBet = {
   address: string;
@@ -17,7 +18,7 @@ type IRollHistoryItemProps = {
 const RollHistoryItem: FC<IRollHistoryItemProps> = ({ result }) => {
   const totalResult = result.results.reduce((total, item) => total + item, 0);
 
-  let resultText = totalResult <= 10 ? "small" : "big";
+  let resultText: string = totalResult <= 10 ? BET_SMALL : BET_BIG;
   if (result.results.every((val, _, arr) => val === arr[0])) {
     resultText = "Three of the kind";
   }

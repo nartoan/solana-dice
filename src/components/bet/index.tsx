@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IBetType } from "@/types/bet";
 import PriceBet from "./bet-price";
 import BetButton from "./bet-button";
+import { BET_BIG, BET_SMALL } from "@/const";
 
 export default function Bet() {
   const [selectedPrice, setSelectedPrice] = useState<number>(0.1);
@@ -39,8 +40,8 @@ export default function Bet() {
           />
         </div>
         <div className="flex justify-around items-center gap-[20px]">
-          <BetButton bet="small" selectedBet={bet} onClick={setBet} />
-          <BetButton bet="big" selectedBet={bet} onClick={setBet} />
+          <BetButton bet={BET_SMALL} selectedBet={bet} onClick={setBet} />
+          <BetButton bet={BET_BIG} selectedBet={bet} onClick={setBet} />
         </div>
       </div>
       {isRolling ? (
