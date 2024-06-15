@@ -22,7 +22,7 @@ const mapPointImg = {
 
 const RollHistoryImage: FC<{ results: DiceResult[]; size?: number }> = ({
   results,
-  size = 16,
+  size = 20,
 }) => (
   <div className="flex gap-2">
     {results.map((result, index) => (
