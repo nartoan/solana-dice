@@ -1,7 +1,7 @@
 "use client";
 
 import { Dispatch, SetStateAction } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 type PriceBetProps = {
     price: number;

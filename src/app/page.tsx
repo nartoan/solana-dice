@@ -1,23 +1,19 @@
 "use client";
 import { Silkscreen as FontSans } from "next/font/google";
-import { useState } from "react";
 
-import BetButton from "@/components/BetButton";
 import BetHistory from "@/components/BetHistory";
 import Dice from "@/components/Dice";
 import Header from "@/components/Header";
-import PriceBet from "@/components/PriceBet";
 import WalletSelection from "@/components/WalletSelection";
 import { IBetType } from "@/types/bet";
 import { BET_TYPE } from "@/const";
 import Container from "@/components/Container";
 import RollHistories from "@/components/RollHistories";
+import Bet from "@/components/bet";
 
 const fontSans = FontSans({ subsets: ["latin"], weight: ["400"] });
 
 export default function Home() {
-  const [selectedPrice, setSelectedPrice] = useState<number>(0.1);
-  const [bet, setBet] = useState<IBetType | undefined>();
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
       <div className="w-full max-w-5xl">
@@ -38,37 +34,7 @@ export default function Home() {
           <div className="rounded-[10px] border-solid border border-[#344EAD]">
             <Dice />
           </div>
-          <div className="flex justify-around items-center">
-            <PriceBet
-              price={0.1}
-              selectedPrice={selectedPrice}
-              onClick={setSelectedPrice}
-            />
-            <PriceBet
-              price={0.3}
-              selectedPrice={selectedPrice}
-              onClick={setSelectedPrice}
-            />
-            <PriceBet
-              price={0.5}
-              selectedPrice={selectedPrice}
-              onClick={setSelectedPrice}
-            />
-            <PriceBet
-              price={0.7}
-              selectedPrice={selectedPrice}
-              onClick={setSelectedPrice}
-            />
-            <PriceBet
-              price={1.0}
-              selectedPrice={selectedPrice}
-              onClick={setSelectedPrice}
-            />
-          </div>
-          <div className="flex justify-around items-center gap-[20px]">
-            <BetButton bet="small" selectedBet={bet} onClick={setBet} />
-            <BetButton bet="big" selectedBet={bet} onClick={setBet} />
-          </div>
+          <Bet />
         </Container>
         <p className={`mt-[30px] ${fontSans.className}`}>Active Bets</p>
         <Container className="mt-[20px]">

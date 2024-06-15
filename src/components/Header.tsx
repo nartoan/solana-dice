@@ -15,7 +15,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const routes = [
-  // { title: "About us", link: "/about-us", isDisable: true },
+  { title: "About us", link: "/about-us", isDisable: true },
   { title: "Rules", link: "/rules", isDisable: false },
 ];
 
