@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat as FontSans } from "next/font/google";
+
+import { ThemeProvider } from "@/components/theme-provider"
+
 import "./globals.css";
 
 const fontSans = FontSans({ subsets: ["latin"] });
@@ -16,7 +19,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={fontSans.className}>{children}</body>
+      <body className={fontSans.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider></body>
     </html>
   );
 }
