@@ -10,7 +10,7 @@ import Point4Svg from "@/assets/img/dice/4.svg";
 import Point5Svg from "@/assets/img/dice/5.svg";
 import Point6Svg from "@/assets/img/dice/6.svg";
 import { DiceResult } from "@/types/dice-result";
-import Container from "./Container";
+import Container from "./container";
 
 export type IResultBet = {
   address: string;

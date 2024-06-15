@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IBetType } from "@/types/bet";
-import PriceBet from "./PriceBet";
-import BetButton from "./BetButton";
+import PriceBet from "./bet-price";
+import BetButton from "./bet-button";
 
 export default function Bet() {
   const [selectedPrice, setSelectedPrice] = useState<number>(0.1);

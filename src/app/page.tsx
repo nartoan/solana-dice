@@ -1,14 +1,14 @@
 "use client";
 import { Silkscreen as FontSans } from "next/font/google";
 
-import BetHistory from "@/components/BetHistory";
-import Dice from "@/components/Dice";
-import Header from "@/components/Header";
-import WalletSelection from "@/components/WalletSelection";
+import BetHistory from "@/components/bet-history";
+import Dice from "@/components/dice";
+import Header from "@/components/header";
+import WalletSelection from "@/components/wallet-selection";
 import { IBetType } from "@/types/bet";
 import { BET_TYPE } from "@/const";
-import Container from "@/components/Container";
-import RollHistories from "@/components/RollHistories";
+import Container from "@/components/container";
+import RollHistories from "@/components/roll-histories";
 import Bet from "@/components/bet";
 
 const fontSans = FontSans({ subsets: ["latin"], weight: ["400"] });

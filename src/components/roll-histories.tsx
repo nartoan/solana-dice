@@ -9,7 +9,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import RollHistoryItem, { IResultBet } from "./RollHistoryItem";
+import RollHistoryItem, { IResultBet } from "./roll-history-item";
 
 export default function RollHistories() {
   const datas: IResultBet[] = [
