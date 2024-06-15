@@ -54,8 +54,8 @@ export default function BetHistory({ typeBet }: IBetHistoryProps) {
       </div>
       <ScrollArea className="w-full h-[90px]">
         {betHistories.map((betHistory, index) => (
-          <div className="flex justify-between mt-[10px]" key={index}>
-            <span className="w-1/2 truncate text-[12px]">
+          <div className="flex justify-between w-full mt-[10px]" key={index}>
+            <span className="w-1/4 truncate text-[12px]">
               {betHistory.address}
             </span>
             <div className="flex items-center justify-between">
