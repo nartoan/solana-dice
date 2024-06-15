@@ -3,7 +3,7 @@
 import { DiceResult } from "@/types/dice-result";
 import { useEffect, useRef, useState } from "react";
 import DiceRoll from "react-dice-roll";
-import { BetDialogWin } from "./bet-dialog-win";
+import { BetDialog } from "./bet-dialog";
 
 type TDiceRef = {
   rollDice: (value: DiceResult) => void;
@@ -22,7 +22,7 @@ export default function Dice() {
       diceRef1.current?.rollDice(1);
       diceRef2.current?.rollDice(2);
       diceRef3.current?.rollDice(2);
-    }, 10000);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -60,7 +60,7 @@ export default function Dice() {
           disabled={true}
         />
       </div>
-      <BetDialogWin open={isOpen} setOpen={setIsOpen}/>
+      <BetDialog open={isOpen} setOpen={setIsOpen} />
     </>
   );
 }

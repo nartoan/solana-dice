@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IBetType } from "@/types/bet";
 import PriceBet from "./bet-price";
 import BetButton from "./bet-button";
@@ -7,7 +7,11 @@ import { BET_BIG, BET_SMALL } from "@/const";
 export default function Bet() {
   const [selectedPrice, setSelectedPrice] = useState<number>(0.1);
   const [bet, setBet] = useState<IBetType | undefined>();
-  const [isRolling, setRolling] = useState<boolean>(true);
+  const [isRolling, setRolling] = useState<boolean>(false);
+
+  useEffect(() => {
+    setTimeout(() => setRolling(true), 2000);
+  }, []);
 
   return (
     <div className="relative">

@@ -12,7 +12,7 @@ import svgClose from "@/assets/img/close.svg";
 import { Dispatch, SetStateAction } from "react";
 import { getResultText } from "@/lib/utils";
 
-export function BetDialogWin({
+export function BetDialog({
   open,
   setOpen,
 }: {
