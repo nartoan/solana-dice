@@ -2,13 +2,12 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
-
-export type IBetType = "small" | "big" | null;
+import { IBetType } from "@/types/bet";
 
 type BetButtonProps = {
   bet: IBetType;
-  selectedBet: IBetType;
-  onClick: Dispatch<SetStateAction<IBetType>>;
+  selectedBet: IBetType | undefined;
+  onClick: Dispatch<SetStateAction<IBetType | undefined>>;
 };
 
 export default function BetButton({
