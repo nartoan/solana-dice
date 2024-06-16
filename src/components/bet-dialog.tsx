@@ -32,6 +32,7 @@ export function BetDialog({
             : "bg-[#F6501B] border-[#F6501B]"
         } rounded-md select-none`}
         hideCloseButton
+        onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogTitle className="text-[20px]">
           {isWin ? "Congratulations, you win" : "Sorry, you lose"}
