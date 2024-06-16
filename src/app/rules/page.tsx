@@ -51,16 +51,14 @@ export default function Rules() {
   ];
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4">
-      <div className="w-full max-w-5xl">
-        <Header />
-        {rules.map(({ title, content }, index) => (
-          <div key={index} className="mt-[20px]">
-            <div className="font-bold">{title}</div>
-            <div className="text-[14px] text-[#C2C2C2] mt-[4px]">{content}</div>
-          </div>
-        ))}
-      </div>
-    </main>
+    <div className="w-full max-w-xl">
+      <Header />
+      {rules.map(({ title, content }, index) => (
+        <div key={index} className="mt-[20px]">
+          <div className="font-bold">{title}</div>
+          <div className="text-[14px] text-[#C2C2C2] mt-[4px]">{content}</div>
+        </div>
+      ))}
+    </div>
   );
 }

@@ -15,36 +15,34 @@ const fontSans = FontSans({ subsets: ["latin"], weight: ["400"] });
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4">
-      <div className="w-full max-w-5xl">
-        <Header />
-        <WalletSelection />
-        <div
-          className={`bg-[#0B0B1F] h-[130px] flex justify-center items-center text-center mt-[20px] text-[40px] leading-none ${fontSans.className}`}
-        >
-          <span className="max-w-[300px]">Big & Small Dice</span>
-        </div>
-        <Container className={`flex flex-col mt-5 gap-[20px]`}>
-          <div className="flex justify-between">
-            <span className="text-[10px]">Time left until the next game:</span>
-            <Timer />
-          </div>
-          <div className="rounded-[10px] border-solid border border-[#344EAD]">
-            <Dice />
-          </div>
-          <Bet />
-        </Container>
-        <p className={`mt-[30px] ${fontSans.className}`}>Active Bets</p>
-        <Container className="mt-[20px]">
-          <BetHistory typeBet={BET_BIG} />
-        </Container>
-        <Container className="mt-[20px]">
-          <BetHistory typeBet={BET_SMALL} />
-        </Container>
-
-        <p className={`mt-[30px] ${fontSans.className}`}>Roll History</p>
-        <RollHistories />
+    <div className="w-full max-w-xl">
+      <Header />
+      <WalletSelection />
+      <div
+        className={`bg-[#0B0B1F] h-[130px] flex justify-center items-center text-center mt-[20px] text-[40px] leading-none ${fontSans.className}`}
+      >
+        <span className="max-w-[300px]">Big & Small Dice</span>
       </div>
-    </main>
+      <Container className={`flex flex-col mt-5 gap-[20px]`}>
+        <div className="flex justify-between">
+          <span className="text-[10px]">Time left until the next game:</span>
+          <Timer />
+        </div>
+        <div className="rounded-[10px] border-solid border border-[#344EAD]">
+          <Dice />
+        </div>
+        <Bet />
+      </Container>
+      <p className={`mt-[30px] ${fontSans.className}`}>Active Bets</p>
+      <Container className="mt-[20px]">
+        <BetHistory typeBet={BET_BIG} />
+      </Container>
+      <Container className="mt-[20px]">
+        <BetHistory typeBet={BET_SMALL} />
+      </Container>
+
+      <p className={`mt-[30px] ${fontSans.className}`}>Roll History</p>
+      <RollHistories />
+    </div>
   );
 }

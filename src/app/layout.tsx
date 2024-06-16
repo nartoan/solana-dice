@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat as FontSans } from "next/font/google";
 
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme-provider";
 
 import "./globals.css";
 
@@ -26,8 +26,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-        </ThemeProvider></body>
+          <main className="flex min-h-screen flex-col items-center justify-between p-4">
+            {children}
+          </main>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
