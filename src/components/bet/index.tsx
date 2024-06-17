@@ -3,6 +3,7 @@ import { IBetType } from "@/types/bet";
 import PriceBet from "./bet-price";
 import BetButton from "./bet-button";
 import { BET_BIG, BET_SMALL } from "@/const";
+import LabelCustom from "../label-custom";
 
 export default function Bet() {
   const [selectedPrice, setSelectedPrice] = useState<number>(0.1);
@@ -50,7 +51,7 @@ export default function Bet() {
       </div>
       {isRolling ? (
         <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
-          <span className="max-w-[200px] text-center">Rolling was started</span>
+          <LabelCustom className="max-w-[200px] text-center">Rolling was started</LabelCustom>
         </div>
       ) : null}
     </div>

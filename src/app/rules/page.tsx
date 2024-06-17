@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "@/components/header";
+import LabelCustom from "@/components/label-custom";
 
 export default function Rules() {
   const rules = [
@@ -55,7 +56,7 @@ export default function Rules() {
       <Header />
       {rules.map(({ title, content }, index) => (
         <div key={index} className="mt-[20px]">
-          <div className="font-bold">{title}</div>
+          <LabelCustom className="mt-[30px]">{title}</LabelCustom>
           <div className="text-[14px] text-[#C2C2C2] mt-[4px]">{content}</div>
         </div>
       ))}

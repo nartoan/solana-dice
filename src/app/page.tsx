@@ -1,5 +1,4 @@
 "use client";
-import { Silkscreen as FontSans } from "next/font/google";
 
 import BetHistory from "@/components/bet-history";
 import Dice from "@/components/dice";
@@ -14,8 +13,7 @@ import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { SolanaProvider } from "@/components/solana-context";
-
-const fontSans = FontSans({ subsets: ["latin"], weight: ["400"] });
+import LabelCustom from "@/components/label-custom";
 
 export default function Home() {
   const wallets = [new PhantomWalletAdapter()];
@@ -28,9 +26,9 @@ export default function Home() {
             <Header />
             <WalletSelection />
             <div
-              className={`bg-[#0B0B1F] h-[130px] flex justify-center items-center text-center mt-[20px] text-[40px] leading-none ${fontSans.className}`}
+              className={`bg-[#0B0B1F] h-[130px] flex justify-center items-center text-center mt-[20px] text-[32px] leading-none`}
             >
-              <span className="max-w-[300px]">Big & Small Dice</span>
+              <LabelCustom className="max-w-[250px]">Big & Small Dice</LabelCustom>
             </div>
             <Container className={`flex flex-col mt-5 gap-[20px]`}>
               <div className="flex justify-between">
@@ -44,7 +42,7 @@ export default function Home() {
               </div>
               <Bet />
             </Container>
-            <p className={`mt-[30px] ${fontSans.className}`}>Active Bets</p>
+            <LabelCustom className="mt-[30px]">Active Bets</LabelCustom>
             <Container className="mt-[20px]">
               <BetHistory typeBet={BET_BIG} />
             </Container>
@@ -52,7 +50,7 @@ export default function Home() {
               <BetHistory typeBet={BET_SMALL} />
             </Container>
 
-            <p className={`mt-[30px] ${fontSans.className}`}>Roll History</p>
+            <LabelCustom className="mt-[30px]">Roll History</LabelCustom>
             <RollHistories />
           </div>
         </SolanaProvider>
