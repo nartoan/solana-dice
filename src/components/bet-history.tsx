@@ -62,7 +62,7 @@ export default function BetHistory({ typeBet }: IBetHistoryProps) {
       {betHistories.length <= 0 ? (
         <div className="w-full h-[90px] flex flex-col justify-center items-center">
           <Image src={noDataSvg} alt="No data" width={22} />
-          <span className="text-[12px]">You haven&quot;t placed any bets yet</span>
+          <span className="text-[12px]">You haven&apos;t placed any bets yet</span>
         </div>
       ) : (
         <ScrollArea className="w-full h-[90px]">
