@@ -3,6 +3,7 @@
 import Image from "next/image";
 import upSvg from "@/assets/img/up.svg";
 import downSvg from "@/assets/img/down.svg";
+import noDataSvg from "@/assets/img/no-data.svg";
 import solanaSvg from "@/assets/img/solana.svg";
 import { IBetType } from "@/types/bet";
 import { BET_BIG } from "@/const";
@@ -13,8 +14,13 @@ export type IBetHistoryProps = {
   typeBet: IBetType;
 };
 
+interface BetHistory {
+  address: string;
+  amount: number;
+}
+
 export default function BetHistory({ typeBet }: IBetHistoryProps) {
-  const betHistories = [
+  const betHistories: BetHistory[] = typeBet === BET_BIG ? [
     {
       address: "T19HikdasT19HikdasT19HikdasT19HikdasT19Hikdas",
       amount: 0.1,
@@ -27,7 +33,7 @@ export default function BetHistory({ typeBet }: IBetHistoryProps) {
       address: "T19HikdasT19HikdasT19HikdasT19HikdasT19Hikdas",
       amount: 0.2,
     },
-  ];
+  ] : [];
 
   const total = betHistories.reduce(
     (total, betHistory) => total + betHistory.amount,
@@ -52,21 +58,29 @@ export default function BetHistory({ typeBet }: IBetHistoryProps) {
           </span>
         </div>
       </div>
-      <ScrollArea className="w-full h-[90px]">
-        {betHistories.map((betHistory, index) => (
-          <div className="flex justify-between w-full mt-[10px]" key={index}>
-            <span className="w-1/4 truncate text-[12px]">
-              {betHistory.address}
-            </span>
-            <div className="flex items-center justify-between">
-              <Image src={solanaSvg} alt="up icon" width={15} />
-              <span className="text-[12px] w-[50px] text-end">
-                {betHistory.amount.toFixed(1)} Sol
+
+      {betHistories.length <= 0 ? (
+        <div className="w-full h-[90px] flex flex-col justify-center items-center">
+          <Image src={noDataSvg} alt="No data" width={22} />
+          <span className="text-[12px]">You haven't placed any bets yet</span>
+        </div>
+      ) : (
+        <ScrollArea className="w-full h-[90px]">
+          {betHistories.map((betHistory, index) => (
+            <div className="flex justify-between w-full mt-[10px]" key={index}>
+              <span className="w-1/4 truncate text-[12px]">
+                {betHistory.address}
               </span>
+              <div className="flex items-center justify-between">
+                <Image src={solanaSvg} alt="up icon" width={15} />
+                <span className="text-[12px] w-[50px] text-end">
+                  {betHistory.amount.toFixed(1)} Sol
+                </span>
+              </div>
             </div>
-          </div>
-        ))}
-      </ScrollArea>
+          ))}
+        </ScrollArea>
+      )}
     </>
   );
 }
