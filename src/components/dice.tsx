@@ -2,7 +2,7 @@
 
 import { DiceResult } from "@/types/dice-result";
 import { useEffect, useRef, useState } from "react";
-import DiceRoll from "react-dice-roll";
+import DiceRoll from "@nartoan/react-dice-roll";
 import { BetDialog } from "./bet-dialog";
 
 type TDiceRef = {
