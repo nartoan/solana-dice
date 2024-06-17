@@ -3,6 +3,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "../ui/button";
 import { IBetType } from "@/types/bet";
+import { BET_TYPE } from "@/const";
 
 type BetButtonProps = {
   bet: IBetType;
@@ -15,6 +16,8 @@ export default function BetButton({
   selectedBet,
   onClick,
 }: BetButtonProps) {
+  const betType = BET_TYPE.find(item => item.title === bet);
+
   return (
     <Button
       className="flex flex-col h-[78px] w-1/2 rounded-xl"
@@ -23,7 +26,7 @@ export default function BetButton({
     >
       <span className="text-[8px]">Place bet</span>
       <span className="font-bold capitalize">{bet}</span>
-      <span className="text-[8px]">(03-10)</span>
+      <span className="text-[8px]">({betType?.range[0]}-{betType?.range[1]})</span>
     </Button>
   );
 }
