@@ -29,7 +29,7 @@ export default function Dice() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setIsOpen(true), 5000)
+    // setTimeout(() => setIsOpen(true), 5000)
   }, []);
 
   return (
