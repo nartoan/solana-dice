@@ -21,7 +21,7 @@ export default function LabelCustom({
         background: "linear-gradient(180deg, #FBC350 0%, #F6501B 100%)",
         backgroundClip: "text",
       }}
-      className={cn(fontSans.className, "text-transparent", className)}
+      className={cn(fontSans.className, "text-transparent font-bold", className)}
     >
       {children}
     </div>
