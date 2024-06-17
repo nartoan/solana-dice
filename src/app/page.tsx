@@ -14,9 +14,16 @@ import { WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { SolanaProvider } from "@/components/solana-context";
 import LabelCustom from "@/components/label-custom";
+import { BetDialog } from "@/components/bet-dialog";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const wallets = [new PhantomWalletAdapter()];
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+      // setTimeout(() => setIsOpen(true), 5000)
+    }, []);
 
   return (
     <WalletProvider wallets={wallets}>
@@ -28,7 +35,9 @@ export default function Home() {
             <div
               className={`bg-[#0B0B1F] h-[130px] flex justify-center items-center text-center mt-[20px] text-[32px] leading-none`}
             >
-              <LabelCustom className="max-w-[250px]">Big & Small Dice</LabelCustom>
+              <LabelCustom className="max-w-[250px]">
+                Big & Small Dice
+              </LabelCustom>
             </div>
             <Container className={`flex flex-col mt-5 gap-[20px]`}>
               <div className="flex justify-between">
@@ -52,6 +61,7 @@ export default function Home() {
 
             <LabelCustom className="mt-[30px]">Roll History</LabelCustom>
             <RollHistories />
+            <BetDialog open={isOpen} setOpen={setIsOpen} />
           </div>
         </SolanaProvider>
       </WalletModalProvider>

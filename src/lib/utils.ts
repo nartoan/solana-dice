@@ -22,3 +22,7 @@ export const getResultText = (
 
   return resultText;
 };
+
+export function randomInt(min: number, max: number): DiceResult {
+  return Math.floor(Math.random() * (max - min + 1) + min) as DiceResult;
+}
