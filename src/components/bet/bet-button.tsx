@@ -7,13 +7,12 @@ import { BET_TYPE } from "@/const";
 
 type BetButtonProps = {
   bet: IBetType;
-  selectedBet: IBetType | undefined;
+  // selectedBet: IBetType | undefined;
   onClick: Dispatch<SetStateAction<IBetType | undefined>>;
 };
 
 export default function BetButton({
   bet,
-  selectedBet,
   onClick,
 }: BetButtonProps) {
   const betType = BET_TYPE.find(item => item.title === bet);
@@ -21,7 +20,7 @@ export default function BetButton({
   return (
     <Button
       className="flex flex-col h-[78px] w-1/2 rounded-xl"
-      variant={selectedBet === bet ? "default" : "outline"}
+      variant={"outline"}
       onClick={() => onClick(bet)}
     >
       <span className="text-[8px]">Place bet</span>

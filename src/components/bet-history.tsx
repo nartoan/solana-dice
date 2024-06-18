@@ -12,33 +12,21 @@ import { ScrollArea } from "./ui/scroll-area";
 
 export type IBetHistoryProps = {
   typeBet: IBetType;
+  betHistories: IBetHistory[];
 };
 
-interface BetHistory {
+export interface IBetHistory {
   address: string;
   amount: number;
+  type: IBetType;
 }
 
-export default function BetHistory({ typeBet }: IBetHistoryProps) {
-  const betHistories: BetHistory[] = typeBet === BET_BIG ? [
-    {
-      address: "T19HikdasT19HikdasT19HikdasT19HikdasT19Hikdas",
-      amount: 0.1,
-    },
-    {
-      address: "T19HikdasT19HikdasT19HikdasT19HikdasT19Hikdas",
-      amount: 1,
-    },
-    {
-      address: "T19HikdasT19HikdasT19HikdasT19HikdasT19Hikdas",
-      amount: 0.2,
-    },
-  ] : [];
-
-  const total = betHistories.reduce(
-    (total, betHistory) => total + betHistory.amount,
-    0
-  );
+export default function BetHistory({
+  typeBet,
+  betHistories,
+}: IBetHistoryProps) {
+  const dataBets = betHistories.filter((bet) => bet.type === typeBet);
+  const total = dataBets.reduce((total, bet) => total + bet.amount, 0);
 
   return (
     <>
@@ -59,22 +47,20 @@ export default function BetHistory({ typeBet }: IBetHistoryProps) {
         </div>
       </div>
 
-      {betHistories.length <= 0 ? (
+      {dataBets.length <= 0 ? (
         <div className="w-full h-[90px] flex flex-col justify-center items-center">
           <Image src={noDataSvg} alt="No data" width={22} />
           <span className="text-[12px]">No bets yet</span>
         </div>
       ) : (
         <ScrollArea className="w-full h-[90px]">
-          {betHistories.map((betHistory, index) => (
+          {dataBets.map((bet, index) => (
             <div className="flex justify-between w-full mt-[10px]" key={index}>
-              <span className="w-1/4 truncate text-[12px]">
-                {betHistory.address}
-              </span>
+              <span className="w-1/4 truncate text-[12px]">{bet.address}</span>
               <div className="flex items-center justify-between">
                 <Image src={solanaSvg} alt="up icon" width={15} />
                 <span className="text-[12px] w-[50px] text-end">
-                  {betHistory.amount.toFixed(1)} Sol
+                  {bet.amount.toFixed(1)} Sol
                 </span>
               </div>
             </div>

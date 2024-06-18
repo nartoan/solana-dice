@@ -1,13 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IBetType } from "@/types/bet";
 import PriceBet from "./bet-price";
 import BetButton from "./bet-button";
 import { BET_BIG, BET_SMALL } from "@/const";
 import LabelCustom from "../label-custom";
+import { IBetHistory } from "../bet-history";
 
-export default function Bet({ rolling }: { rolling: boolean }) {
+export default function Bet({
+  rolling,
+  bet,
+}: {
+  rolling: boolean;
+  bet: (betData: IBetHistory) => void;
+}) {
   const [selectedPrice, setSelectedPrice] = useState<number>(0.1);
-  const [bet, setBet] = useState<IBetType | undefined>();
+
+  const handleBet = (typeBet: IBetType) => () => {
+    bet({
+      amount: selectedPrice,
+      type: typeBet,
+      address: "",
+    });
+  };
 
   return (
     <div className="relative">
@@ -40,8 +54,8 @@ export default function Bet({ rolling }: { rolling: boolean }) {
           />
         </div>
         <div className="flex justify-around items-center gap-[20px]">
-          <BetButton bet={BET_SMALL} selectedBet={bet} onClick={setBet} />
-          <BetButton bet={BET_BIG} selectedBet={bet} onClick={setBet} />
+          <BetButton bet={BET_SMALL} onClick={handleBet(BET_SMALL)} />
+          <BetButton bet={BET_BIG} onClick={handleBet(BET_BIG)} />
         </div>
       </div>
       {rolling ? (

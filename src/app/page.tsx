@@ -1,6 +1,6 @@
 "use client";
 
-import BetHistory from "@/components/bet-history";
+import BetHistory, { IBetHistory } from "@/components/bet-history";
 import Dice from "@/components/dice";
 import Header from "@/components/header";
 import WalletSelection from "@/components/wallet-selection";
@@ -22,6 +22,7 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [rolling, setRolling] = useState<boolean>(false);
   const [timeRemain, setTimeRemain] = useState<number>(60);
+  const [betHistories, setDetHistories] = useState<IBetHistory[]>([]);
 
   useEffect(() => {
     if (timeRemain <= 10) {
@@ -32,6 +33,7 @@ export default function Home() {
 
     if (timeRemain == 0) {
       setTimeRemain(60);
+      setDetHistories([]);
     }
 
     const timeInterval = setInterval(() => setTimeRemain(timeRemain - 1), 1000);
@@ -42,6 +44,10 @@ export default function Home() {
   useEffect(() => {
     // setTimeout(() => setIsOpen(true), 5000)
   }, []);
+
+  const handleBet = (betData: IBetHistory) => {
+    setDetHistories((betHistories) => [...betHistories, betData]);
+  };
 
   return (
     <WalletProvider wallets={wallets}>
@@ -67,16 +73,16 @@ export default function Home() {
               <div className="rounded-[10px] border-solid border border-[#344EAD]">
                 <Dice rolling={rolling} />
               </div>
-              <Bet rolling={rolling} />
+              <Bet rolling={rolling} bet={handleBet} />
             </Container>
             <LabelCustom classNameContainer="mt-[30px]">
               Active Bets
             </LabelCustom>
             <Container className="mt-[20px]">
-              <BetHistory typeBet={BET_BIG} />
+              <BetHistory typeBet={BET_BIG} betHistories={betHistories} />
             </Container>
             <Container className="mt-[20px]">
-              <BetHistory typeBet={BET_SMALL} />
+              <BetHistory typeBet={BET_SMALL} betHistories={betHistories} />
             </Container>
 
             <LabelCustom classNameContainer="mt-[30px]">
