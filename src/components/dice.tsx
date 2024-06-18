@@ -19,7 +19,7 @@ type TDiceRef = {
 const FACES = [svg1.src, svg2.src, svg3.src, svg4.src, svg5.src, svg6.src];
 const SIZE = 50;
 
-export default function Dice() {
+export default function Dice({ rolling }: { rolling: boolean }) {
   const diceRef1 = useRef<TDiceRef>(null);
   const diceRef2 = useRef<TDiceRef>(null);
   const diceRef3 = useRef<TDiceRef>(null);
@@ -37,13 +37,12 @@ export default function Dice() {
   const rollTime = 10000;
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (rolling) {
       diceRef1.current?.rollDice();
       diceRef2.current?.rollDice();
       diceRef3.current?.rollDice();
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+    }
+  }, [rolling]);
 
   return (
     <>

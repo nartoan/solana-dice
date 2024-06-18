@@ -5,14 +5,9 @@ import BetButton from "./bet-button";
 import { BET_BIG, BET_SMALL } from "@/const";
 import LabelCustom from "../label-custom";
 
-export default function Bet() {
+export default function Bet({ rolling }: { rolling: boolean }) {
   const [selectedPrice, setSelectedPrice] = useState<number>(0.1);
   const [bet, setBet] = useState<IBetType | undefined>();
-  const [isRolling, setRolling] = useState<boolean>(false);
-
-  useEffect(() => {
-    setTimeout(() => setRolling(true), 2000);
-  }, []);
 
   return (
     <div className="relative">
@@ -49,9 +44,11 @@ export default function Bet() {
           <BetButton bet={BET_BIG} selectedBet={bet} onClick={setBet} />
         </div>
       </div>
-      {isRolling ? (
+      {rolling ? (
         <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
-          <LabelCustom className="max-w-[200px] text-center">Rolling...</LabelCustom>
+          <LabelCustom className="max-w-[200px] text-center">
+            Rolling...
+          </LabelCustom>
         </div>
       ) : null}
     </div>

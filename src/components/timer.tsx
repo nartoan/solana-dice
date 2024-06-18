@@ -17,6 +17,11 @@ const RenderCountDown: FC<{
   );
 };
 
-export default function Timer() {
-  return <Countdown date={Date.now() + 5000} renderer={RenderCountDown} />;
+export default function Timer({ timeRemain }: { timeRemain: number }) {
+  return (
+    <Countdown
+      date={Date.now() + timeRemain * 1000}
+      renderer={RenderCountDown}
+    />
+  );
 }

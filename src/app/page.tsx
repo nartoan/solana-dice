@@ -19,11 +19,29 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const wallets = [new PhantomWalletAdapter()];
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [rolling, setRolling] = useState<boolean>(false);
+  const [timeRemain, setTimeRemain] = useState<number>(60);
 
-    useEffect(() => {
-      // setTimeout(() => setIsOpen(true), 5000)
-    }, []);
+  useEffect(() => {
+    if (timeRemain <= 10) {
+      setRolling(true);
+    } else {
+      setRolling(false);
+    }
+
+    if (timeRemain == 0) {
+      setTimeRemain(60);
+    }
+
+    const timeInterval = setInterval(() => setTimeRemain(timeRemain - 1), 1000);
+
+    return () => clearInterval(timeInterval);
+  }, [timeRemain]);
+
+  useEffect(() => {
+    // setTimeout(() => setIsOpen(true), 5000)
+  }, []);
 
   return (
     <WalletProvider wallets={wallets}>
@@ -44,14 +62,16 @@ export default function Home() {
                 <span className="text-[10px]">
                   Time left until the next game:
                 </span>
-                <Timer />
+                <Timer timeRemain={timeRemain} />
               </div>
               <div className="rounded-[10px] border-solid border border-[#344EAD]">
-                <Dice />
+                <Dice rolling={rolling} />
               </div>
-              <Bet />
+              <Bet rolling={rolling} />
             </Container>
-            <LabelCustom classNameContainer="mt-[30px]">Active Bets</LabelCustom>
+            <LabelCustom classNameContainer="mt-[30px]">
+              Active Bets
+            </LabelCustom>
             <Container className="mt-[20px]">
               <BetHistory typeBet={BET_BIG} />
             </Container>
@@ -59,7 +79,9 @@ export default function Home() {
               <BetHistory typeBet={BET_SMALL} />
             </Container>
 
-            <LabelCustom classNameContainer="mt-[30px]">Roll History</LabelCustom>
+            <LabelCustom classNameContainer="mt-[30px]">
+              Roll History
+            </LabelCustom>
             <RollHistories />
             <BetDialog open={isOpen} setOpen={setIsOpen} />
           </div>
