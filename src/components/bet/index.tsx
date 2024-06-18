@@ -1,27 +1,34 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { IBetType } from "@/types/bet";
 import PriceBet from "./bet-price";
 import BetButton from "./bet-button";
 import { BET_BIG, BET_SMALL } from "@/const";
 import LabelCustom from "../label-custom";
 import { IBetHistory } from "../bet-history";
+import { useWallet } from "@solana/wallet-adapter-react";
 
-export default function Bet({
+function Bet({
   rolling,
   bet,
 }: {
   rolling: boolean;
   bet: (betData: IBetHistory) => void;
 }) {
+  const { publicKey } = useWallet();
   const [selectedPrice, setSelectedPrice] = useState<number>(0.1);
 
-  const handleBet = (typeBet: IBetType) => () => {
-    bet({
-      amount: selectedPrice,
-      type: typeBet,
-      address: "",
-    });
-  };
+  const handleBet = useCallback(
+    (typeBet: IBetType) => () => {
+      if (publicKey) {
+        bet({
+          amount: selectedPrice,
+          type: typeBet,
+          address: publicKey.toBase58(),
+        });
+      }
+    },
+    [publicKey, selectedPrice]
+  );
 
   return (
     <div className="relative">
@@ -68,3 +75,5 @@ export default function Bet({
     </div>
   );
 }
+
+export default memo(Bet);
