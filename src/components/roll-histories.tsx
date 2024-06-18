@@ -1,75 +1,136 @@
 "use client";
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { useState } from "react";
 import RollHistoryItem, { IResultBet } from "./roll-history-item";
+import PaginationCustom, { ITEM_PER_PAGE } from "./pagination-custom";
+
+const datas: IResultBet[] = [
+  {
+    address: "3hTpq........4TB5fU",
+    results: [4, 5, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 5],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [4, 5, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [2, 2, 2],
+  },
+  {
+    address: "3hTpq........4TB5fU",
+    results: [1, 2, 6],
+  },
+];
 
 export default function RollHistories() {
-  const datas: IResultBet[] = [
-    {
-      address: "3hTpq........4TB5fU",
-      results: [4, 5, 6],
-    },
-    {
-      address: "3hTpq........4TB5fU",
-      results: [1, 2, 5],
-    },
-    {
-      address: "3hTpq........4TB5fU",
-      results: [1, 2, 6],
-    },
-    {
-      address: "3hTpq........4TB5fU",
-      results: [4, 5, 6],
-    },
-    {
-      address: "3hTpq........4TB5fU",
-      results: [2, 2, 2],
-    },
-    {
-      address: "3hTpq........4TB5fU",
-      results: [1, 2, 6],
-    },
-  ];
+  const [page, setPage] = useState(1);
+
+  const datasPage = datas.filter(
+    (_, index) =>
+      index >= (page - 1) * ITEM_PER_PAGE && index < page * ITEM_PER_PAGE
+  );
+  const total = datas.length;
+
   return (
     <>
-      {datas.map((rollHistory, index) => (
+      {datasPage.map((rollHistory, index) => (
         <RollHistoryItem result={rollHistory} key={index} />
       ))}
-      <Pagination className="my-[20px]">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              1
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">2</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">7</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <PaginationCustom total={total} page={page} setPage={setPage} />
     </>
   );
 }

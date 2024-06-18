@@ -13,7 +13,7 @@ import { DiceResult } from "@/types/dice-result";
 import { randomInt } from "@/lib/utils";
 
 type TDiceRef = {
-  rollDice: (value: DiceResult) => void;
+  rollDice: (value?: DiceResult) => void;
 };
 
 const FACES = [svg1.src, svg2.src, svg3.src, svg4.src, svg5.src, svg6.src];
@@ -34,13 +34,13 @@ export default function Dice() {
     randomInt(1, 6),
     randomInt(1, 6),
   ];
-  const rollTime = 15000;
+  const rollTime = 10000;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      diceRef1.current?.rollDice(1);
-      diceRef2.current?.rollDice(2);
-      diceRef3.current?.rollDice(2);
+      diceRef1.current?.rollDice();
+      diceRef2.current?.rollDice();
+      diceRef3.current?.rollDice();
     }, 2000);
     return () => clearInterval(interval);
   }, []);
