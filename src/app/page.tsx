@@ -51,7 +51,7 @@ export default function Home() {
               </div>
               <Bet />
             </Container>
-            <LabelCustom className="mt-[30px]">Active Bets</LabelCustom>
+            <LabelCustom classNameContainer="mt-[30px]">Active Bets</LabelCustom>
             <Container className="mt-[20px]">
               <BetHistory typeBet={BET_BIG} />
             </Container>
@@ -59,7 +59,7 @@ export default function Home() {
               <BetHistory typeBet={BET_SMALL} />
             </Container>
 
-            <LabelCustom className="mt-[30px]">Roll History</LabelCustom>
+            <LabelCustom classNameContainer="mt-[30px]">Roll History</LabelCustom>
             <RollHistories />
             <BetDialog open={isOpen} setOpen={setIsOpen} />
           </div>

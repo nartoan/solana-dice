@@ -8,22 +8,36 @@ const fontSans = localFont({ src: "../assets/fonts/MinecraftTen-VGORe.ttf" });
 
 type ILabelCustomProps = {
   className?: string;
+  classNameContainer?: string;
   children: ReactNode;
 };
 
 export default function LabelCustom({
   children,
+  classNameContainer,
   className,
 }: ILabelCustomProps) {
   return (
-    <div
-      style={{
-        background: "linear-gradient(180deg, #FBC350 0%, #F6501B 100%)",
-        backgroundClip: "text",
-      }}
-      className={cn(fontSans.className, "text-transparent font-bold", className)}
-    >
-      {children}
+    <div className={cn(fontSans.className, "relative", classNameContainer)}>
+      <div
+        className={cn("font-bold select-none", className)}
+        style={
+          {
+            "-webkit-text-stroke": "4px #02017E",
+          } as React.CSSProperties
+        }
+      >
+        {children}
+      </div>
+      <div
+        style={{
+          background: "linear-gradient(180deg, #FBC350 0%, #F6501B 100%)",
+          backgroundClip: "text",
+        }}
+        className={cn("absolute top-0 text-transparent font-bold", className)}
+      >
+        {children}
+      </div>
     </div>
   );
 }

@@ -56,7 +56,7 @@ export default function Rules() {
       <Header />
       {rules.map(({ title, content }, index) => (
         <div key={index} className="mt-[20px]">
-          <LabelCustom className="mt-[30px]">{title}</LabelCustom>
+          <LabelCustom classNameContainer="mt-[30px]">{title}</LabelCustom>
           <div className="text-[14px] text-[#C2C2C2] mt-[4px]">{content}</div>
         </div>
       ))}
