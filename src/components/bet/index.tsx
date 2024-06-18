@@ -51,7 +51,7 @@ export default function Bet() {
       </div>
       {isRolling ? (
         <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
-          <LabelCustom className="max-w-[200px] text-center">Rolling was started</LabelCustom>
+          <LabelCustom className="max-w-[200px] text-center">Rolling...</LabelCustom>
         </div>
       ) : null}
     </div>
