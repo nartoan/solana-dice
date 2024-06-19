@@ -18,8 +18,9 @@ import Timer from "@/components/timer";
 import { SolanaProvider } from "@/components/solana-context";
 import LabelCustom from "@/components/label-custom";
 import { BetDialog } from "@/components/bet-dialog";
-import { BET_BIG, BET_SMALL } from "@/const";
+import { BET_BIG, BET_SMALL, GAME_STATUS } from "@/const";
 import { fetcher } from "@/lib/swr";
+import { IGameStatus } from "@/types/game-status";
 
 export default function Home() {
   const network = WalletAdapterNetwork.Devnet;
@@ -31,8 +32,9 @@ export default function Home() {
   );
 
   const [isOpen, setIsOpen] = useState(false);
-  const [rolling, setRolling] = useState<boolean>(false);
-  const [betsClosed, setBetsClosed] = useState<boolean>(false);
+  const [gameStatus, setGameStatus] = useState<IGameStatus>(
+    GAME_STATUS.BETTING
+  );
   const [betHistories, setBetHistories] = useState<IBetHistory[]>([]);
   const timerRef = useRef<any>(null);
 
@@ -40,15 +42,14 @@ export default function Home() {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
       if (remainingTime > 10000 && remainingTime <= 15000) {
-        setBetsClosed(true);
+        setGameStatus(GAME_STATUS.ROLLING);
       } else if (remainingTime <= 10000) {
         // TODO: Check if there's any new roll history
         // If there's a new roll result, set the dice result and roll
         // Otherwise, roll the dice with random numbers
-        setRolling(true);
+        setGameStatus(GAME_STATUS.ROLLING);
       } else {
-        setBetsClosed(false);
-        setRolling(false);
+        setGameStatus(GAME_STATUS.BETTING);
       }
     }, 1000); // Check every second
     return () => clearInterval(interval);
@@ -87,9 +88,9 @@ export default function Home() {
                   <Timer ref={timerRef} />
                 </div>
                 <div className="rounded-[10px] border-solid border border-[#344EAD]">
-                  <Dice rolling={rolling} />
+                  <Dice rolling={gameStatus === GAME_STATUS.ROLLING} />
                 </div>
-                <Bet rolling={rolling} betsClosed={betsClosed} bet={handleBet} />
+                <Bet gameStatus={gameStatus} bet={handleBet} />
               </Container>
               <LabelCustom classNameContainer="mt-[30px]">
                 Active Bets

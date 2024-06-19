@@ -18,6 +18,7 @@ type TDiceRef = {
 
 const FACES = [svg1.src, svg2.src, svg3.src, svg4.src, svg5.src, svg6.src];
 const SIZE = 50;
+const ROLL_TIME = 10000;
 
 export default function Dice({ rolling }: { rolling: boolean }) {
   const diceRef1 = useRef<TDiceRef>(null);
@@ -34,7 +35,6 @@ export default function Dice({ rolling }: { rolling: boolean }) {
     randomInt(1, 6),
     randomInt(1, 6),
   ];
-  const rollTime = 10000;
 
   useEffect(() => {
     if (rolling) {
@@ -49,36 +49,34 @@ export default function Dice({ rolling }: { rolling: boolean }) {
   }, [rolling]);
 
   return (
-    <>
-      <div className="flex justify-around items-center py-[20px] h-[98px]">
-        <DiceRoll
-          ref={diceRef1}
-          size={SIZE}
-          rollingTime={rollTime}
-          defaultValue={defaultValue[0]}
-          cheatValue={cheatValue[0]}
-          disabled={true}
-          faces={FACES}
-        />
-        <DiceRoll
-          ref={diceRef2}
-          size={SIZE}
-          rollingTime={rollTime}
-          defaultValue={defaultValue[1]}
-          cheatValue={cheatValue[1]}
-          disabled={true}
-          faces={FACES}
-        />
-        <DiceRoll
-          ref={diceRef3}
-          size={SIZE}
-          rollingTime={rollTime}
-          defaultValue={defaultValue[2]}
-          cheatValue={cheatValue[2]}
-          disabled={true}
-          faces={FACES}
-        />
-      </div>
-    </>
+    <div className="flex justify-around items-center py-[20px] h-[98px]">
+      <DiceRoll
+        ref={diceRef1}
+        size={SIZE}
+        rollingTime={ROLL_TIME}
+        defaultValue={defaultValue[0]}
+        cheatValue={cheatValue[0]}
+        disabled={true}
+        faces={FACES}
+      />
+      <DiceRoll
+        ref={diceRef2}
+        size={SIZE}
+        rollingTime={ROLL_TIME}
+        defaultValue={defaultValue[1]}
+        cheatValue={cheatValue[1]}
+        disabled={true}
+        faces={FACES}
+      />
+      <DiceRoll
+        ref={diceRef3}
+        size={SIZE}
+        rollingTime={ROLL_TIME}
+        defaultValue={defaultValue[2]}
+        cheatValue={cheatValue[2]}
+        disabled={true}
+        faces={FACES}
+      />
+    </div>
   );
 }
