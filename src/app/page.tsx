@@ -42,7 +42,7 @@ export default function Home() {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
       if (remainingTime > 10000 && remainingTime <= 15000) {
-        setGameStatus(GAME_STATUS.ROLLING);
+        setGameStatus(GAME_STATUS.BET_CLOSED);
       } else if (remainingTime <= 10000) {
         // TODO: Check if there's any new roll history
         // If there's a new roll result, set the dice result and roll
