@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat as FontSans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/provider/theme";
 
 import "./globals.css";
 
@@ -10,7 +10,7 @@ const fontSans = FontSans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Degen Dice",
-  description: "Solana dice",
+  description: "Degen Dice - Solana dice",
 };
 
 export default function RootLayout({

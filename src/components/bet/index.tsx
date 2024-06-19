@@ -3,7 +3,7 @@ import { IBetType } from "@/types/bet";
 import PriceBet from "./bet-price";
 import BetButton from "./bet-button";
 import { BET_BIG, BET_SMALL, GAME_STATUS } from "@/const";
-import LabelCustom from "../label-custom";
+import LabelCustom from "../ui-custom/label-custom";
 import { IBetHistory } from "../bet-history";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { IGameStatus } from "@/types/game-status";
@@ -66,20 +66,20 @@ function Bet({
           <BetButton bet={BET_BIG} onClick={handleBet(BET_BIG)} />
         </div>
       </div>
-      {gameStatus === GAME_STATUS.ROLLING ? (
+      {gameStatus === GAME_STATUS.ROLLING && (
         <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
           <LabelCustom className="max-w-[200px] text-center">
             Rolling...
           </LabelCustom>
         </div>
-      ) : null}
-      {gameStatus === GAME_STATUS.BET_CLOSED ? (
+      )}
+      {gameStatus === GAME_STATUS.BET_CLOSED && (
         <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
           <LabelCustom className="max-w-[400px] text-center">
             Bets Closed...
           </LabelCustom>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

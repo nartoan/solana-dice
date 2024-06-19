@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import { ReactNode } from "react";
 
-const fontSans = localFont({ src: "../assets/fonts/MinecraftTen-VGORe.ttf" });
+const fontSans = localFont({ src: "../../assets/fonts/MinecraftTen-VGORe.ttf" });
 
 type ILabelCustomProps = {
   className?: string;

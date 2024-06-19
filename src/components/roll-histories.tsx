@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import RollHistoryItem, { IResultBet } from "./roll-history-item";
-import PaginationCustom, { ITEM_PER_PAGE } from "./pagination-custom";
+import PaginationCustom, { ITEM_PER_PAGE } from "./ui-custom/pagination-custom";
 
-const datas: IResultBet[] = [
+const data: IResultBet[] = [
   {
     address: "3hTpq........4TB5fU",
     results: [4, 5, 6],
@@ -119,15 +119,15 @@ const datas: IResultBet[] = [
 export default function RollHistories() {
   const [page, setPage] = useState(1);
 
-  const datasPage = datas.filter(
+  const dataPage = data.filter(
     (_, index) =>
       index >= (page - 1) * ITEM_PER_PAGE && index < page * ITEM_PER_PAGE
   );
-  const total = datas.length;
+  const total = data.length;
 
   return (
     <>
-      {datasPage.map((rollHistory, index) => (
+      {dataPage.map((rollHistory, index) => (
         <RollHistoryItem result={rollHistory} key={index} />
       ))}
       <PaginationCustom total={total} page={page} setPage={setPage} />

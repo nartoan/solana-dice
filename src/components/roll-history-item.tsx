@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import { DiceResult } from "@/types/dice-result";
-import Container from "./container";
+import Container from "./ui-custom/container";
 import RollHistoryImage from "./roll-history-img";
 import { getResultText } from "@/lib/utils";
 
