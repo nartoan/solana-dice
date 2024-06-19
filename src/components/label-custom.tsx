@@ -23,7 +23,7 @@ export default function LabelCustom({
         className={cn("font-bold select-none", className)}
         style={
           {
-            "-webkit-text-stroke": "4px #02017E",
+            "WebkitTextStroke": "4px #02017E",
           } as React.CSSProperties
         }
       >

@@ -1,61 +1,52 @@
 "use client";
 
-import { FC, useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
-import Countdown, { CountdownRendererFn, CountdownRenderProps } from "react-countdown";
-import axios from "axios";
+import {
+  FC,
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  ReactNode,
+} from "react";
+import Countdown, { CountdownRenderProps } from "react-countdown";
+import useSWR from "swr";
 
-// Fetch server time from the given API endpoint
-const fetchServerTime = async () => {
-  const response = await axios.get('https://worldtimeapi.org/api/timezone/Etc/UTC');
-  return response.data.unixtime * 1000; // Convert to milliseconds
-};
+const RenderTimer: FC<{ children: ReactNode }> = ({ children }) => (
+  <span className="w-[92px] h-[20px] bg-primary flex justify-center items-center text-[12px] rounded-sm font-bold">
+    {children}
+  </span>
+);
 
-const RenderCountDown: FC<CountdownRenderProps> = ({ hours, minutes, seconds }) => {
+const RenderCountDown: FC<CountdownRenderProps> = ({ minutes, seconds }) => {
   return (
-    <span className="w-[92px] h-[20px] bg-primary flex justify-center items-center text-[12px] rounded-sm font-bold">
-      {hours.toString().padStart(2, "0")} :{" "}
+    <RenderTimer>
       {minutes.toString().padStart(2, "0")} :{" "}
       {seconds.toString().padStart(2, "0")}
-    </span>
+    </RenderTimer>
   );
 };
 
-const Timer = forwardRef((props, ref) => {
-  const [serverTimeOffset, setServerTimeOffset] = useState(0);
-  const [targetDate, setTargetDate] = useState(Date.now() + 60000); // Initialize with a 1-minute countdown
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+const Timer = forwardRef((_, ref) => {
+  const { data, isLoading } = useSWR(
+    "https://worldtimeapi.org/api/timezone/Etc/UTC"
+  );
+
+  const [targetDate, setTargetDate] = useState(0);
   const countdownRef = useRef<Countdown | null>(null);
 
   useImperativeHandle(ref, () => ({
     getRemainingTime: () => {
-      if (countdownRef.current) {
-        return countdownRef.current.calcTimeDelta().total;
-      }
-      return 0;
-    }
+      return countdownRef.current?.calcTimeDelta().total || 0;
+    },
   }));
 
   useEffect(() => {
-    const getTime = async () => {
-      const serverTime = await fetchServerTime();
-      const localTime = Date.now();
-      const offset = serverTime - localTime;
-      setServerTimeOffset(offset);
+    if (data) {
+      const offset = data.unixtime * 1000 - Date.now();
       setNewTargetDate(offset);
-    };
-    getTime();
-
-    // Optional: Refresh the server time offset every hour to correct any drift
-    intervalRef.current = setInterval(() => {
-      getTime();
-    }, 3600000); // 1 hour in milliseconds
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, []);
+    }
+  }, [data]);
 
   const setNewTargetDate = (offset: number): void => {
     const currentTime: number = Date.now() + offset;
@@ -76,6 +67,10 @@ const Timer = forwardRef((props, ref) => {
     // Reset the countdown to the next minute
     extendCountDown();
   };
+
+  if (isLoading) {
+    return <RenderTimer>Loading...</RenderTimer>;
+  }
 
   return (
     <Countdown

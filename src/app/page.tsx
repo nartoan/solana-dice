@@ -1,5 +1,12 @@
 "use client";
 
+import { useEffect, useMemo, useState, useRef } from "react";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
+import { WalletProvider } from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { SWRConfig } from "swr";
+
 import BetHistory, { IBetHistory } from "@/components/bet-history";
 import Dice from "@/components/dice";
 import Header from "@/components/header";
@@ -7,26 +14,15 @@ import WalletSelection from "@/components/wallet-selection";
 import Container from "@/components/container";
 import RollHistories from "@/components/roll-histories";
 import Bet from "@/components/bet";
-import { BET_BIG, BET_SMALL } from "@/const";
 import Timer from "@/components/timer";
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
-import {
-  ConnectionProvider,
-  WalletProvider,
-} from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { SolanaProvider } from "@/components/solana-context";
 import LabelCustom from "@/components/label-custom";
 import { BetDialog } from "@/components/bet-dialog";
-import { useEffect, useMemo, useState, useRef } from "react";
-import { clusterApiUrl } from "@solana/web3.js";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { BET_BIG, BET_SMALL } from "@/const";
+import { fetcher } from "@/lib/swr";
 
 export default function Home() {
   const network = WalletAdapterNetwork.Devnet;
-
-  // You can also provide a custom RPC endpoint.
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
   const wallets = useMemo(
     () => [new PhantomWalletAdapter()],
@@ -64,7 +60,12 @@ export default function Home() {
   };
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
+    <SWRConfig
+      value={{
+        fetcher,
+        refreshInterval: 10000,
+      }}
+    >
       <WalletProvider wallets={wallets}>
         <WalletModalProvider>
           <SolanaProvider>
@@ -83,7 +84,7 @@ export default function Home() {
                   <span className="text-[10px]">
                     Time left until the next game:
                   </span>
-                  <Timer ref={timerRef}/>
+                  <Timer ref={timerRef} />
                 </div>
                 <div className="rounded-[10px] border-solid border border-[#344EAD]">
                   <Dice rolling={rolling} />
@@ -109,6 +110,6 @@ export default function Home() {
           </SolanaProvider>
         </WalletModalProvider>
       </WalletProvider>
-    </ConnectionProvider>
+    </SWRConfig>
   );
 }
