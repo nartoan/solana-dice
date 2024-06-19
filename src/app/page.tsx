@@ -36,16 +36,22 @@ export default function Home() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [rolling, setRolling] = useState<boolean>(false);
-  const [timeRemain, setTimeRemain] = useState<number>(60);
+  const [betsClosed, setBetsClosed] = useState<boolean>(false);
   const [betHistories, setBetHistories] = useState<IBetHistory[]>([]);
   const timerRef = useRef<any>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
-      if (remainingTime <= 15000) { // 15 seconds in milliseconds
+      if (remainingTime > 10000 && remainingTime <= 15000) {
+        setBetsClosed(true);
+      } else if (remainingTime <= 10000) {
+        // TODO: Check if there's any new roll history
+        // If there's a new roll result, set the dice result and roll
+        // Otherwise, roll the dice with random numbers
         setRolling(true);
       } else {
+        setBetsClosed(false);
         setRolling(false);
       }
     }, 1000); // Check every second
@@ -82,7 +88,7 @@ export default function Home() {
                 <div className="rounded-[10px] border-solid border border-[#344EAD]">
                   <Dice rolling={rolling} />
                 </div>
-                <Bet rolling={rolling} bet={handleBet} />
+                <Bet rolling={rolling} betsClosed={betsClosed} bet={handleBet} />
               </Container>
               <LabelCustom classNameContainer="mt-[30px]">
                 Active Bets
