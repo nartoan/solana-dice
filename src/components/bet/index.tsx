@@ -28,7 +28,7 @@ function Bet({
         });
       }
     },
-    [publicKey, selectedPrice]
+    [bet, publicKey, selectedPrice]
   );
 
   return (

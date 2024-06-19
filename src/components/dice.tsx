@@ -19,6 +19,7 @@ type TDiceRef = {
 const FACES = [svg1.src, svg2.src, svg3.src, svg4.src, svg5.src, svg6.src];
 const SIZE = 50;
 const ROLL_TIME = 10000;
+const NEXT_ROLE_TIME = 1500;
 
 export default function Dice({ rolling }: { rolling: boolean }) {
   const diceRef1 = useRef<TDiceRef>(null);
@@ -43,8 +44,8 @@ export default function Dice({ rolling }: { rolling: boolean }) {
         diceRef2.current?.rollDice();
         setTimeout(() => {
           diceRef3.current?.rollDice();
-        }, 1500);
-      }, 1500);
+        }, NEXT_ROLE_TIME);
+      }, NEXT_ROLE_TIME);
     }
   }, [rolling]);
 
@@ -62,7 +63,7 @@ export default function Dice({ rolling }: { rolling: boolean }) {
       <DiceRoll
         ref={diceRef2}
         size={SIZE}
-        rollingTime={ROLL_TIME}
+        rollingTime={ROLL_TIME - NEXT_ROLE_TIME}
         defaultValue={defaultValue[1]}
         cheatValue={cheatValue[1]}
         disabled={true}
@@ -71,7 +72,7 @@ export default function Dice({ rolling }: { rolling: boolean }) {
       <DiceRoll
         ref={diceRef3}
         size={SIZE}
-        rollingTime={ROLL_TIME}
+        rollingTime={ROLL_TIME - NEXT_ROLE_TIME * 2}
         defaultValue={defaultValue[2]}
         cheatValue={cheatValue[2]}
         disabled={true}

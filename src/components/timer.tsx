@@ -82,5 +82,6 @@ const Timer = forwardRef((_, ref) => {
     />
   );
 });
+Timer.displayName = "Timer";
 
 export default Timer;
