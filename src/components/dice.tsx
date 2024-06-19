@@ -39,8 +39,12 @@ export default function Dice({ rolling }: { rolling: boolean }) {
   useEffect(() => {
     if (rolling) {
       diceRef1.current?.rollDice();
-      diceRef2.current?.rollDice();
-      diceRef3.current?.rollDice();
+      setTimeout(() => {
+        diceRef2.current?.rollDice();
+        setTimeout(() => {
+          diceRef3.current?.rollDice();
+        }, 1500);
+      }, 1500);
     }
   }, [rolling]);
 

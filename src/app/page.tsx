@@ -18,7 +18,7 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { SolanaProvider } from "@/components/solana-context";
 import LabelCustom from "@/components/label-custom";
 import { BetDialog } from "@/components/bet-dialog";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 
@@ -37,31 +37,24 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [rolling, setRolling] = useState<boolean>(false);
   const [timeRemain, setTimeRemain] = useState<number>(60);
-  const [betHistories, setDetHistories] = useState<IBetHistory[]>([]);
+  const [betHistories, setBetHistories] = useState<IBetHistory[]>([]);
+  const timerRef = useRef<any>(null);
 
   useEffect(() => {
-    if (timeRemain <= 10) {
-      setRolling(true);
-    } else {
-      setRolling(false);
-    }
-
-    if (timeRemain == 0) {
-      setTimeRemain(60);
-      setDetHistories([]);
-    }
-
-    const timeInterval = setInterval(() => setTimeRemain(timeRemain - 1), 1000);
-
-    return () => clearInterval(timeInterval);
-  }, [timeRemain]);
-
-  useEffect(() => {
+    const interval = setInterval(() => {
+      const remainingTime = timerRef.current.getRemainingTime();
+      if (remainingTime <= 15000) { // 15 seconds in milliseconds
+        setRolling(true);
+      } else {
+        setRolling(false);
+      }
+    }, 1000); // Check every second
+    return () => clearInterval(interval);
     // setTimeout(() => setIsOpen(true), 5000)
   }, []);
 
   const handleBet = (betData: IBetHistory) => {
-    setDetHistories((betHistories) => [...betHistories, betData]);
+    setBetHistories((betHistories) => [...betHistories, betData]);
   };
 
   return (
@@ -84,7 +77,7 @@ export default function Home() {
                   <span className="text-[10px]">
                     Time left until the next game:
                   </span>
-                  <Timer timeRemain={timeRemain} />
+                  <Timer ref={timerRef}/>
                 </div>
                 <div className="rounded-[10px] border-solid border border-[#344EAD]">
                   <Dice rolling={rolling} />
