@@ -20,7 +20,7 @@ const mapPointImg = {
   6: Point6Svg,
 };
 
-const RollHistoryImage: FC<{ results: DiceResult[]; size?: number }> = ({
+const PayoutHistoryImage: FC<{ results: DiceResult[]; size?: number }> = ({
   results,
   size = 20,
 }) => (
@@ -31,4 +31,4 @@ const RollHistoryImage: FC<{ results: DiceResult[]; size?: number }> = ({
   </div>
 );
 
-export default RollHistoryImage;
+export default PayoutHistoryImage;

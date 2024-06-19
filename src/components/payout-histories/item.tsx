@@ -2,8 +2,8 @@
 
 import { FC } from "react";
 import { DiceResult } from "@/types/dice-result";
-import Container from "./ui-custom/container";
-import RollHistoryImage from "./roll-history-img";
+import Container from "../ui-custom/container";
+import PayoutHistoryImage from "./image";
 import { getResultText } from "@/lib/utils";
 
 export type IResultBet = {
@@ -11,20 +11,20 @@ export type IResultBet = {
   results: DiceResult[];
 };
 
-type IRollHistoryItemProps = {
+type PayoutHistoryItemProps = {
   result: IResultBet;
 };
 
-const RollHistoryItem: FC<IRollHistoryItemProps> = ({ result }) => {
+const PayoutHistoryItem: FC<PayoutHistoryItemProps> = ({ result }) => {
   return (
     <Container className="flex justify-between items-center text-[12px] mt-[15px]">
       <span className="font-bold capitalize w-[60px] h-[23px] flex items-center">
         {getResultText(result.results)}
       </span>
-      <RollHistoryImage results={result.results} />
+      <PayoutHistoryImage results={result.results} />
       <span className="text-[#C9C9C9]">{result.address}</span>
     </Container>
   );
 };
 
-export default RollHistoryItem;
+export default PayoutHistoryItem;

@@ -2,13 +2,12 @@
 
 import { useEffect, useMemo, useState, useRef } from "react";
 
-
 import BetHistory, { IBetHistory } from "@/components/bet-history";
 import Dice from "@/components/dice";
 import Header from "@/components/header";
 import WalletSelection from "@/components/wallet-selection";
 import Container from "@/components/ui-custom/container";
-import RollHistories from "@/components/roll-histories";
+import PayoutHistories from "@/components/payout-histories";
 import Bet from "@/components/bet";
 import Timer from "@/components/timer";
 import LabelCustom from "@/components/ui-custom/label-custom";
@@ -81,8 +80,10 @@ export default function Home() {
             <BetHistory typeBet={BET_SMALL} betHistories={betHistories} />
           </Container>
 
-          <LabelCustom classNameContainer="mt-[30px]">Roll History</LabelCustom>
-          <RollHistories />
+          <LabelCustom classNameContainer="mt-[30px]">
+            Payout History
+          </LabelCustom>
+          <PayoutHistories />
           <BetDialog open={isOpen} setOpen={setIsOpen} />
         </div>
       </SolanaProvider>

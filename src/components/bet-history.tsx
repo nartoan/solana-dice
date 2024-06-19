@@ -50,7 +50,7 @@ export default function BetHistory({
       {dataBets.length <= 0 ? (
         <div className="w-full h-[90px] flex flex-col justify-center items-center">
           <Image src={noDataSvg} alt="No data" width={22} />
-          <span className="text-[12px]">No bets yet</span>
+          <span className="text-[12px] mt-1">No bets yet</span>
         </div>
       ) : (
         <ScrollArea className="w-full h-[90px]">

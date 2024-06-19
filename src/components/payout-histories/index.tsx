@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import RollHistoryItem, { IResultBet } from "./roll-history-item";
-import PaginationCustom, { ITEM_PER_PAGE } from "./ui-custom/pagination-custom";
+import PayoutHistoryItem, { IResultBet } from "./item";
+import PaginationCustom, { ITEM_PER_PAGE } from "../ui-custom/pagination-custom";
 
 const data: IResultBet[] = [
   {
@@ -116,7 +116,7 @@ const data: IResultBet[] = [
   },
 ];
 
-export default function RollHistories() {
+export default function PayoutHistories() {
   const [page, setPage] = useState(1);
 
   const dataPage = data.filter(
@@ -127,8 +127,8 @@ export default function RollHistories() {
 
   return (
     <>
-      {dataPage.map((rollHistory, index) => (
-        <RollHistoryItem result={rollHistory} key={index} />
+      {dataPage.map((payoutHistory, index) => (
+        <PayoutHistoryItem result={payoutHistory} key={index} />
       ))}
       <PaginationCustom total={total} page={page} setPage={setPage} />
     </>

@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
-import RollHistoryImage from "./roll-history-img";
+import RollHistoryImage from "./payout-histories/image";
 import { DiceResult } from "@/types/dice-result";
 import Image from "next/image";
 import svgClose from "@/assets/img/close.svg";
