@@ -5,6 +5,7 @@ import { DiceResult } from "@/types/dice-result";
 import Container from "../ui-custom/container";
 import PayoutHistoryImage from "./image";
 import { getResultText } from "@/lib/utils";
+import Link from "next/link";
 
 export type IResultBet = {
   address: string;
@@ -16,13 +17,17 @@ type PayoutHistoryItemProps = {
 };
 
 const PayoutHistoryItem: FC<PayoutHistoryItemProps> = ({ result }) => {
+  const refLink = `https://explorer.solana.com/tx/${result.address}?cluster=devnet`;
+
   return (
     <Container className="flex justify-between items-center text-[12px] mt-[15px]">
       <span className="font-bold capitalize w-[60px] h-[23px] flex items-center">
         {getResultText(result.results)}
       </span>
       <PayoutHistoryImage results={result.results} />
-      <span className="text-[#C9C9C9] w-[120px] truncate">{result.address}</span>
+      <Link href={refLink} className="text-[#C9C9C9] w-[120px] truncate" target="_blank">
+        {result.address}
+      </Link>
     </Container>
   );
 };
