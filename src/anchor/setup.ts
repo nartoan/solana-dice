@@ -1,4 +1,4 @@
-import { AnchorProvider, IdlAccounts, Program } from "@coral-xyz/anchor";
+import { AnchorProvider, Idl, IdlAccounts, Program } from "@coral-xyz/anchor";
 import IDL from "./idl.json";
 import {
   clusterApiUrl,
@@ -22,7 +22,7 @@ export const useAnchor = () => {
 
   // Initialize the program interface with the IDL, program ID, and connection.
   // This setup allows us to interact with the on-chain program using the defined interface.
-  const program = new Program(IDL, programID, provider);
+  const program = new Program(IDL as Idl, programID, provider);
 
   const [payoutHistoryPda] = PublicKey.findProgramAddressSync(
     [Buffer.from("payout_history"), housePublicKey.toBuffer()],
