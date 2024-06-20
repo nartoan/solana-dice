@@ -22,7 +22,7 @@ const PayoutHistoryItem: FC<PayoutHistoryItemProps> = ({ result }) => {
         {getResultText(result.results)}
       </span>
       <PayoutHistoryImage results={result.results} />
-      <span className="text-[#C9C9C9]">{result.address}</span>
+      <span className="text-[#C9C9C9] w-[120px] truncate">{result.address}</span>
     </Container>
   );
 };
