@@ -1,4 +1,6 @@
 {
+  "version": "0.1.0",
+  "name": "solana_big_n_small",
   "instructions": [
     {
       "name": "initializeBetList",
@@ -158,7 +160,10 @@
         {
           "name": "vrfSeed",
           "type": {
-            "array": ["u8", 32]
+            "array": [
+              "u8",
+              32
+            ]
           }
         }
       ]
@@ -251,7 +256,10 @@
         {
           "name": "vrfSeed",
           "type": {
-            "array": ["u8", 32]
+            "array": [
+              "u8",
+              32
+            ]
           }
         }
       ]
@@ -274,13 +282,19 @@
         {
           "name": "result",
           "type": {
-            "array": ["u8", 3]
+            "array": [
+              "u8",
+              3
+            ]
           }
         },
         {
           "name": "txSig",
           "type": {
-            "array": ["u8", 64]
+            "array": [
+              "u8",
+              64
+            ]
           }
         }
       ]
@@ -300,7 +314,9 @@
           },
           {
             "name": "numReceived",
-            "docs": ["Total number of received requests."],
+            "docs": [
+              "Total number of received requests."
+            ],
             "type": "u64"
           }
         ]
@@ -356,7 +372,10 @@
             "name": "results",
             "type": {
               "vec": {
-                "array": ["u8", 3]
+                "array": [
+                  "u8",
+                  3
+                ]
               }
             }
           }
@@ -406,17 +425,23 @@
         "fields": [
           {
             "name": "mint",
-            "docs": ["ORAO token mint address."],
+            "docs": [
+              "ORAO token mint address."
+            ],
             "type": "publicKey"
           },
           {
             "name": "treasury",
-            "docs": ["ORAO token treasury account."],
+            "docs": [
+              "ORAO token treasury account."
+            ],
             "type": "publicKey"
           },
           {
             "name": "fee",
-            "docs": ["Fee in ORAO SPL token smallest units."],
+            "docs": [
+              "Fee in ORAO SPL token smallest units."
+            ],
             "type": "u64"
           }
         ]
@@ -466,13 +491,19 @@
           {
             "name": "result",
             "type": {
-              "array": ["u8", 3]
+              "array": [
+                "u8",
+                3
+              ]
             }
           },
           {
             "name": "txSig",
             "type": {
-              "array": ["u8", 64]
+              "array": [
+                "u8",
+                64
+              ]
             }
           }
         ]
@@ -502,9 +533,6 @@
     }
   ],
   "metadata": {
-    "name": "solana_big_n_small",
-    "version": "0.1.0",
-    "spec": "string"
-  },
-  "address": "B4xgkC1id6Liyk6TvojjtP4BvRPPipTr8iriLFy8ywTb"
+    "address": "B4xgkC1id6Liyk6TvojjtP4BvRPPipTr8iriLFy8ywTb"
+  }
 }
