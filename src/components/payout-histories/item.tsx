@@ -6,6 +6,7 @@ import Container from "../ui-custom/container";
 import PayoutHistoryImage from "./image";
 import { getResultText } from "@/lib/utils";
 import Link from "next/link";
+import { SOLANA_NETWORK } from "@/const";
 
 export type IResultBet = {
   address: string;
@@ -17,7 +18,7 @@ type PayoutHistoryItemProps = {
 };
 
 const PayoutHistoryItem: FC<PayoutHistoryItemProps> = ({ result }) => {
-  const refLink = `https://explorer.solana.com/tx/${result.address}?cluster=devnet`;
+  const refLink = `https://explorer.solana.com/tx/${result.address}?cluster=${SOLANA_NETWORK}`;
 
   return (
     <Container className="flex justify-between items-center text-[12px] mt-[15px]">
