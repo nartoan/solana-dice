@@ -21,6 +21,9 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useAnchor } from "@/anchor/setup";
 import { IResultBet } from "@/components/payout-histories/item";
 import { DiceResult } from "@/types/dice-result";
+import { BN, web3 } from "@coral-xyz/anchor";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { capitalizeFirstLetter } from "@/lib/utils";
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +33,29 @@ function Home() {
   const [betHistories, setBetHistories] = useState<IBetHistory[]>([]);
   const [payoutHistories, setPayoutHistories] = useState<IResultBet[]>([]);
   const timerRef = useRef<any>(null);
+
+  const { publicKey } = useWallet();
+
+  const handleBet = async (betData: IBetHistory) => {
+    await program.methods
+      .placeBet(
+        capitalizeFirstLetter(betData.type),
+        new BN(betData.amount * LAMPORTS_PER_SOL)
+      )
+      .accounts({
+        user: publicKey?.toBase58(),
+        house: housePublicKey,
+        betList: betListPda,
+        userAccount: publicKey!!, // Replace with the actual user's token account public key
+        systemProgram: web3.SystemProgram.programId,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+      })
+      .signers([])
+      .rpc();
+  };
+
+  const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
+    useAnchor();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,99 +72,43 @@ function Home() {
       }
     }, 1000); // Check every second
     return () => clearInterval(interval);
-    // setTimeout(() => setIsOpen(true), 5000)
+    // TODO: show result setTimeout(() => setIsOpen(true), 5000)
   }, []);
 
-  const handleBet = (betData: IBetHistory) => {
-    setBetHistories((betHistories) => [...betHistories, betData]);
-  };
-
-  const {
-    program,
-    housePublicKey,
-    connection,
-    payoutHistoryPda,
-    rollHistoryPda,
-    betListPda,
-  } = useAnchor();
-  const { publicKey } = useWallet();
-
   useEffect(() => {
-    program.account.betList.fetch(betListPda).then((data) => {
-      console.log("data", data);
+    fetchActiveBetList();
+    const subscriptionId = connection.onAccountChange(betListPda, () => {
+      fetchActiveBetList();
     });
-    // subscribeBetList(program);
-    // subscribePayoutHistory(program);
-    // fetchActiveBetList(program);
-    // fetchRollHistory(program);
-    // fetchPayoutHistory(program);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [program]);
-
-  // const subscribeBetList = async (program: Program<Idl>) => {
-  //   try {
-  //     // Subscribe to account changes
-  //     const id = connection.onAccountChange(betListPda, (accountInfo) => {
-  //       // Handle account change...
-  //       fetchActiveBetList(program);
-  //       fetchRollHistory(program);
-  //       fetchPayoutHistory(program);
-  //     });
-  //   } catch (err) {
-  //     console.error("Error subscribing to bets:", err);
-  //     // Don't forget to unsubscribe when you no longer use it
-  //     // connection.removeAccountChangeListener(id);
-  //   }
-  // };
-
-  useEffect(() => {
-    fetchPayoutHistory();
-    const subscriptionId = connection.onAccountChange(
-      payoutHistoryPda,
-      (accountInfo) => {
-        console.log("accountInfo", accountInfo);
-        // Handle account change...
-        fetchPayoutHistory();
-      }
-    );
 
     return () => {
       connection.removeAccountChangeListener(subscriptionId);
     };
   }, []);
 
-  // const fetchActiveBetList = async (program: Program<Idl>) => {
-  //   try {
-  //     const betListAccount = await program.account.betList.fetch(betListPda);
-  //     const bets = betListAccount.bets.filter((bet) => bet !== null);
+  useEffect(() => {
+    fetchPayoutHistory();
+    const subscriptionId = connection.onAccountChange(payoutHistoryPda, () => {
+      fetchPayoutHistory();
+    });
 
-  //     setBetList(bets);
-  //   } catch (err) {
-  //     console.error("Error fetching active bets:", err);
-  //   }
-  // };
+    return () => {
+      connection.removeAccountChangeListener(subscriptionId);
+    };
+  }, []);
 
-  // const fetchRollHistory = async (program: Program<Idl>) => {
-  //   try {
-  //     const rollHistoryAccount = await program.account.rollHistory.fetch(
-  //       rollHistoryPda
-  //     );
-  //     const results = rollHistoryAccount.results.map((result) =>
-  //       Array.from(result)
-  //     );
+  const fetchActiveBetList = async () => {
+    try {
+      const betListAccount = await program.account.betList.fetch(betListPda);
+      if (betListAccount && Array.isArray(betListAccount.bets)) {
+        const bets = betListAccount.bets.filter((bet: any) => bet !== null);
 
-  //     setRollHistory(results.reverse());
-  //     // setDiceValues(results[0]);
-
-  //     setDiceOneValue(results[0][0]);
-  //     setDiceTwoValue(results[0][1]);
-  //     setDiceThreeValue(results[0][2]);
-
-  //     // TODO: start roll
-  //   } catch (err) {
-  //     console.error("Error fetching roll history:", err);
-  //   }
-  // };
+        setBetHistories(bets);
+      }
+    } catch (err) {
+      console.error("Error fetching active bets:", err);
+    }
+  };
 
   const fetchPayoutHistory = async () => {
     try {
@@ -157,7 +127,7 @@ function Home() {
             address: bs58.encode(txSig),
           };
         });
-        setPayoutHistories(histories);
+        setPayoutHistories(histories.reverse());
       } else {
         console.log("No histories found in payoutHistoryAccount.");
       }
@@ -165,27 +135,6 @@ function Home() {
       console.error("Error fetching payout history:", err);
     }
   };
-
-  // const placeBet = async () => {
-  //   if (program && provider) {
-  //     try {
-  //       await program.methods
-  //         .placeBet(betMapping[betType], new BN(amount * LAMPORTS_PER_SOL))
-  //         .accounts({
-  //           user: provider.wallet.publicKey,
-  //           house: housePublicKey,
-  //           betList: betListPda,
-  //           userAccount: publicKey!!, // Replace with the actual user's token account public key
-  //           systemProgram: web3.SystemProgram.programId,
-  //           rent: web3.SYSVAR_RENT_PUBKEY,
-  //         })
-  //         .signers([])
-  //         .rpc();
-  //     } catch (err) {
-  //       console.error("Error placing bet:", err);
-  //     }
-  //   }
-  // };
 
   return (
     <div className="w-full max-w-xl">

@@ -27,11 +27,6 @@ export const useAnchor = () => {
     program.programId
   );
 
-  const [rollHistoryPda] = PublicKey.findProgramAddressSync(
-    [Buffer.from("roll_history"), housePublicKey.toBuffer()],
-    program.programId
-  );
-
   const [betListPda] = PublicKey.findProgramAddressSync(
     [Buffer.from("bet_list"), housePublicKey.toBuffer()],
     program.programId
@@ -42,7 +37,6 @@ export const useAnchor = () => {
     housePublicKey,
     connection,
     payoutHistoryPda,
-    rollHistoryPda,
     betListPda,
   };
 };
