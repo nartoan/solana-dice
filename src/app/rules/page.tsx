@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/components/header";
-import LabelCustom from "@/components/label-custom";
+import LabelCustom from "@/components/ui-custom/label-custom";
 
 export default function Rules() {
   const rules = [
