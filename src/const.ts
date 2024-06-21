@@ -1,3 +1,4 @@
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { IBetType } from "./types/bet";
 import { IGameStatus } from "./types/game-status";
 
@@ -20,3 +21,5 @@ export const GAME_STATUS: { [key: string]: IGameStatus } = {
   ROLLING: "rolling",
   BET_CLOSED: "bet_closed",
 };
+
+export const SOLANA_NETWORK = WalletAdapterNetwork.Devnet

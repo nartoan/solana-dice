@@ -26,3 +26,7 @@ export const getResultText = (
 export function randomInt(min: number, max: number): DiceResult {
   return Math.floor(Math.random() * (max - min + 1) + min) as DiceResult;
 }
+
+export function capitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

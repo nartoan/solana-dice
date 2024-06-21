@@ -8,11 +8,10 @@ import {
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { SOLANA_NETWORK } from "@/const";
 
 export const SolanaProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const network = WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const endpoint = useMemo(() => clusterApiUrl(SOLANA_NETWORK), [SOLANA_NETWORK]);
 
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
 

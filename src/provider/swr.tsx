@@ -11,7 +11,7 @@ export const SWRProvider: FC<{ children: ReactNode }> = ({
     <SWRConfig
       value={{
         fetcher,
-        refreshInterval: 10000,
+        refreshInterval: 3600000,
       }}
       {...props}
     >
