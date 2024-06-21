@@ -22,7 +22,12 @@ import { useAnchor } from "@/anchor/setup";
 import { IResultBet } from "@/components/payout-histories/item";
 import { DiceResult } from "@/types/dice-result";
 import { BN, web3 } from "@coral-xyz/anchor";
-import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import {
+  LAMPORTS_PER_SOL,
+  PublicKey,
+  SYSVAR_RENT_PUBKEY,
+  SystemProgram,
+} from "@solana/web3.js";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
 function Home() {
@@ -35,6 +40,8 @@ function Home() {
   const timerRef = useRef<any>(null);
 
   const { publicKey } = useWallet();
+  const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
+    useAnchor();
 
   const handleBet = async (betData: IBetHistory) => {
     await program.methods
@@ -47,15 +54,12 @@ function Home() {
         house: housePublicKey,
         betList: betListPda,
         userAccount: publicKey!!, // Replace with the actual user's token account public key
-        systemProgram: web3.SystemProgram.programId,
-        rent: web3.SYSVAR_RENT_PUBKEY,
+        systemProgram: SystemProgram.programId,
+        rent: SYSVAR_RENT_PUBKEY,
       })
       .signers([])
       .rpc();
   };
-
-  const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
-    useAnchor();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,7 +88,8 @@ function Home() {
     return () => {
       connection.removeAccountChangeListener(subscriptionId);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [betListPda, connection]);
 
   useEffect(() => {
     fetchPayoutHistory();
@@ -95,7 +100,8 @@ function Home() {
     return () => {
       connection.removeAccountChangeListener(subscriptionId);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connection, payoutHistoryPda]);
 
   const fetchActiveBetList = async () => {
     try {
