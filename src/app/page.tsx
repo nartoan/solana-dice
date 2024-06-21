@@ -40,13 +40,19 @@ function Home() {
   const timerRef = useRef<any>(null);
 
   const { publicKey } = useWallet();
-  const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
-    useAnchor();
+  const {
+    program,
+    programID,
+    housePublicKey,
+    connection,
+    payoutHistoryPda,
+    betListPda,
+  } = useAnchor();
 
   // Define the mapping object
   const betMapping = {
     small: { small: {} },
-    big: { big: {} }
+    big: { big: {} },
   };
 
   const handleBet = async (betData: IBetHistory) => {
@@ -60,7 +66,7 @@ function Home() {
         house: housePublicKey,
         betList: betListPda,
         userAccount: publicKey!!, // Replace with the actual user's token account public key
-        systemProgram: SystemProgram.programId,
+        systemProgram: programID,
         rent: SYSVAR_RENT_PUBKEY,
       })
       .signers([])
@@ -95,7 +101,7 @@ function Home() {
       connection.removeAccountChangeListener(subscriptionId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ connection ]);
+  }, []);
 
   useEffect(() => {
     fetchPayoutHistory();
@@ -107,7 +113,7 @@ function Home() {
       connection.removeAccountChangeListener(subscriptionId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ connection ]);
+  }, []);
 
   const fetchActiveBetList = async () => {
     try {

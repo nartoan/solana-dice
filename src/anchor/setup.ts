@@ -17,11 +17,11 @@ const housePublicKey = new PublicKey(
 );
 
 const opts = {
-  preflightCommitment: 'processed',
+  preflightCommitment: "processed" as Commitment,
 };
 
 export const useAnchor = () => {
-  const connection = new Connection(clusterApiUrl(SOLANA_NETWORK) , opts.preflightCommitment as Commitment);
+  const connection = new Connection(clusterApiUrl(SOLANA_NETWORK) , opts.preflightCommitment);
   const provider = new AnchorProvider(connection, window.solana, opts);
   // Initialize the program interface with the IDL, program ID, and connection.
   // This setup allows us to interact with the on-chain program using the defined interface.
@@ -39,6 +39,7 @@ export const useAnchor = () => {
 
   return {
     program,
+    programID,
     housePublicKey,
     connection,
     payoutHistoryPda,
