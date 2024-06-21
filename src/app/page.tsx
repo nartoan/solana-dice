@@ -28,7 +28,7 @@ import {
   SYSVAR_RENT_PUBKEY,
   SystemProgram,
 } from "@solana/web3.js";
-import { capitalizeFirstLetter } from "@/lib/utils";
+// import { capitalizeFirstLetter } from "@/lib/utils";
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,10 +43,16 @@ function Home() {
   const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
     useAnchor();
 
+  // Define the mapping object
+  const betMapping = {
+    small: { small: {} },
+    big: { big: {} }
+  };
+
   const handleBet = async (betData: IBetHistory) => {
     await program.methods
       .placeBet(
-        capitalizeFirstLetter(betData.type),
+        betMapping[betData.type],
         new BN(betData.amount * LAMPORTS_PER_SOL)
       )
       .accounts({
@@ -89,7 +95,7 @@ function Home() {
       connection.removeAccountChangeListener(subscriptionId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [betListPda, connection]);
+  }, [ connection ]);
 
   useEffect(() => {
     fetchPayoutHistory();
@@ -101,7 +107,7 @@ function Home() {
       connection.removeAccountChangeListener(subscriptionId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connection, payoutHistoryPda]);
+  }, [ connection ]);
 
   const fetchActiveBetList = async () => {
     try {
