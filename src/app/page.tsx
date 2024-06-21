@@ -23,11 +23,13 @@ import { IResultBet } from "@/components/payout-histories/item";
 import { DiceResult } from "@/types/dice-result";
 import { BN, web3 } from "@coral-xyz/anchor";
 import {
+  Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
   SYSVAR_RENT_PUBKEY,
   SystemProgram,
 } from "@solana/web3.js";
+import { Button } from "@/components/ui/button";
 // import { capitalizeFirstLetter } from "@/lib/utils";
 
 function Home() {
@@ -40,14 +42,8 @@ function Home() {
   const timerRef = useRef<any>(null);
 
   const { publicKey } = useWallet();
-  const {
-    program,
-    programID,
-    housePublicKey,
-    connection,
-    payoutHistoryPda,
-    betListPda,
-  } = useAnchor();
+  const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
+    useAnchor();
 
   // Define the mapping object
   const betMapping = {
@@ -66,7 +62,7 @@ function Home() {
         house: housePublicKey,
         betList: betListPda,
         userAccount: publicKey!!, // Replace with the actual user's token account public key
-        systemProgram: programID,
+        systemProgram: SystemProgram.programId,
         rent: SYSVAR_RENT_PUBKEY,
       })
       .signers([])

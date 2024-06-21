@@ -2,10 +2,12 @@
 
 import { AnchorProvider, Idl, Program } from "@coral-xyz/anchor";
 import IDL from "./idl.json";
+import { PublicKey } from "@solana/web3.js";
 import {
-  PublicKey,
-} from "@solana/web3.js";
-import { AnchorWallet, useConnection, useAnchorWallet } from "@solana/wallet-adapter-react";
+  AnchorWallet,
+  useConnection,
+  useAnchorWallet,
+} from "@solana/wallet-adapter-react";
 
 const programID = new PublicKey("B4xgkC1id6Liyk6TvojjtP4BvRPPipTr8iriLFy8ywTb");
 const housePublicKey = new PublicKey(
@@ -36,7 +38,6 @@ export const useAnchor = () => {
 
   return {
     program,
-    programID,
     housePublicKey,
     connection,
     payoutHistoryPda,
