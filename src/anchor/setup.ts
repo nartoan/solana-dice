@@ -3,9 +3,6 @@
 import { Idl, Program } from "@coral-xyz/anchor";
 import IDL from "./idl.json";
 import {
-  clusterApiUrl,
-  Commitment,
-  Connection,
   PublicKey,
 } from "@solana/web3.js";
 import { useConnection } from "@solana/wallet-adapter-react";

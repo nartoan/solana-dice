@@ -22,7 +22,7 @@ import { useAnchor } from "@/anchor/setup";
 import { IResultBet } from "@/components/payout-histories/item";
 import { DiceResult } from "@/types/dice-result";
 import { BN, web3 } from "@coral-xyz/anchor";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
 function Home() {
@@ -101,7 +101,16 @@ function Home() {
     try {
       const betListAccount = await program.account.betList.fetch(betListPda);
       if (betListAccount && Array.isArray(betListAccount.bets)) {
-        const bets = betListAccount.bets.filter((bet: any) => bet !== null);
+        const bets = betListAccount.bets
+          .filter((bet: any) => bet !== null)
+          .map(
+            (bet: any) =>
+              ({
+                address: (bet.user as PublicKey).toBase58(),
+                amount: bet.amount / LAMPORTS_PER_SOL,
+                type: Object.keys(bet.betType)[0],
+              } as IBetHistory)
+          );
 
         setBetHistories(bets);
       }
