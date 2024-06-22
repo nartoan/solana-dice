@@ -20,7 +20,7 @@ import PayoutHistories from "@/components/payout-histories";
 import Bet from "@/components/bet";
 import Timer from "@/components/timer";
 import LabelCustom from "@/components/ui-custom/label-custom";
-import { BetDialog } from "@/components/bet-result-dialog";
+import { BetDialog, BetResult } from "@/components/bet-result-dialog";
 import { IResultBet } from "@/components/payout-histories/item";
 
 import { BET_BIG, BET_SMALL, GAME_STATUS } from "@/const";
@@ -43,6 +43,7 @@ function Home() {
   );
   const [betHistories, setBetHistories] = useState<IBetHistory[]>([]);
   const [payoutHistories, setPayoutHistories] = useState<IResultBet[]>([]);
+  const [result, setResult] = useState<BetResult | null>(null);
   const timerRef = useRef<any>(null);
 
   const { publicKey } = useWallet();
@@ -51,7 +52,7 @@ function Home() {
 
   const handleBet = async (betData: IBetHistory) => {
     try {
-      const data = await program.methods
+      await program.methods
         .placeBet(
           betMapping[betData.type],
           new BN(betData.amount * LAMPORTS_PER_SOL)
@@ -77,16 +78,14 @@ function Home() {
       if (remainingTime > 10000 && remainingTime <= 15000) {
         setGameStatus(GAME_STATUS.BET_CLOSED);
       } else if (remainingTime <= 10000) {
-        // TODO: Check if there's any new roll history
-        // If there's a new roll result, set the dice result and roll
-        // Otherwise, roll the dice with random numbers
         setGameStatus(GAME_STATUS.ROLLING);
+        // TODO: check has result???
       } else {
         setGameStatus(GAME_STATUS.BETTING);
+        setResult(null); // Reset result
       }
     }, 1000); // Check every second
     return () => clearInterval(interval);
-    // TODO: show result setTimeout(() => setIsOpen(true), 5000)
   }, []);
 
   useEffect(() => {
@@ -103,9 +102,29 @@ function Home() {
 
   useEffect(() => {
     fetchPayoutHistory();
-    const subscriptionId = connection.onAccountChange(payoutHistoryPda, () => {
-      fetchPayoutHistory();
-    });
+    const subscriptionId = connection.onAccountChange(
+      payoutHistoryPda,
+      (payoutHistory) => {
+        fetchPayoutHistory();
+
+        const latestBetOfUser = betHistories.find(
+          (bet) => bet.address === publicKey?.toBase58()
+        );
+        const _payoutHistory = payoutHistory;
+
+        // TODO: s - check result payoutHistory exist or not?
+        if (false) {
+          // TODO: Create result
+          const result = {
+            results: "",
+            value: "",
+            isWin: "",
+          };
+          setIsOpen(true);
+        }
+        // TODO: e - check result payoutHistory exist or not?
+      }
+    );
 
     return () => {
       connection.removeAccountChangeListener(subscriptionId);
@@ -128,7 +147,7 @@ function Home() {
               } as IBetHistory)
           );
 
-        setBetHistories(bets);
+        setBetHistories(bets.reverse());
       }
     } catch (err) {
       console.error("Error fetching active bets:", err);
@@ -190,7 +209,7 @@ function Home() {
 
       <LabelCustom classNameContainer="mt-[30px]">Payout History</LabelCustom>
       <PayoutHistories data={payoutHistories} />
-      <BetDialog open={isOpen} setOpen={setIsOpen} />
+      <BetDialog open={isOpen} setOpen={setIsOpen} result={result} />
     </div>
   );
 }

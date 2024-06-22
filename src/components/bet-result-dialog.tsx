@@ -12,16 +12,26 @@ import svgClose from "@/assets/img/close.svg";
 import { Dispatch, SetStateAction } from "react";
 import { getResultText } from "@/lib/utils";
 
+export interface BetResult {
+  results: DiceResult[];
+  value: number;
+  isWin: boolean;
+}
+
 export function BetDialog({
   open,
   setOpen,
+  result,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  result: BetResult | null;
 }) {
-  const results: DiceResult[] = [2, 2, 2];
-  const value = 0.015;
-  const isWin = false;
+  if (!result) {
+    return null;
+  }
+  
+  const { results, value, isWin } = result;
 
   return (
     <Dialog open={open}>
