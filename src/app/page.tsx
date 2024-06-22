@@ -2,6 +2,14 @@
 
 import { useEffect, useState, useRef } from "react";
 import bs58 from "bs58";
+import { BN } from "@coral-xyz/anchor";
+import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  LAMPORTS_PER_SOL,
+  PublicKey,
+  SYSVAR_RENT_PUBKEY,
+  SystemProgram,
+} from "@solana/web3.js";
 
 import BetHistory, { IBetHistory } from "@/components/bet-history";
 import Dice from "@/components/dice";
@@ -12,25 +20,21 @@ import PayoutHistories from "@/components/payout-histories";
 import Bet from "@/components/bet";
 import Timer from "@/components/timer";
 import LabelCustom from "@/components/ui-custom/label-custom";
-import { BetDialog } from "@/components/bet-dialog";
+import { BetDialog } from "@/components/bet-result-dialog";
+import { IResultBet } from "@/components/payout-histories/item";
+
 import { BET_BIG, BET_SMALL, GAME_STATUS } from "@/const";
 import { IGameStatus } from "@/types/game-status";
-import { SWRProvider } from "@/provider/swr";
 import { SolanaProvider } from "@/provider/solana";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { SWRProvider } from "@/provider/swr";
 import { useAnchor } from "@/anchor/setup";
-import { IResultBet } from "@/components/payout-histories/item";
 import { DiceResult } from "@/types/dice-result";
-import { BN, web3 } from "@coral-xyz/anchor";
-import {
-  Keypair,
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  SYSVAR_RENT_PUBKEY,
-  SystemProgram,
-} from "@solana/web3.js";
-import { Button } from "@/components/ui/button";
-// import { capitalizeFirstLetter } from "@/lib/utils";
+
+// Define the mapping object
+const betMapping = {
+  small: { small: {} },
+  big: { big: {} },
+};
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,12 +48,6 @@ function Home() {
   const { publicKey } = useWallet();
   const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
     useAnchor();
-
-  // Define the mapping object
-  const betMapping = {
-    small: { small: {} },
-    big: { big: {} },
-  };
 
   const handleBet = async (betData: IBetHistory) => {
     try {

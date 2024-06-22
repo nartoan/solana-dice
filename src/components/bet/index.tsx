@@ -7,6 +7,7 @@ import LabelCustom from "../ui-custom/label-custom";
 import { IBetHistory } from "../bet-history";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { IGameStatus } from "@/types/game-status";
+import { WalletDialog } from "../wallet-dialog";
 
 function Bet({
   gameStatus,
@@ -17,6 +18,7 @@ function Bet({
 }) {
   const { publicKey } = useWallet();
   const [selectedPrice, setSelectedPrice] = useState<number>(0.1);
+  const [open, setOpen]= useState<boolean>(false);
 
   const handleBet = useCallback(
     (typeBet: IBetType) => () => {
@@ -26,6 +28,8 @@ function Bet({
           type: typeBet,
           address: publicKey.toBase58(),
         });
+      } else {
+        setOpen(true);
       }
     },
     [bet, publicKey, selectedPrice]
@@ -80,6 +84,7 @@ function Bet({
           </LabelCustom>
         </div>
       )}
+      <WalletDialog open={open} setOpen={setOpen} />
     </div>
   );
 }
