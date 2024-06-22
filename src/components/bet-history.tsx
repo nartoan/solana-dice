@@ -8,8 +8,6 @@ import solanaSvg from "@/assets/img/solana.svg";
 import { IBetType } from "@/types/bet";
 import { BET_BIG } from "@/const";
 
-import { ScrollArea } from "./ui/scroll-area";
-
 export type IBetHistoryProps = {
   typeBet: IBetType;
   betHistories: IBetHistory[];
@@ -53,7 +51,7 @@ export default function BetHistory({
           <span className="text-[12px] mt-1">No bets yet</span>
         </div>
       ) : (
-        <ScrollArea className="w-full h-[90px]">
+        <div className="w-full min-w-[90px]">
           {dataBets.map((bet, index) => (
             <div className="flex justify-between w-full mt-[10px]" key={index}>
               <span className="w-1/4 truncate text-[12px]">{bet.address}</span>
@@ -65,7 +63,7 @@ export default function BetHistory({
               </div>
             </div>
           ))}
-        </ScrollArea>
+        </div>
       )}
     </>
   );
