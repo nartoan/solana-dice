@@ -37,12 +37,16 @@ export default function PaginationCustom({
     } else {
       midPage = page;
     }
+  } else if (totalPage === 3) {
+    midPage = 2;
   }
   return (
     <Pagination className="my-[20px]">
       <PaginationContent>
         <PaginationItem className="disabled">
-          <PaginationPrevious onClick={() => setPage(page === 1 ? 1 : page - 1)} />
+          <PaginationPrevious
+            onClick={() => setPage(page === 1 ? 1 : page - 1)}
+          />
         </PaginationItem>
         <PaginationItem>
           <PaginationLink onClick={() => setPage(1)} isActive={page === 1}>
@@ -50,17 +54,20 @@ export default function PaginationCustom({
           </PaginationLink>
         </PaginationItem>
 
-        {midPage === 0 || midPage - 1 === 2 ? (
-          <PaginationItem>
-            <PaginationLink onClick={() => setPage(2)} isActive={page === 2}>
-              2
-            </PaginationLink>
-          </PaginationItem>
-        ) : (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
+        {totalPage !== 2 &&
+          totalPage !== 3 &&
+          (midPage === 0 || midPage - 1 === 2 ? (
+            <PaginationItem>
+              <PaginationLink onClick={() => setPage(2)} isActive={page === 2}>
+                2
+              </PaginationLink>
+            </PaginationItem>
+          ) : (
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          ))}
+
         {midPage > 0 && (
           <PaginationItem>
             <PaginationLink
@@ -71,20 +78,23 @@ export default function PaginationCustom({
             </PaginationLink>
           </PaginationItem>
         )}
-        {(midPage === 0 && totalPage > 3) || totalPage - midPage === 2 ? (
-          <PaginationItem>
-            <PaginationLink
-              onClick={() => setPage(totalPage - 1)}
-              isActive={page === totalPage - 1}
-            >
-              {totalPage - 1}
-            </PaginationLink>
-          </PaginationItem>
-        ) : (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
+        {totalPage !== 2 &&
+          totalPage !== 3 &&
+          ((midPage === 0 && totalPage > 3) || totalPage - midPage === 2 ? (
+            <PaginationItem>
+              <PaginationLink
+                onClick={() => setPage(totalPage - 1)}
+                isActive={page === totalPage - 1}
+              >
+                {totalPage - 1}
+              </PaginationLink>
+            </PaginationItem>
+          ) : (
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          ))}
+
         <PaginationItem>
           <PaginationLink
             onClick={() => setPage(totalPage)}
@@ -94,7 +104,9 @@ export default function PaginationCustom({
           </PaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext onClick={() => setPage(page === totalPage ? totalPage : page + 1)} />
+          <PaginationNext
+            onClick={() => setPage(page === totalPage ? totalPage : page + 1)}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

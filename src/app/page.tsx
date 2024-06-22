@@ -52,21 +52,25 @@ function Home() {
   };
 
   const handleBet = async (betData: IBetHistory) => {
-    await program.methods
-      .placeBet(
-        betMapping[betData.type],
-        new BN(betData.amount * LAMPORTS_PER_SOL)
-      )
-      .accounts({
-        user: publicKey?.toBase58(),
-        house: housePublicKey,
-        betList: betListPda,
-        userAccount: publicKey!!, // Replace with the actual user's token account public key
-        systemProgram: SystemProgram.programId,
-        rent: SYSVAR_RENT_PUBKEY,
-      })
-      .signers([])
-      .rpc();
+    try {
+      const data = await program.methods
+        .placeBet(
+          betMapping[betData.type],
+          new BN(betData.amount * LAMPORTS_PER_SOL)
+        )
+        .accounts({
+          user: publicKey?.toBase58(),
+          house: housePublicKey,
+          betList: betListPda,
+          userAccount: publicKey!!, // Replace with the actual user's token account public key
+          systemProgram: SystemProgram.programId,
+          rent: SYSVAR_RENT_PUBKEY,
+        })
+        .signers([])
+        .rpc();
+    } catch (e) {
+      console.log("🚀 ~ handleBet ~ error:", e);
+    }
   };
 
   useEffect(() => {
