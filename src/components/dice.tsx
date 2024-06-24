@@ -40,15 +40,15 @@ export default function Dice({
 
   useEffect(() => {
     if (rolling) {
-      diceRef1.current?.rollDice();
+      diceRef1.current?.rollDice(results[0]);
       setTimeout(() => {
-        diceRef2.current?.rollDice();
+        diceRef2.current?.rollDice(results[0]);
         setTimeout(() => {
-          diceRef3.current?.rollDice();
+          diceRef3.current?.rollDice(results[0]);
         }, NEXT_ROLE_TIME);
       }, NEXT_ROLE_TIME);
     }
-  }, [rolling]);
+  }, [rolling, results]);
 
   return (
     <div className="flex justify-around items-center py-[20px] h-[98px]">
@@ -57,7 +57,6 @@ export default function Dice({
         size={SIZE}
         rollingTime={ROLL_TIME}
         defaultValue={defaultValue[0]}
-        cheatValue={results[0]}
         disabled={true}
         faces={FACES}
       />
@@ -66,7 +65,6 @@ export default function Dice({
         size={SIZE}
         rollingTime={ROLL_TIME - NEXT_ROLE_TIME}
         defaultValue={defaultValue[1]}
-        cheatValue={results[1]}
         disabled={true}
         faces={FACES}
       />
@@ -75,7 +73,6 @@ export default function Dice({
         size={SIZE}
         rollingTime={ROLL_TIME - NEXT_ROLE_TIME * 2}
         defaultValue={defaultValue[2]}
-        cheatValue={results[2]}
         disabled={true}
         faces={FACES}
       />

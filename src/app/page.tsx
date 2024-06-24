@@ -77,9 +77,16 @@ function Home() {
       const remainingTime = timerRef.current.getRemainingTime();
       if (remainingTime > 10000 && remainingTime <= 15000) {
         setGameStatus(GAME_STATUS.BET_CLOSED);
-      } else if (remainingTime <= 10000) {
+      } else if (remainingTime <= 10000 && remainingTime > 5000) {
         setGameStatus(GAME_STATUS.ROLLING);
         // TODO: check has result???
+      } else if (remainingTime <= 5000) {
+        console.log("🚀 ~ interval ~ remainingTime:", remainingTime);
+        setResult({
+          results: [1, 1, 1],
+          value: 123,
+          isWin: true,
+        });
       } else {
         setGameStatus(GAME_STATUS.BETTING);
         setResult(null); // Reset result
