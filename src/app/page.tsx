@@ -185,6 +185,7 @@ function Home() {
           <Dice
             rolling={gameStatus === GAME_STATUS.ROLLING}
             results={result?.results}
+            timerRef={timerRef}
           />
         </div>
         <Bet gameStatus={gameStatus} bet={handleBet} />
