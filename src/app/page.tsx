@@ -102,29 +102,9 @@ function Home() {
 
   useEffect(() => {
     fetchPayoutHistory();
-    const subscriptionId = connection.onAccountChange(
-      payoutHistoryPda,
-      (payoutHistory) => {
-        fetchPayoutHistory();
-
-        const latestBetOfUser = betHistories.find(
-          (bet) => bet.address === publicKey?.toBase58()
-        );
-        const _payoutHistory = payoutHistory;
-
-        // TODO: s - check result payoutHistory exist or not?
-        if (false) {
-          // TODO: Create result
-          const result = {
-            results: "",
-            value: "",
-            isWin: "",
-          };
-          setIsOpen(true);
-        }
-        // TODO: e - check result payoutHistory exist or not?
-      }
-    );
+    const subscriptionId = connection.onAccountChange(payoutHistoryPda, () => {
+      fetchPayoutHistory();
+    });
 
     return () => {
       connection.removeAccountChangeListener(subscriptionId);
@@ -195,7 +175,10 @@ function Home() {
           <Timer ref={timerRef} />
         </div>
         <div className="rounded-[10px] border-solid border border-[#344EAD]">
-          <Dice rolling={gameStatus === GAME_STATUS.ROLLING} />
+          <Dice
+            rolling={gameStatus === GAME_STATUS.ROLLING}
+            results={result?.results}
+          />
         </div>
         <Bet gameStatus={gameStatus} bet={handleBet} />
       </Container>

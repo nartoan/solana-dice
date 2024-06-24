@@ -21,17 +21,18 @@ const SIZE = 50;
 const ROLL_TIME = 10000;
 const NEXT_ROLE_TIME = 1500;
 
-export default function Dice({ rolling }: { rolling: boolean }) {
+export default function Dice({
+  rolling,
+  results = [randomInt(1, 6), randomInt(1, 6), randomInt(1, 6)],
+}: {
+  rolling: boolean;
+  results?: DiceResult[];
+}) {
   const diceRef1 = useRef<TDiceRef>(null);
   const diceRef2 = useRef<TDiceRef>(null);
   const diceRef3 = useRef<TDiceRef>(null);
 
   const defaultValue: DiceResult[] = [
-    randomInt(1, 6),
-    randomInt(1, 6),
-    randomInt(1, 6),
-  ];
-  const cheatValue: DiceResult[] = [
     randomInt(1, 6),
     randomInt(1, 6),
     randomInt(1, 6),
@@ -56,7 +57,7 @@ export default function Dice({ rolling }: { rolling: boolean }) {
         size={SIZE}
         rollingTime={ROLL_TIME}
         defaultValue={defaultValue[0]}
-        cheatValue={cheatValue[0]}
+        cheatValue={results[0]}
         disabled={true}
         faces={FACES}
       />
@@ -65,7 +66,7 @@ export default function Dice({ rolling }: { rolling: boolean }) {
         size={SIZE}
         rollingTime={ROLL_TIME - NEXT_ROLE_TIME}
         defaultValue={defaultValue[1]}
-        cheatValue={cheatValue[1]}
+        cheatValue={results[1]}
         disabled={true}
         faces={FACES}
       />
@@ -74,7 +75,7 @@ export default function Dice({ rolling }: { rolling: boolean }) {
         size={SIZE}
         rollingTime={ROLL_TIME - NEXT_ROLE_TIME * 2}
         defaultValue={defaultValue[2]}
-        cheatValue={cheatValue[2]}
+        cheatValue={results[2]}
         disabled={true}
         faces={FACES}
       />
