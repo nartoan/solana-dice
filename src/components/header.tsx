@@ -15,8 +15,8 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const routes = [
-  { title: "About us", link: "/about-us", isDisable: true },
-  { title: "Rules", link: "/rules", isDisable: false },
+  { title: "About", link: "/about", isDisable: false },
+  // { title: "Rules", link: "/rules", isDisable: false },
 ];
 
 export default function Header() {

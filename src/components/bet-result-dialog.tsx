@@ -30,7 +30,7 @@ export function BetDialog({
   if (!result) {
     return null;
   }
-  
+
   const { results, value, isWin } = result;
 
   return (

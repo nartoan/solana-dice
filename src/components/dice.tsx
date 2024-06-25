@@ -10,7 +10,7 @@ import svg5 from "@/assets/img/dice-custom/5.svg";
 import svg6 from "@/assets/img/dice-custom/6.svg";
 
 import { DiceResult } from "@/types/dice-result";
-import { randomInt } from "@/lib/utils";
+// import { randomInt } from "@/lib/utils";
 
 type TDiceRef = {
   rollDice: (value?: DiceResult, remainTime?: number) => void;
@@ -23,7 +23,7 @@ const NEXT_ROLE_TIME = 1000;
 
 export default function Dice({
   rolling,
-  results = [randomInt(1, 6), randomInt(1, 6), randomInt(1, 6)],
+  results = [1, 1, 1],
   timerRef,
 }: {
   rolling: boolean;
@@ -35,19 +35,19 @@ export default function Dice({
   const diceRef3 = useRef<TDiceRef>(null);
 
   const defaultValue: DiceResult[] = [
-    randomInt(1, 6),
-    randomInt(1, 6),
-    randomInt(1, 6),
+    1,
+    1,
+    1,
   ];
 
   useEffect(() => {
     if (rolling) {
-      const remainTime: number = timerRef.current.getRemainingTime();
-      diceRef1.current?.rollDice(results[0], remainTime);
+      // const remainTime: number = timerRef.current.getRemainingTime();
+      diceRef1.current?.rollDice(results[0]);
       setTimeout(() => {
-        diceRef2.current?.rollDice(results[0], remainTime - NEXT_ROLE_TIME);
+        diceRef2.current?.rollDice(results[1]);
         setTimeout(() => {
-          diceRef3.current?.rollDice(results[0], remainTime - NEXT_ROLE_TIME * 2);
+          diceRef3.current?.rollDice(results[2]);
         }, NEXT_ROLE_TIME);
       }, NEXT_ROLE_TIME);
     }

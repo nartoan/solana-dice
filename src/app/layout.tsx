@@ -10,7 +10,7 @@ const fontSans = FontSans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Degen Dice",
-  description: "Degen Dice - Solana dice",
+  description: "Welcome to a game of Big & Small Dice",
 };
 
 export default function RootLayout({
