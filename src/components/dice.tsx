@@ -10,7 +10,7 @@ import svg5 from "@/assets/img/dice-custom/5.svg";
 import svg6 from "@/assets/img/dice-custom/6.svg";
 
 import { DiceResult } from "@/types/dice-result";
-// import { randomInt } from "@/lib/utils";
+import { randomInt } from "@/lib/utils";
 
 type TDiceRef = {
   rollDice: (value?: DiceResult, remainTime?: number) => void;
@@ -23,7 +23,7 @@ const NEXT_ROLE_TIME = 1000;
 
 export default function Dice({
   rolling,
-  results = [1, 1, 1],
+  results = [randomInt(1, 6), randomInt(1, 6), randomInt(1, 6)],
   timerRef,
 }: {
   rolling: boolean;
@@ -35,9 +35,9 @@ export default function Dice({
   const diceRef3 = useRef<TDiceRef>(null);
 
   const defaultValue: DiceResult[] = [
-    1,
-    1,
-    1,
+    randomInt(1, 6),
+    randomInt(1, 6),
+    randomInt(1, 6),
   ];
 
   useEffect(() => {
