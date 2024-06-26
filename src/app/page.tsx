@@ -77,6 +77,7 @@ function Home() {
     }
   };
 
+  let currentGameStatus: IGameStatus | null = null;
   let currentPayoutHistories: { results: DiceResult[]; address: string; }[] = [];
   let currentBetHistories: { address: string; amount: number; type: IBetType; }[] = [];
   let currentBetType: IBetType | null = null;
@@ -110,7 +111,7 @@ function Home() {
   };
 
   const handleBetClosedTimeCheck = () => {
-    setGameStatus(GAME_STATUS.BET_CLOSED);
+    updateGameStatus(GAME_STATUS.BET_CLOSED);
   };
 
   const handleRollingTimeCheck = () => {
@@ -118,13 +119,13 @@ function Home() {
       if (currentPayoutHistories.length > 0) {
         const result = generateResultFromPayoutHistory();
         setResult(result);
-        setGameStatus(GAME_STATUS.ROLLING);
+        updateGameStatus(GAME_STATUS.ROLLING);
       }
     } else {
       if (payoutHistoryUpdated) {
         const result = generateResultFromBetHistory();
         setResult(result);
-        setGameStatus(GAME_STATUS.ROLLING);
+        updateGameStatus(GAME_STATUS.ROLLING);
         rollingStartTime = Date.now();
       }
     }
@@ -135,7 +136,7 @@ function Home() {
       if (payoutHistoryUpdated) {
         const result = generateResultFromBetHistory();
         setResult(result);
-        setGameStatus(GAME_STATUS.ROLLING);
+        updateGameStatus(GAME_STATUS.ROLLING);
         rollingStartTime = Date.now();
       }
     }
@@ -149,14 +150,14 @@ function Home() {
         const result = generateResultFromBetHistory();
         setResult(result);
         resetBetState();
-        setGameStatus(GAME_STATUS.ROLLING);
+        updateGameStatus(GAME_STATUS.ROLLING);
         rollingStartTime = Date.now();
       }
     } else {
-      if (rollingStartTime + 6000 > Date.now()) {
+      if (rollingStartTime + 9000 > Date.now()) {
         // Let rolling animation finish
       } else {
-        setGameStatus(GAME_STATUS.BETTING);
+        updateGameStatus(GAME_STATUS.BETTING);
       }
     }
   };
@@ -188,6 +189,13 @@ function Home() {
     currentBetAmount = null;
     payoutHistoryUpdated = false;
     wasBetListEmpty = true;
+  };
+
+  const updateGameStatus = (newStatus: IGameStatus) => {
+    if (currentGameStatus !== newStatus) {
+      currentGameStatus = newStatus;
+      setGameStatus(newStatus);
+    }
   };
 
   useEffect(() => {
@@ -255,21 +263,11 @@ function Home() {
           };
         });
         const newPayoutHistory = histories.reverse();
-        // Compare first element's address of payoutHistories with first address of newPayoutHistory
-        // if ( currentPayoutHistories.length > 0 ){
-        // console.log("🚀 ~ fetchPayoutHistory ~ currentPayoutHistories[0].address", currentPayoutHistories[0].address);
-        // }
-        // console.log("🚀 ~ fetchPayoutHistory ~ newPayoutHistory[0].address", newPayoutHistory[0].address);
         if ( currentPayoutHistories.length > 0 && currentPayoutHistories[0].address !== newPayoutHistory[0].address ){
-          // console.log("🚀 ~ fetchPayoutHistory ~ payoutHistoryUpdated", payoutHistoryUpdated);
           payoutHistoryUpdated = true;
-          // console.log("🚀 ~ fetchPayoutHistory ~ after payoutHistoryUpdated", payoutHistoryUpdated);
         }
-        // console.log("🚀 ~ fetchPayoutHistory ~ currentPayoutHistories", currentPayoutHistories);
-        // console.log("🚀 ~ fetchPayoutHistory ~ newPayoutHistory", newPayoutHistory);
         currentPayoutHistories = newPayoutHistory;
         setPayoutHistories(newPayoutHistory);
-        // console.log("🚀 ~ fetchPayoutHistory ~ after setPayoutHistories currentPayoutHistories", currentPayoutHistories);
       } else {
         console.log("No histories found in payoutHistoryAccount.");
       }
