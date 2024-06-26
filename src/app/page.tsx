@@ -90,9 +90,7 @@ function Home() {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
 
-      if (remainingTime > 15000 && remainingTime <= 17000) {
-        handleInitialTimeCheck();
-      } else if (remainingTime > 10000 && remainingTime <= 15000) {
+      if (remainingTime > 10000 && remainingTime <= 15000) {
         handleBetClosedTimeCheck();
       } else if (remainingTime <= 10000 && remainingTime > 5000) {
         handleRollingTimeCheck();
@@ -106,11 +104,8 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleInitialTimeCheck = () => {
-    currentBetHistories.length > 0 ? (wasBetListEmpty = false) : (wasBetListEmpty = true);
-  };
-
   const handleBetClosedTimeCheck = () => {
+    currentBetHistories.length > 0 ? (wasBetListEmpty = false) : (wasBetListEmpty = true);
     updateGameStatus(GAME_STATUS.BET_CLOSED);
   };
 

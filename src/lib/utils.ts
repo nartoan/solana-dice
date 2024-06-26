@@ -17,7 +17,7 @@ export const getResultText = (
   let resultText: string = totalResult <= 10 ? BET_SMALL : BET_BIG;
   if (isCheckThree) {
     if (results.every((val, _, arr) => val === arr[0])) {
-      resultText = "Three of the kind";
+      resultText = "Three of a kind";
     }
   }
 
