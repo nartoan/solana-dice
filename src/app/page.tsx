@@ -29,6 +29,8 @@ import { SolanaProvider } from "@/provider/solana";
 import { SWRProvider } from "@/provider/swr";
 import { useAnchor } from "@/anchor/setup";
 import { DiceResult } from "@/types/dice-result";
+import { IBetType } from "@/types/bet";
+import { generateNumbers, getResultText } from "@/lib/utils";
 
 // Define the mapping object
 const betMapping = {
@@ -44,7 +46,10 @@ function Home() {
   const [betHistories, setBetHistories] = useState<IBetHistory[]>([]);
   const [payoutHistories, setPayoutHistories] = useState<IResultBet[]>([]);
   const [result, setResult] = useState<BetResult | null>(null);
+  const [curBet, setCurBet] = useState<IBetHistory | null>(null);
   const timerRef = useRef<any>(null);
+  const hasBetRef = useRef<boolean>(false);
+  const hasPayoutRef = useRef<boolean>(false);
 
   const { publicKey } = useWallet();
   const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
@@ -61,12 +66,13 @@ function Home() {
           user: publicKey?.toBase58(),
           house: housePublicKey,
           betList: betListPda,
-          userAccount: publicKey!!, // Replace with the actual user's token account public key
+          userAccount: publicKey!!,
           systemProgram: SystemProgram.programId,
           rent: SYSVAR_RENT_PUBKEY,
         })
         .signers([])
         .rpc();
+      setCurBet(betData);
     } catch (e) {
       console.log("🚀 ~ handleBet ~ error:", e);
     }
@@ -76,17 +82,22 @@ function Home() {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
       if (remainingTime > 10000 && remainingTime <= 15000) {
+        hasBetRef.current = betHistories.length > 0;
         setGameStatus(GAME_STATUS.BET_CLOSED);
       } else if (remainingTime <= 10000 && remainingTime > 5000) {
         setGameStatus(GAME_STATUS.ROLLING);
-        // TODO: check has result???
       } else if (remainingTime <= 5000) {
-        console.log("🚀 ~ interval ~ remainingTime:", remainingTime);
-        setResult({
-          results: [1, 1, 1],
-          value: 123,
-          isWin: true,
-        });
+        if (hasPayoutRef.current) {
+          setResult({
+            results: payoutHistories[0].results,
+            value: curBet ? curBet.amount : 0,
+            isWin:
+              curBet?.type ===
+              (getResultText(payoutHistories[0].results, false) as IBetType),
+          });
+        } else {
+          generateResultFromPayoutHistory();
+        }
       } else {
         setGameStatus(GAME_STATUS.BETTING);
         setResult(null); // Reset result
@@ -94,6 +105,18 @@ function Home() {
     }, 1000); // Check every second
     return () => clearInterval(interval);
   }, []);
+
+  const generateResultFromPayoutHistory = () => {
+    const previous_payout_tx = payoutHistories[0].address;
+    const current_minute = Math.floor(Date.now() / 60000);
+    const concatenatedString = `${previous_payout_tx}-${current_minute}`;
+    const result = generateNumbers(concatenatedString);
+    return {
+      results: result as DiceResult[],
+      value: 0,
+      isWin: false,
+    };
+  };
 
   useEffect(() => {
     fetchActiveBetList();
@@ -151,14 +174,23 @@ function Home() {
         Array.isArray(payoutHistoryAccount.histories) &&
         payoutHistoryAccount.histories.length > 0
       ) {
-        const histories = payoutHistoryAccount.histories.map((history) => {
-          const txSig: number[] = Array.from(history.txSig);
-          return {
-            results: Array.from(history.result) as DiceResult[],
-            address: bs58.encode(txSig),
-          };
-        });
-        setPayoutHistories(histories.reverse());
+        const histories = payoutHistoryAccount.histories
+          .map((history) => {
+            const txSig: number[] = Array.from(history.txSig);
+            return {
+              results: Array.from(history.result) as DiceResult[],
+              address: bs58.encode(txSig),
+            };
+          })
+          .reverse();
+
+        if (
+          payoutHistories.length > 0 &&
+          payoutHistories[0].address !== histories[0].address
+        ) {
+          hasPayoutRef.current = true;
+        }
+        setPayoutHistories(histories);
       } else {
         console.log("No histories found in payoutHistoryAccount.");
       }
