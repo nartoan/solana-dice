@@ -46,11 +46,13 @@ function Home() {
   const [betHistories, setBetHistories] = useState<IBetHistory[]>([]);
   const [payoutHistories, setPayoutHistories] = useState<IResultBet[]>([]);
   const [result, setResult] = useState<BetResult | null>(null);
-  const [curBet, setCurBet] = useState<IBetHistory | null>(null);
+
+  const payoutHistoriesRef = useRef<any>([]);
   const timerRef = useRef<any>(null);
   const hasBetRef = useRef<boolean>(false);
+
   const hasPayoutRef = useRef<boolean>(false);
-  const payoutHistoriesRef = useRef<any>([]);
+  const curBetRef = useRef<IBetHistory | null>(null);
 
   const { publicKey } = useWallet();
   const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
@@ -73,7 +75,7 @@ function Home() {
         })
         .signers([])
         .rpc();
-      setCurBet(betData);
+      curBetRef.current = betData;
     } catch (e) {
       console.log("🚀 ~ handleBet ~ error:", e);
     }
@@ -90,18 +92,26 @@ function Home() {
       } else if (remainingTime <= 5000) {
         if (hasPayoutRef.current) {
           setResult({
-            results: payoutHistories[0].results,
-            value: curBet ? curBet.amount : 0,
+            results: payoutHistoriesRef.current[0].results,
+            value: curBetRef.current ? curBetRef.current.amount : 0,
             isWin:
-              curBet?.type ===
-              (getResultText(payoutHistories[0].results, false) as IBetType),
+              curBetRef.current?.type ===
+              (getResultText(
+                payoutHistoriesRef.current[0].results,
+                false
+              ) as IBetType),
           });
         } else {
-          setResult(generateResultFromPayoutHistory());
+          const result = generateResultFromPayoutHistory();
+          setResult(result);
         }
       } else {
         setGameStatus(GAME_STATUS.BETTING);
         setResult(null); // Reset result
+        hasPayoutRef.current = false;
+        if (betHistories.length === 0) {
+          curBetRef.current = null;
+        }
       }
     }, 1000); // Check every second
     return () => clearInterval(interval);

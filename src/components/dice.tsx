@@ -1,7 +1,9 @@
 "use client";
 
-import { MutableRefObject, useEffect, useRef } from "react";
+import { MutableRefObject, memo, useEffect, useRef } from "react";
 import DiceRoll from "@nartoan/react-dice-roll";
+import isEqual from "lodash/isEqual";
+
 import svg1 from "@/assets/img/dice-custom/1.svg";
 import svg2 from "@/assets/img/dice-custom/2.svg";
 import svg3 from "@/assets/img/dice-custom/3.svg";
@@ -21,15 +23,17 @@ const SIZE = 50;
 const ROLL_TIME = 10000;
 const NEXT_ROLE_TIME = 1000;
 
-export default function Dice({
-  rolling,
-  results = [randomInt(1, 6), randomInt(1, 6), randomInt(1, 6)],
-  timerRef,
-}: {
+interface DiceProp {
   rolling: boolean;
   results?: DiceResult[];
   timerRef: MutableRefObject<any>;
-}) {
+}
+
+function Dice({
+  rolling,
+  results = [randomInt(1, 6), randomInt(1, 6), randomInt(1, 6)],
+  timerRef,
+}: DiceProp) {
   const diceRef1 = useRef<TDiceRef>(null);
   const diceRef2 = useRef<TDiceRef>(null);
   const diceRef3 = useRef<TDiceRef>(null);
@@ -82,3 +86,10 @@ export default function Dice({
     </div>
   );
 }
+
+export default memo(Dice, (oldProps: DiceProp, newProps: DiceProp) => {
+  return (
+    isEqual(oldProps.results, newProps.results) &&
+    oldProps.rolling === newProps.rolling
+  );
+});
