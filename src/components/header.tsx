@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
+import LabelCustom from "@/components/ui-custom/label-custom";
 import logo from "@/assets/img/logo.svg";
 import {
   NavigationMenu,
@@ -43,7 +44,11 @@ export default function Header() {
                     href={link}
                     className="data-[active]:border-b-2 data-[active]:bg-inherit data-[active]:rounded-none"
                   >
-                    {title}
+                    <div
+                      className={`text-[24px]`}
+                    >
+                      <LabelCustom>{title}</LabelCustom>
+                    </div>
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>

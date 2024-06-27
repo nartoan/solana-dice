@@ -7,7 +7,7 @@ export default function About() {
   const about = [
     {
       title: "Game Overview",
-      content: `In this game, you place bets on whether the total sum of three dice rolls will be "Big" (11-18) or "Small" (3-10). Here’s what makes this game so exciting and unique:`,
+      content: `In this game, you place bets on whether the total sum of three dice rolls will be "Big" (11-17) or "Small" (4-10). Here’s what makes this game so exciting and unique:`,
     },
     {
       title: "Built on Solana:",
@@ -56,7 +56,11 @@ export default function About() {
       <Header />
       {about.map(({ title, content }, index) => (
         <div key={index} className="mt-[20px]">
-          <LabelCustom classNameContainer="mt-[30px]">{title}</LabelCustom>
+          <div
+            className={`text-[24px]`}
+          >
+            <LabelCustom>{title}</LabelCustom>
+          </div>
           <div className="text-[14px] text-[#C2C2C2] mt-[4px]">{content}</div>
         </div>
       ))}

@@ -7,7 +7,7 @@ export default function Rules() {
   const rules = [
     {
       title: "Game Overview",
-      content: `In this game, you place bets on whether the total sum of three dice rolls will be "Big" (11-18) or "Small" (3-10). Here’s what makes this game so exciting and unique:`,
+      content: `In this game, you place bets on whether the total sum of three dice rolls will be "Big" (11-17) or "Small" (4-10). Here’s what makes this game so exciting and unique:`,
     },
     {
       title: "Built on Solana:",

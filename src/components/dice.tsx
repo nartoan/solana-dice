@@ -19,7 +19,7 @@ type TDiceRef = {
 const FACES = [svg1.src, svg2.src, svg3.src, svg4.src, svg5.src, svg6.src];
 const SIZE = 50;
 const ROLL_TIME = 10000;
-const NEXT_ROLE_TIME = 1000;
+const NEXT_ROLE_TIME = 500;
 
 export default function Dice({
   rolling,

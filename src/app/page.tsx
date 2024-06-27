@@ -71,9 +71,6 @@ function Home() {
         .rpc();
     } catch (e) {
       console.log("🚀 ~ handleBet ~ error:", e);
-    } finally {
-      currentBetType = betData.type;
-      currentBetAmount = betData.amount;
     }
   };
 
@@ -81,10 +78,12 @@ function Home() {
   let currentPayoutHistories: { results: DiceResult[]; address: string; }[] = [];
   let currentBetHistories: { address: string; amount: number; type: IBetType; }[] = [];
   let currentBetType: IBetType | null = null;
-  let currentBetAmount: number | null = null;
+  let currentRollResult: DiceResult[] = [];
   let wasBetListEmpty = true;
   let payoutHistoryUpdated = false;
   let rollingStartTime = Date.now();
+  let showResultDialogCount = 0;
+  const showResultDialogDuration = 4;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -107,18 +106,21 @@ function Home() {
   const handleBetClosedTimeCheck = () => {
     currentBetHistories.length > 0 ? (wasBetListEmpty = false) : (wasBetListEmpty = true);
     updateGameStatus(GAME_STATUS.BET_CLOSED);
+    showResultDialogCount = 0;
   };
 
   const handleRollingTimeCheck = () => {
     if (wasBetListEmpty) {
       if (currentPayoutHistories.length > 0) {
         const result = generateResultFromPayoutHistory();
+        currentRollResult = result.results;
         setResult(result);
         updateGameStatus(GAME_STATUS.ROLLING);
       }
     } else {
       if (payoutHistoryUpdated) {
         const result = generateResultFromBetHistory();
+        currentRollResult = result.results;
         setResult(result);
         updateGameStatus(GAME_STATUS.ROLLING);
         rollingStartTime = Date.now();
@@ -130,6 +132,7 @@ function Home() {
     if (!wasBetListEmpty) {
       if (payoutHistoryUpdated) {
         const result = generateResultFromBetHistory();
+        currentRollResult = result.results;
         setResult(result);
         updateGameStatus(GAME_STATUS.ROLLING);
         rollingStartTime = Date.now();
@@ -143,18 +146,44 @@ function Home() {
         // Maintain game status Bets Closed
       } else {
         const result = generateResultFromBetHistory();
+        currentRollResult = result.results;
         setResult(result);
         resetBetState();
         updateGameStatus(GAME_STATUS.ROLLING);
         rollingStartTime = Date.now();
       }
     } else {
-      if (rollingStartTime + 9000 > Date.now()) {
+      if (rollingStartTime + 6000 > Date.now()) {
         // Let rolling animation finish
       } else {
-        updateGameStatus(GAME_STATUS.BETTING);
+        showResultDialogCount++;
+        if (showResultDialogCount <= showResultDialogDuration) {
+          showResult();
+        } else {
+          updateGameStatus(GAME_STATUS.BETTING);
+        }
       }
     }
+  };
+
+  const showResult = () => {
+    if (currentRollResult.length === 0) {
+      updateGameStatus(GAME_STATUS.BETTING);
+    } else if (isThreeOfAKind(currentRollResult)) {
+      updateGameStatus(GAME_STATUS.RESULT_THREE_OF_A_KIND);
+    } else if (isBigWins(currentRollResult)) {
+      updateGameStatus(GAME_STATUS.RESULT_BIG_WINS);
+    } else {
+      updateGameStatus(GAME_STATUS.RESULT_SMALL_WINS);
+    }
+  };
+
+  const isThreeOfAKind = (results: number[]) => {
+    return results[0] === results[1] && results[1] === results[2];
+  };
+
+  const isBigWins = (results: number[]) => {
+    return results.reduce((total, item) => total + item, 0) > 10;
   };
 
   const generateResultFromPayoutHistory = () => {
@@ -164,7 +193,7 @@ function Home() {
     const result = generateNumbers(concatenatedString);
     return {
       results: result as DiceResult[],
-      value: 123,
+      value: 0,
       isWin: false,
     };
   };
@@ -172,7 +201,7 @@ function Home() {
   const generateResultFromBetHistory = () => {
     return {
       results: currentPayoutHistories[0].results,
-      value: currentBetAmount as number,
+      value: 0,
       isWin:
         (currentBetType === BET_BIG && currentPayoutHistories[0].results.reduce((total, item) => total + item, 0) > 10) ||
         (currentBetType === BET_SMALL && currentPayoutHistories[0].results.reduce((total, item) => total + item, 0) <= 10),
@@ -180,8 +209,6 @@ function Home() {
   };
 
   const resetBetState = () => {
-    currentBetType = null;
-    currentBetAmount = null;
     payoutHistoryUpdated = false;
     wasBetListEmpty = true;
   };
@@ -190,6 +217,7 @@ function Home() {
     if (currentGameStatus !== newStatus) {
       currentGameStatus = newStatus;
       setGameStatus(newStatus);
+      // console.log("Game status updated to: ", newStatus);
     }
   };
 
@@ -302,7 +330,10 @@ function Home() {
         <BetHistory typeBet={BET_SMALL} betHistories={betHistories} />
       </Container>
 
-      <LabelCustom classNameContainer="mt-[30px]">Payout History</LabelCustom>
+      <div className="flex justify-between items-center mt-[30px]">
+        <LabelCustom classNameContainer="mt-[30px]">Payout History</LabelCustom>
+        <LabelCustom classNameContainer="mt-[30px]">Solscan Link</LabelCustom>
+      </div>
       <PayoutHistories data={payoutHistories} />
       <BetDialog open={isOpen} setOpen={setIsOpen} result={result} />
     </div>
