@@ -45,9 +45,9 @@ export default function Dice({
       const remainTime: number = timerRef.current.getRemainingTime();
       diceRef1.current?.rollDice(results[0], remainTime);
       setTimeout(() => {
-        diceRef2.current?.rollDice(results[0], remainTime - NEXT_ROLE_TIME);
+        diceRef2.current?.rollDice(results[1], remainTime - NEXT_ROLE_TIME);
         setTimeout(() => {
-          diceRef3.current?.rollDice(results[0], remainTime - NEXT_ROLE_TIME * 2);
+          diceRef3.current?.rollDice(results[2], remainTime - NEXT_ROLE_TIME * 2);
         }, NEXT_ROLE_TIME);
       }, NEXT_ROLE_TIME);
     }

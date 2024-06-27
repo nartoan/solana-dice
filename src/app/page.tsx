@@ -97,7 +97,7 @@ function Home() {
               (getResultText(payoutHistories[0].results, false) as IBetType),
           });
         } else {
-          generateResultFromPayoutHistory();
+          setResult(generateResultFromPayoutHistory());
         }
       } else {
         setGameStatus(GAME_STATUS.BETTING);
