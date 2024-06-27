@@ -50,6 +50,7 @@ function Home() {
   const timerRef = useRef<any>(null);
   const hasBetRef = useRef<boolean>(false);
   const hasPayoutRef = useRef<boolean>(false);
+  const payoutHistoriesRef = useRef<any>([]);
 
   const { publicKey } = useWallet();
   const { program, housePublicKey, connection, payoutHistoryPda, betListPda } =
@@ -107,7 +108,7 @@ function Home() {
   }, []);
 
   const generateResultFromPayoutHistory = () => {
-    const previous_payout_tx = payoutHistories[0].address;
+    const previous_payout_tx = payoutHistoriesRef.current[0].address;
     const current_minute = Math.floor(Date.now() / 60000);
     const concatenatedString = `${previous_payout_tx}-${current_minute}`;
     const result = generateNumbers(concatenatedString);
@@ -183,14 +184,14 @@ function Home() {
             };
           })
           .reverse();
-
         if (
-          payoutHistories.length > 0 &&
-          payoutHistories[0].address !== histories[0].address
+          payoutHistoriesRef.current.length > 0 &&
+          payoutHistoriesRef.current[0].address !== histories[0].address
         ) {
           hasPayoutRef.current = true;
         }
         setPayoutHistories(histories);
+        payoutHistoriesRef.current = histories;
       } else {
         console.log("No histories found in payoutHistoryAccount.");
       }
