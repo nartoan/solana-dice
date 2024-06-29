@@ -11,6 +11,15 @@ const fontSans = FontSans({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Degen Dice",
   description: "Welcome to a game of Big & Small Dice",
+  openGraph: {
+    title: "Degen Dice",
+    description: "Welcome to a game of Big & Small Dice",
+    images: [{
+      url: "../icon2.png",
+      width: 200,
+      height: 200
+    }],
+  },
 };
 
 export default function RootLayout({
