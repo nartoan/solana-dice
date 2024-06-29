@@ -19,7 +19,7 @@ type TDiceRef = {
 const FACES = [svg1.src, svg2.src, svg3.src, svg4.src, svg5.src, svg6.src];
 const SIZE = 50;
 const ROLL_TIME = 10000;
-const NEXT_ROLE_TIME = 1000;
+const NEXT_ROLE_TIME = 500;
 
 export default function Dice({
   rolling,
@@ -42,12 +42,12 @@ export default function Dice({
 
   useEffect(() => {
     if (rolling) {
-      const remainTime: number = timerRef.current.getRemainingTime();
-      diceRef1.current?.rollDice(results[0], remainTime);
+      // const remainTime: number = timerRef.current.getRemainingTime();
+      diceRef1.current?.rollDice(results[0]);
       setTimeout(() => {
-        diceRef2.current?.rollDice(results[0], remainTime - NEXT_ROLE_TIME);
+        diceRef2.current?.rollDice(results[1]);
         setTimeout(() => {
-          diceRef3.current?.rollDice(results[0], remainTime - NEXT_ROLE_TIME * 2);
+          diceRef3.current?.rollDice(results[2]);
         }, NEXT_ROLE_TIME);
       }, NEXT_ROLE_TIME);
     }

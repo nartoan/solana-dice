@@ -29,6 +29,8 @@ import { SolanaProvider } from "@/provider/solana";
 import { SWRProvider } from "@/provider/swr";
 import { useAnchor } from "@/anchor/setup";
 import { DiceResult } from "@/types/dice-result";
+import { generateNumbers } from "@/lib/utils";
+import { IBetType } from "@/types/bet";
 
 // Define the mapping object
 const betMapping = {
@@ -72,28 +74,152 @@ function Home() {
     }
   };
 
+  let currentGameStatus: IGameStatus | null = null;
+  let currentPayoutHistories: { results: DiceResult[]; address: string; }[] = [];
+  let currentBetHistories: { address: string; amount: number; type: IBetType; }[] = [];
+  let currentBetType: IBetType | null = null;
+  let currentRollResult: DiceResult[] = [];
+  let wasBetListEmpty = true;
+  let payoutHistoryUpdated = false;
+  let rollingStartTime = Date.now();
+  let showResultDialogCount = 0;
+  const showResultDialogDuration = 4;
+
   useEffect(() => {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
+
       if (remainingTime > 10000 && remainingTime <= 15000) {
-        setGameStatus(GAME_STATUS.BET_CLOSED);
+        handleBetClosedTimeCheck();
       } else if (remainingTime <= 10000 && remainingTime > 5000) {
-        setGameStatus(GAME_STATUS.ROLLING);
-        // TODO: check has result???
+        handleRollingTimeCheck();
       } else if (remainingTime <= 5000) {
-        console.log("🚀 ~ interval ~ remainingTime:", remainingTime);
-        setResult({
-          results: [1, 1, 1],
-          value: 123,
-          isWin: true,
-        });
+        handleFinalTimeCheck();
       } else {
-        setGameStatus(GAME_STATUS.BETTING);
-        setResult(null); // Reset result
+        handleDefaultTimeCheck();
       }
     }, 1000); // Check every second
+
     return () => clearInterval(interval);
   }, []);
+
+  const handleBetClosedTimeCheck = () => {
+    currentBetHistories.length > 0 ? (wasBetListEmpty = false) : (wasBetListEmpty = true);
+    updateGameStatus(GAME_STATUS.BET_CLOSED);
+    showResultDialogCount = 0;
+  };
+
+  const handleRollingTimeCheck = () => {
+    if (wasBetListEmpty) {
+      if (currentPayoutHistories.length > 0) {
+        const result = generateResultFromPayoutHistory();
+        currentRollResult = result.results;
+        setResult(result);
+        updateGameStatus(GAME_STATUS.ROLLING);
+      }
+    } else {
+      if (payoutHistoryUpdated) {
+        const result = generateResultFromBetHistory();
+        currentRollResult = result.results;
+        setResult(result);
+        updateGameStatus(GAME_STATUS.ROLLING);
+        rollingStartTime = Date.now();
+      }
+    }
+  };
+
+  const handleFinalTimeCheck = () => {
+    if (!wasBetListEmpty) {
+      if (payoutHistoryUpdated) {
+        const result = generateResultFromBetHistory();
+        currentRollResult = result.results;
+        setResult(result);
+        updateGameStatus(GAME_STATUS.ROLLING);
+        rollingStartTime = Date.now();
+      }
+    }
+  };
+
+  const handleDefaultTimeCheck = () => {
+    if (!wasBetListEmpty) {
+      if (!payoutHistoryUpdated) {
+        // Maintain game status Bets Closed
+      } else {
+        const result = generateResultFromBetHistory();
+        currentRollResult = result.results;
+        setResult(result);
+        resetBetState();
+        updateGameStatus(GAME_STATUS.ROLLING);
+        rollingStartTime = Date.now();
+      }
+    } else {
+      if (rollingStartTime + 6000 > Date.now()) {
+        // Let rolling animation finish
+      } else {
+        showResultDialogCount++;
+        if (showResultDialogCount <= showResultDialogDuration) {
+          showResult();
+        } else {
+          updateGameStatus(GAME_STATUS.BETTING);
+        }
+      }
+    }
+  };
+
+  const showResult = () => {
+    if (currentRollResult.length === 0) {
+      updateGameStatus(GAME_STATUS.BETTING);
+    } else if (isThreeOfAKind(currentRollResult)) {
+      updateGameStatus(GAME_STATUS.RESULT_THREE_OF_A_KIND);
+    } else if (isBigWins(currentRollResult)) {
+      updateGameStatus(GAME_STATUS.RESULT_BIG_WINS);
+    } else {
+      updateGameStatus(GAME_STATUS.RESULT_SMALL_WINS);
+    }
+  };
+
+  const isThreeOfAKind = (results: number[]) => {
+    return results[0] === results[1] && results[1] === results[2];
+  };
+
+  const isBigWins = (results: number[]) => {
+    return results.reduce((total, item) => total + item, 0) > 10;
+  };
+
+  const generateResultFromPayoutHistory = () => {
+    const previous_payout_tx = currentPayoutHistories[0].address;
+    const current_minute = Math.floor(Date.now() / 60000);
+    const concatenatedString = `${previous_payout_tx}-${current_minute}`;
+    const result = generateNumbers(concatenatedString);
+    return {
+      results: result as DiceResult[],
+      value: 0,
+      isWin: false,
+    };
+  };
+
+  const generateResultFromBetHistory = () => {
+    return {
+      results: currentPayoutHistories[0].results,
+      value: 0,
+      isWin:
+        (currentBetType === BET_BIG && currentPayoutHistories[0].results.reduce((total, item) => total + item, 0) > 10) ||
+        (currentBetType === BET_SMALL && currentPayoutHistories[0].results.reduce((total, item) => total + item, 0) <= 10),
+    };
+  };
+
+  const resetBetState = () => {
+    payoutHistoryUpdated = false;
+    wasBetListEmpty = true;
+  };
+
+  const updateGameStatus = (newStatus: IGameStatus) => {
+    if (currentGameStatus !== newStatus) {
+      currentGameStatus = newStatus;
+      setGameStatus(newStatus);
+      // console.log("Game status updated to: ", newStatus);
+    }
+  };
 
   useEffect(() => {
     fetchActiveBetList();
@@ -133,8 +259,9 @@ function Home() {
                 type: Object.keys(bet.betType)[0],
               } as IBetHistory)
           );
-
-        setBetHistories(bets.reverse());
+        const newBetHistories = bets.reverse();
+        currentBetHistories = newBetHistories;
+        setBetHistories(newBetHistories);
       }
     } catch (err) {
       console.error("Error fetching active bets:", err);
@@ -158,7 +285,12 @@ function Home() {
             address: bs58.encode(txSig),
           };
         });
-        setPayoutHistories(histories.reverse());
+        const newPayoutHistory = histories.reverse();
+        if ( currentPayoutHistories.length > 0 && currentPayoutHistories[0].address !== newPayoutHistory[0].address ){
+          payoutHistoryUpdated = true;
+        }
+        currentPayoutHistories = newPayoutHistory;
+        setPayoutHistories(newPayoutHistory);
       } else {
         console.log("No histories found in payoutHistoryAccount.");
       }
@@ -198,7 +330,10 @@ function Home() {
         <BetHistory typeBet={BET_SMALL} betHistories={betHistories} />
       </Container>
 
-      <LabelCustom classNameContainer="mt-[30px]">Payout History</LabelCustom>
+      <div className="flex justify-between items-center mt-[30px]">
+        <LabelCustom classNameContainer="mt-[30px]">Payout History</LabelCustom>
+        <LabelCustom classNameContainer="mt-[30px]">Solscan Link</LabelCustom>
+      </div>
       <PayoutHistories data={payoutHistories} />
       <BetDialog open={isOpen} setOpen={setIsOpen} result={result} />
     </div>

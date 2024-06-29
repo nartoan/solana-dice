@@ -84,6 +84,27 @@ function Bet({
           </LabelCustom>
         </div>
       )}
+      {gameStatus === GAME_STATUS.RESULT_THREE_OF_A_KIND && (
+        <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
+          <LabelCustom className="max-w-[400px] text-center">
+            Three Of A Kind
+          </LabelCustom>
+        </div>
+      )}
+      {gameStatus === GAME_STATUS.RESULT_BIG_WINS && (
+        <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
+          <LabelCustom className="max-w-[400px] text-center">
+            Big Wins
+          </LabelCustom>
+        </div>
+      )}
+      {gameStatus === GAME_STATUS.RESULT_SMALL_WINS && (
+        <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
+          <LabelCustom className="max-w-[400px] text-center">
+            Small Wins
+          </LabelCustom>
+        </div>
+      )}
       <WalletDialog open={open} setOpen={setOpen} />
     </div>
   );
