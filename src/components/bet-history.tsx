@@ -40,7 +40,7 @@ export default function BetHistory({
         <div>
           <span className="text-[8px]">Total amount:</span>
           <span className="text-[12px] font-bold ml-3">
-            {total.toFixed(1)} Sol
+            {total.toFixed(3)} Sol
           </span>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default function BetHistory({
               <div className="flex items-center justify-between">
                 <Image src={solanaSvg} alt="up icon" width={15} />
                 <span className="text-[12px] w-[60px] text-end">
-                  {bet.amount.toFixed(1)} Sol
+                  {bet.amount.toFixed(3)} Sol
                 </span>
               </div>
             </div>

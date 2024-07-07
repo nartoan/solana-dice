@@ -9,9 +9,9 @@ import {
   useAnchorWallet,
 } from "@solana/wallet-adapter-react";
 
-const programID = new PublicKey("B4xgkC1id6Liyk6TvojjtP4BvRPPipTr8iriLFy8ywTb");
+const programID = new PublicKey("CyNWQC4ZdJmhGD1z1KaFhk3ZzubBTjWoDXJ5BUefNr4A");
 const housePublicKey = new PublicKey(
-  "4fiLLb9Lxaa9iB8gGFPJvy81NRDBCA15q4Jw2ZekQ1U9"
+  "Hsekeq9rYdqtV27YWecipnoqkzicEH1rd6hRQSWLFi1S"
 );
 
 export const useAnchor = () => {

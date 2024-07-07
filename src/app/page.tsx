@@ -80,6 +80,7 @@ function Home() {
   let currentBetType: IBetType | null = null;
   let currentRollResult: DiceResult[] = [];
   let wasBetListEmpty = true;
+  let finishedRolling = true;
   let payoutHistoryUpdated = false;
   let rollingStartTime = Date.now();
   let showResultDialogCount = 0;
@@ -87,6 +88,11 @@ function Home() {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      // if (currentPayoutHistories.length == 0) {
+      //   updateGameStatus(GAME_STATUS.LOADING);
+      //   return;
+      // }
+
       const remainingTime = timerRef.current.getRemainingTime();
 
       if (remainingTime > 10000 && remainingTime <= 15000) {
@@ -104,9 +110,18 @@ function Home() {
   }, []);
 
   const handleBetClosedTimeCheck = () => {
-    currentBetHistories.length > 0 ? (wasBetListEmpty = false) : (wasBetListEmpty = true);
-    updateGameStatus(GAME_STATUS.BET_CLOSED);
-    showResultDialogCount = 0;
+    if ( finishedRolling ) {
+      if (currentBetHistories.length > 0) {
+        wasBetListEmpty = false;
+      } else {
+        wasBetListEmpty = true;
+      }
+      updateGameStatus(GAME_STATUS.BET_CLOSED);
+      showResultDialogCount = 0;
+      finishedRolling = false;
+    } else {
+      // wasBetListEmpty = false;
+    }
   };
 
   const handleRollingTimeCheck = () => {
@@ -156,10 +171,11 @@ function Home() {
       if (rollingStartTime + 6000 > Date.now()) {
         // Let rolling animation finish
       } else {
-        showResultDialogCount++;
         if (showResultDialogCount <= showResultDialogDuration) {
           showResult();
+          showResultDialogCount++;
         } else {
+          finishedRolling = true;
           updateGameStatus(GAME_STATUS.BETTING);
         }
       }
@@ -248,6 +264,9 @@ function Home() {
   const fetchActiveBetList = async () => {
     try {
       const betListAccount = await program.account.betList.fetch(betListPda);
+      // Print betListAccount
+      console.log("BetListAccount:", betListAccount);
+      console.log("betListPda:", betListPda);
       if (betListAccount && Array.isArray(betListAccount.bets)) {
         const bets = betListAccount.bets
           .filter((bet: any) => bet !== null)

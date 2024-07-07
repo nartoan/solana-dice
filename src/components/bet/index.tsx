@@ -105,6 +105,13 @@ function Bet({
           </LabelCustom>
         </div>
       )}
+      {gameStatus === GAME_STATUS.LOADING && (
+        <div className="absolute w-full h-full flex justify-center items-center bg-[#0B0B1F]/80 top-0 font-bold text-[32px]">
+          <LabelCustom className="max-w-[400px] text-center">
+            Loading...
+          </LabelCustom>
+        </div>
+      )}
       <WalletDialog open={open} setOpen={setOpen} />
     </div>
   );

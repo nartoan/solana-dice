@@ -17,7 +17,7 @@ const ReactUIWalletModalProviderDynamic = dynamic(
 );
 
 export const SolanaProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const endpoint = useMemo(() => clusterApiUrl(SOLANA_NETWORK), []);
+  const endpoint = useMemo(() => "https://alpha-quick-wildflower.solana-mainnet.quiknode.pro/8c0a1fc4f519a25679270612b14f7f3839fd07da/"/*clusterApiUrl(SOLANA_NETWORK)*/, []);
 
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
 

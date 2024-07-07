@@ -23,6 +23,7 @@ export const GAME_STATUS: { [key: string]: IGameStatus } = {
   RESULT_THREE_OF_A_KIND: "three_of_a_kind",
   RESULT_BIG_WINS: "big_wins",
   RESULT_SMALL_WINS: "small_wins",
+  LOADING: "loading",
 };
 
-export const SOLANA_NETWORK = WalletAdapterNetwork.Devnet
+export const SOLANA_NETWORK = WalletAdapterNetwork.Mainnet
