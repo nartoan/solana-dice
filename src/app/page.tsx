@@ -76,8 +76,12 @@ function Home() {
 
   // Use refs for values that don't need to trigger a re-render
   const currentGameStatus = useRef<IGameStatus | null>(null);
-  const currentPayoutHistories = useRef<{ results: DiceResult[]; address: string; }[]>([]);
-  const currentBetHistories = useRef<{ address: string; amount: number; type: IBetType; }[]>([]);
+  const currentPayoutHistories = useRef<
+    { results: DiceResult[]; address: string }[]
+  >([]);
+  const currentBetHistories = useRef<
+    { address: string; amount: number; type: IBetType }[]
+  >([]);
   const currentBetType = useRef<IBetType | null>(null);
   const currentRollResult = useRef<DiceResult[]>([]);
   const wasBetListEmpty = useRef(true);
@@ -111,7 +115,10 @@ function Home() {
   }, []);
 
   const handleBetClosedTimeCheck = () => {
-    console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
+    console.log(
+      "timerRef.current.getRemainingTime: ",
+      timerRef.current.getRemainingTime()
+    );
     console.log("handleBetClosted finishedRolling: ", finishedRolling.current);
     console.log("handleBetClosted wasBetListEmpty: ", wasBetListEmpty.current);
     if (finishedRolling.current) {
@@ -162,9 +169,18 @@ function Home() {
   };
 
   const handleDefaultTimeCheck = () => {
-    console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
-    console.log("handleDefaultTimeCheck finishedRolling: ", finishedRolling.current);
-    console.log("handleDefaultTimeCheck wasBetListEmpty: ", wasBetListEmpty.current);
+    console.log(
+      "timerRef.current.getRemainingTime: ",
+      timerRef.current.getRemainingTime()
+    );
+    console.log(
+      "handleDefaultTimeCheck finishedRolling: ",
+      finishedRolling.current
+    );
+    console.log(
+      "handleDefaultTimeCheck wasBetListEmpty: ",
+      wasBetListEmpty.current
+    );
     if (!wasBetListEmpty.current) {
       if (!payoutHistoryUpdated.current) {
         // Maintain game status Bets Closed
@@ -228,8 +244,16 @@ function Home() {
       results: currentPayoutHistories.current[0].results,
       value: 0,
       isWin:
-        (currentBetType.current === BET_BIG && currentPayoutHistories.current[0].results.reduce((total, item) => total + item, 0) > 10) ||
-        (currentBetType.current === BET_SMALL && currentPayoutHistories.current[0].results.reduce((total, item) => total + item, 0) <= 10),
+        (currentBetType.current === BET_BIG &&
+          currentPayoutHistories.current[0].results.reduce(
+            (total, item) => total + item,
+            0
+          ) > 10) ||
+        (currentBetType.current === BET_SMALL &&
+          currentPayoutHistories.current[0].results.reduce(
+            (total, item) => total + item,
+            0
+          ) <= 10),
     };
   };
 
@@ -310,7 +334,11 @@ function Home() {
           };
         });
         const newPayoutHistory = histories.reverse();
-        if ( currentPayoutHistories.current.length > 0 && currentPayoutHistories.current[0].address !== newPayoutHistory[0].address ){
+        if (
+          currentPayoutHistories.current.length > 0 &&
+          currentPayoutHistories.current[0].address !==
+            newPayoutHistory[0].address
+        ) {
           payoutHistoryUpdated.current = true;
         }
         currentPayoutHistories.current = newPayoutHistory;
@@ -324,7 +352,7 @@ function Home() {
   };
 
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-5xl">
       <Header />
       <WalletSelection />
       <div
@@ -346,19 +374,25 @@ function Home() {
         </div>
         <Bet gameStatus={gameStatus} bet={handleBet} />
       </Container>
-      <LabelCustom classNameContainer="mt-[30px]">Active Bets</LabelCustom>
-      <Container className="mt-[20px]">
-        <BetHistory typeBet={BET_BIG} betHistories={betHistories} />
-      </Container>
-      <Container className="mt-[20px]">
-        <BetHistory typeBet={BET_SMALL} betHistories={betHistories} />
-      </Container>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-[30px]">
+        <div>
+          <LabelCustom>Active Bets</LabelCustom>
+          <Container className="mt-[20px]">
+            <BetHistory typeBet={BET_BIG} betHistories={betHistories} />
+          </Container>
+          <Container className="mt-[20px]">
+            <BetHistory typeBet={BET_SMALL} betHistories={betHistories} />
+          </Container>
+        </div>
 
-      <div className="flex justify-between items-center mt-[30px]">
-        <LabelCustom classNameContainer="mt-[30px]">Payout History</LabelCustom>
-        <LabelCustom classNameContainer="mt-[30px]">Solscan Link</LabelCustom>
+        <div>
+          <div className="flex justify-between items-center mt-[30px] md:mt-0">
+            <LabelCustom>Payout History</LabelCustom>
+            <LabelCustom>Solscan Link</LabelCustom>
+          </div>
+          <PayoutHistories data={payoutHistories} />
+        </div>
       </div>
-      <PayoutHistories data={payoutHistories} />
       <BetDialog open={isOpen} setOpen={setIsOpen} result={result} />
     </div>
   );
