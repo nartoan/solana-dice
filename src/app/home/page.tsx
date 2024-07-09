@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-5xl">
       <Header />
-      <div className="flex flex-col items-center mt-20 md:mt-40">
+      <div className="flex flex-col items-center mt-20 md:mt-32">
         <Image src={diceSvg} alt={"Dice icon"} />
         <LabelCustom classNameContainer="mt-4 text-[32px]">
           大 Big & Small 細

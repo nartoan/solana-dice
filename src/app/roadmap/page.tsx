@@ -60,7 +60,7 @@ export interface TimelineElement {
 
 export default function Rules() {
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-5xl">
       <Header />
       <div className="flex flex-col items-center mt-20">
         <div>Token Sale</div>
