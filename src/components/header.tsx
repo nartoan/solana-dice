@@ -24,7 +24,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <div className="w-full max-w-5xl flex items-center justify-between ">
+    <div className="w-full flex items-center justify-between ">
       <Link href="/">
         <Image src={logo} alt={"logo"} />
       </Link>
