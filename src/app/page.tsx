@@ -74,26 +74,27 @@ function Home() {
     }
   };
 
-  let currentGameStatus: IGameStatus | null = null;
-  let currentPayoutHistories: { results: DiceResult[]; address: string; }[] = [];
-  let currentBetHistories: { address: string; amount: number; type: IBetType; }[] = [];
-  let currentBetType: IBetType | null = null;
-  let currentRollResult: DiceResult[] = [];
-  let wasBetListEmpty = true;
-  let finishedRolling = true;
-  let payoutHistoryUpdated = false;
-  let rollingStartTime = Date.now();
-  let showResultDialogCount = 0;
+  // Use refs for values that don't need to trigger a re-render
+  const currentGameStatus = useRef<IGameStatus | null>(null);
+  const currentPayoutHistories = useRef<{ results: DiceResult[]; address: string; }[]>([]);
+  const currentBetHistories = useRef<{ address: string; amount: number; type: IBetType; }[]>([]);
+  const currentBetType = useRef<IBetType | null>(null);
+  const currentRollResult = useRef<DiceResult[]>([]);
+  const wasBetListEmpty = useRef(true);
+  const finishedRolling = useRef(true);
+  const payoutHistoryUpdated = useRef(false);
+  const rollingStartTime = useRef(Date.now());
+  const showResultDialogCount = useRef(0);
   const showResultDialogDuration = 4;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // if (currentPayoutHistories.length == 0) {
-      //   updateGameStatus(GAME_STATUS.LOADING);
-      //   return;
-      // }
-
       const remainingTime = timerRef.current.getRemainingTime();
+
+      if (finishedRolling.current) {
+        resetBetState();
+        updateGameStatus(GAME_STATUS.BETTING);
+      }
 
       if (remainingTime > 10000 && remainingTime <= 15000) {
         handleBetClosedTimeCheck();
@@ -110,84 +111,92 @@ function Home() {
   }, []);
 
   const handleBetClosedTimeCheck = () => {
-    if ( finishedRolling ) {
-      if (currentBetHistories.length > 0) {
-        wasBetListEmpty = false;
+    console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
+    console.log("handleBetClosted finishedRolling: ", finishedRolling.current);
+    console.log("handleBetClosted wasBetListEmpty: ", wasBetListEmpty.current);
+    if (finishedRolling.current) {
+      if (currentBetHistories.current.length > 0) {
+        console.log("set wasBetListEmpty to FALSE");
+        wasBetListEmpty.current = false;
       } else {
-        wasBetListEmpty = true;
+        console.log("set wasBetListEmpty to TRUE");
+        wasBetListEmpty.current = true;
       }
       updateGameStatus(GAME_STATUS.BET_CLOSED);
-      showResultDialogCount = 0;
-      finishedRolling = false;
-    } else {
-      // wasBetListEmpty = false;
+      showResultDialogCount.current = 0;
+      finishedRolling.current = false;
     }
   };
 
   const handleRollingTimeCheck = () => {
-    if (wasBetListEmpty) {
-      if (currentPayoutHistories.length > 0) {
+    if (wasBetListEmpty.current) {
+      if (currentPayoutHistories.current.length > 0) {
         const result = generateResultFromPayoutHistory();
-        currentRollResult = result.results;
+        currentRollResult.current = result.results;
         setResult(result);
         updateGameStatus(GAME_STATUS.ROLLING);
       }
     } else {
-      if (payoutHistoryUpdated) {
+      if (payoutHistoryUpdated.current) {
         const result = generateResultFromBetHistory();
-        currentRollResult = result.results;
+        currentRollResult.current = result.results;
         setResult(result);
         updateGameStatus(GAME_STATUS.ROLLING);
-        rollingStartTime = Date.now();
+        rollingStartTime.current = Date.now();
+        wasBetListEmpty.current = true;
       }
     }
   };
 
   const handleFinalTimeCheck = () => {
-    if (!wasBetListEmpty) {
-      if (payoutHistoryUpdated) {
+    if (!wasBetListEmpty.current) {
+      if (payoutHistoryUpdated.current) {
         const result = generateResultFromBetHistory();
-        currentRollResult = result.results;
+        currentRollResult.current = result.results;
         setResult(result);
         updateGameStatus(GAME_STATUS.ROLLING);
-        rollingStartTime = Date.now();
+        rollingStartTime.current = Date.now();
+        wasBetListEmpty.current = true;
       }
     }
   };
 
   const handleDefaultTimeCheck = () => {
-    if (!wasBetListEmpty) {
-      if (!payoutHistoryUpdated) {
+    console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
+    console.log("handleDefaultTimeCheck finishedRolling: ", finishedRolling.current);
+    console.log("handleDefaultTimeCheck wasBetListEmpty: ", wasBetListEmpty.current);
+    if (!wasBetListEmpty.current) {
+      if (!payoutHistoryUpdated.current) {
         // Maintain game status Bets Closed
       } else {
         const result = generateResultFromBetHistory();
-        currentRollResult = result.results;
+        currentRollResult.current = result.results;
         setResult(result);
-        resetBetState();
         updateGameStatus(GAME_STATUS.ROLLING);
-        rollingStartTime = Date.now();
+        rollingStartTime.current = Date.now();
+        wasBetListEmpty.current = true;
       }
     } else {
-      if (rollingStartTime + 6000 > Date.now()) {
+      if (rollingStartTime.current + 6000 > Date.now()) {
         // Let rolling animation finish
       } else {
-        if (showResultDialogCount <= showResultDialogDuration) {
+        if (showResultDialogCount.current <= showResultDialogDuration) {
           showResult();
-          showResultDialogCount++;
+          showResultDialogCount.current++;
         } else {
-          finishedRolling = true;
           updateGameStatus(GAME_STATUS.BETTING);
         }
+        finishedRolling.current = true;
       }
     }
   };
 
   const showResult = () => {
-    if (currentRollResult.length === 0) {
+    if (currentRollResult.current.length === 0) {
       updateGameStatus(GAME_STATUS.BETTING);
-    } else if (isThreeOfAKind(currentRollResult)) {
+    } else if (isThreeOfAKind(currentRollResult.current)) {
       updateGameStatus(GAME_STATUS.RESULT_THREE_OF_A_KIND);
-    } else if (isBigWins(currentRollResult)) {
+    } else if (isBigWins(currentRollResult.current)) {
       updateGameStatus(GAME_STATUS.RESULT_BIG_WINS);
     } else {
       updateGameStatus(GAME_STATUS.RESULT_SMALL_WINS);
@@ -203,7 +212,7 @@ function Home() {
   };
 
   const generateResultFromPayoutHistory = () => {
-    const previous_payout_tx = currentPayoutHistories[0].address;
+    const previous_payout_tx = currentPayoutHistories.current[0].address;
     const current_minute = Math.floor(Date.now() / 60000);
     const concatenatedString = `${previous_payout_tx}-${current_minute}`;
     const result = generateNumbers(concatenatedString);
@@ -216,24 +225,23 @@ function Home() {
 
   const generateResultFromBetHistory = () => {
     return {
-      results: currentPayoutHistories[0].results,
+      results: currentPayoutHistories.current[0].results,
       value: 0,
       isWin:
-        (currentBetType === BET_BIG && currentPayoutHistories[0].results.reduce((total, item) => total + item, 0) > 10) ||
-        (currentBetType === BET_SMALL && currentPayoutHistories[0].results.reduce((total, item) => total + item, 0) <= 10),
+        (currentBetType.current === BET_BIG && currentPayoutHistories.current[0].results.reduce((total, item) => total + item, 0) > 10) ||
+        (currentBetType.current === BET_SMALL && currentPayoutHistories.current[0].results.reduce((total, item) => total + item, 0) <= 10),
     };
   };
 
   const resetBetState = () => {
-    payoutHistoryUpdated = false;
-    wasBetListEmpty = true;
+    payoutHistoryUpdated.current = false;
+    wasBetListEmpty.current = true;
   };
 
   const updateGameStatus = (newStatus: IGameStatus) => {
-    if (currentGameStatus !== newStatus) {
-      currentGameStatus = newStatus;
+    if (currentGameStatus.current !== newStatus) {
+      currentGameStatus.current = newStatus;
       setGameStatus(newStatus);
-      // console.log("Game status updated to: ", newStatus);
     }
   };
 
@@ -264,9 +272,6 @@ function Home() {
   const fetchActiveBetList = async () => {
     try {
       const betListAccount = await program.account.betList.fetch(betListPda);
-      // Print betListAccount
-      console.log("BetListAccount:", betListAccount);
-      console.log("betListPda:", betListPda);
       if (betListAccount && Array.isArray(betListAccount.bets)) {
         const bets = betListAccount.bets
           .filter((bet: any) => bet !== null)
@@ -279,7 +284,7 @@ function Home() {
               } as IBetHistory)
           );
         const newBetHistories = bets.reverse();
-        currentBetHistories = newBetHistories;
+        currentBetHistories.current = newBetHistories;
         setBetHistories(newBetHistories);
       }
     } catch (err) {
@@ -305,10 +310,10 @@ function Home() {
           };
         });
         const newPayoutHistory = histories.reverse();
-        if ( currentPayoutHistories.length > 0 && currentPayoutHistories[0].address !== newPayoutHistory[0].address ){
-          payoutHistoryUpdated = true;
+        if ( currentPayoutHistories.current.length > 0 && currentPayoutHistories.current[0].address !== newPayoutHistory[0].address ){
+          payoutHistoryUpdated.current = true;
         }
-        currentPayoutHistories = newPayoutHistory;
+        currentPayoutHistories.current = newPayoutHistory;
         setPayoutHistories(newPayoutHistory);
       } else {
         console.log("No histories found in payoutHistoryAccount.");
