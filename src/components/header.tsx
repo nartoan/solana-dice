@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 
 const routes = [
   { title: "About", link: "/about", isDisable: false },
-  // { title: "Rules", link: "/rules", isDisable: false },
+  { title: "Roadmap", link: "/roadmap", isDisable: false },
 ];
 
 export default function Header() {
