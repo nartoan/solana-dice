@@ -14,7 +14,7 @@ export default function PriceBet({ price, selectedPrice, onClick }: PriceBetProp
       <Button
         variant={selectedPrice === price ? "default" : "outline"}
         onClick={() => onClick(price)}
-        className="text-[10px] font-bold w-[53px] h-[32px]"
+        className="text-[10px] font-bold w-[53px] md:text-base md:w-[170px] h-[32px] md:h-[54px]"
       >
         {price.toFixed(1)} Sol
       </Button>
