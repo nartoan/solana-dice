@@ -1,6 +1,7 @@
 "use client";
 
 import { MutableRefObject, useEffect, useRef } from "react";
+import { useMediaQuery } from 'react-responsive'
 import DiceRoll from "@nartoan/react-dice-roll";
 import svg1 from "@/assets/img/dice-custom/1.svg";
 import svg2 from "@/assets/img/dice-custom/2.svg";
@@ -17,7 +18,6 @@ type TDiceRef = {
 };
 
 const FACES = [svg1.src, svg2.src, svg3.src, svg4.src, svg5.src, svg6.src];
-const SIZE = 50;
 const ROLL_TIME = 10000;
 const NEXT_ROLE_TIME = 500;
 
@@ -30,6 +30,9 @@ export default function Dice({
   results?: DiceResult[];
   timerRef: MutableRefObject<any>;
 }) {
+  const isTablet = useMediaQuery({ query: '(max-width: 1023px)' });
+  const sizeDice = isTablet ? 50 : 150;
+
   const diceRef1 = useRef<TDiceRef>(null);
   const diceRef2 = useRef<TDiceRef>(null);
   const diceRef3 = useRef<TDiceRef>(null);
@@ -54,10 +57,10 @@ export default function Dice({
   }, [rolling, results, timerRef]);
 
   return (
-    <div className="flex justify-around items-center py-[20px] h-[98px]">
+    <div className="flex justify-around items-center py-[20px] h-[98px] lg:h-[250px]">
       <DiceRoll
         ref={diceRef1}
-        size={SIZE}
+        size={sizeDice}
         rollingTime={ROLL_TIME}
         defaultValue={defaultValue[0]}
         disabled={true}
@@ -65,7 +68,7 @@ export default function Dice({
       />
       <DiceRoll
         ref={diceRef2}
-        size={SIZE}
+        size={sizeDice}
         rollingTime={ROLL_TIME - NEXT_ROLE_TIME}
         defaultValue={defaultValue[1]}
         disabled={true}
@@ -73,7 +76,7 @@ export default function Dice({
       />
       <DiceRoll
         ref={diceRef3}
-        size={SIZE}
+        size={sizeDice}
         rollingTime={ROLL_TIME - NEXT_ROLE_TIME * 2}
         defaultValue={defaultValue[2]}
         disabled={true}
