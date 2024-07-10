@@ -1,13 +1,13 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+
 import Header from "@/components/header";
 import LabelCustom from "@/components/ui-custom/label-custom";
-import Image from "next/image";
-
 import diceSvg from "@/assets/img/dice.svg";
 import { Button } from "@/components/ui/button";
 import { ButtonSocial } from "@/components/buttons-social";
-import Link from "next/link";
 
 export default function Home() {
   return (
