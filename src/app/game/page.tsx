@@ -76,12 +76,8 @@ function Home() {
 
   // Use refs for values that don't need to trigger a re-render
   const currentGameStatus = useRef<IGameStatus | null>(null);
-  const currentPayoutHistories = useRef<
-    { results: DiceResult[]; address: string }[]
-  >([]);
-  const currentBetHistories = useRef<
-    { address: string; amount: number; type: IBetType }[]
-  >([]);
+  const currentPayoutHistories = useRef<{ results: DiceResult[]; address: string; }[]>([]);
+  const currentBetHistories = useRef<{ address: string; amount: number; type: IBetType; }[]>([]);
   const currentBetType = useRef<IBetType | null>(null);
   const currentRollResult = useRef<DiceResult[]>([]);
   const wasBetListEmpty = useRef(true);
@@ -90,10 +86,16 @@ function Home() {
   const rollingStartTime = useRef(Date.now());
   const showResultDialogCount = useRef(0);
   const showResultDialogDuration = 4;
+  const showResultLastTime = useRef(0);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
+
+      if (showResultLastTime.current + 4000 > Date.now()) {
+        updateGameStatus(GAME_STATUS.BETTING);
+      }
 
       if (finishedRolling.current) {
         resetBetState();
@@ -115,10 +117,7 @@ function Home() {
   }, []);
 
   const handleBetClosedTimeCheck = () => {
-    console.log(
-      "timerRef.current.getRemainingTime: ",
-      timerRef.current.getRemainingTime()
-    );
+    console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
     console.log("handleBetClosted finishedRolling: ", finishedRolling.current);
     console.log("handleBetClosted wasBetListEmpty: ", wasBetListEmpty.current);
     if (finishedRolling.current) {
@@ -169,18 +168,12 @@ function Home() {
   };
 
   const handleDefaultTimeCheck = () => {
-    console.log(
-      "timerRef.current.getRemainingTime: ",
-      timerRef.current.getRemainingTime()
-    );
-    console.log(
-      "handleDefaultTimeCheck finishedRolling: ",
-      finishedRolling.current
-    );
-    console.log(
-      "handleDefaultTimeCheck wasBetListEmpty: ",
-      wasBetListEmpty.current
-    );
+    console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
+    console.log("handleDefaultTimeCheck payoutHistoryUpdated: ", payoutHistoryUpdated.current);
+    console.log("handleDefaultTimeCheck finishedRolling: ", finishedRolling.current);
+    console.log("handleDefaultTimeCheck wasBetListEmpty: ", wasBetListEmpty.current);
+    console.log("handleDefaultTimeCheck rollingStartTime + 6000 > Date.now: ", (rollingStartTime.current + 6000 > Date.now()));
+
     if (!wasBetListEmpty.current) {
       if (!payoutHistoryUpdated.current) {
         // Maintain game status Bets Closed
@@ -195,14 +188,19 @@ function Home() {
     } else {
       if (rollingStartTime.current + 6000 > Date.now()) {
         // Let rolling animation finish
+        console.log("Let rolling animation finish");
+
       } else {
         if (showResultDialogCount.current <= showResultDialogDuration) {
           showResult();
           showResultDialogCount.current++;
+          showResultLastTime.current = Date.now();
         } else {
           updateGameStatus(GAME_STATUS.BETTING);
         }
+        console.log("set finishedRolling TRUE: ");
         finishedRolling.current = true;
+        wasBetListEmpty.current = false;
       }
     }
   };
@@ -244,16 +242,8 @@ function Home() {
       results: currentPayoutHistories.current[0].results,
       value: 0,
       isWin:
-        (currentBetType.current === BET_BIG &&
-          currentPayoutHistories.current[0].results.reduce(
-            (total, item) => total + item,
-            0
-          ) > 10) ||
-        (currentBetType.current === BET_SMALL &&
-          currentPayoutHistories.current[0].results.reduce(
-            (total, item) => total + item,
-            0
-          ) <= 10),
+        (currentBetType.current === BET_BIG && currentPayoutHistories.current[0].results.reduce((total, item) => total + item, 0) > 10) ||
+        (currentBetType.current === BET_SMALL && currentPayoutHistories.current[0].results.reduce((total, item) => total + item, 0) <= 10),
     };
   };
 
@@ -301,11 +291,11 @@ function Home() {
           .filter((bet: any) => bet !== null)
           .map(
             (bet: any) =>
-              ({
-                address: (bet.user as PublicKey).toBase58(),
-                amount: bet.amount / LAMPORTS_PER_SOL,
-                type: Object.keys(bet.betType)[0],
-              } as IBetHistory)
+            ({
+              address: (bet.user as PublicKey).toBase58(),
+              amount: bet.amount / LAMPORTS_PER_SOL,
+              type: Object.keys(bet.betType)[0],
+            } as IBetHistory)
           );
         const newBetHistories = bets.reverse();
         currentBetHistories.current = newBetHistories;
@@ -334,11 +324,7 @@ function Home() {
           };
         });
         const newPayoutHistory = histories.reverse();
-        if (
-          currentPayoutHistories.current.length > 0 &&
-          currentPayoutHistories.current[0].address !==
-            newPayoutHistory[0].address
-        ) {
+        if (currentPayoutHistories.current.length > 0 && currentPayoutHistories.current[0].address !== newPayoutHistory[0].address) {
           payoutHistoryUpdated.current = true;
         }
         currentPayoutHistories.current = newPayoutHistory;
