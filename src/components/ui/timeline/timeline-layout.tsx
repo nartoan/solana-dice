@@ -12,8 +12,13 @@ import {
   TimelineContent,
   TimelineTime,
 } from "@/components/ui/timeline/timeline";
-import { TimelineElement } from "@/app/roadmap/page";
-import { cn } from "@/lib/utils";
+
+export interface TimelineElement {
+  id: number;
+  title: string;
+  date: string;
+  description: string;
+}
 
 interface TimelineLayoutProps {
   items: TimelineElement[]; // Replace any[] with the actual type of items.
