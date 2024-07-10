@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { ButtonSocial } from "./buttons-social";
 
 const routes = [
   { title: "About", link: "/about", isDisable: false },
@@ -26,36 +27,37 @@ export default function Header() {
   return (
     <div className="w-full flex items-center justify-between ">
       <Link href="/">
-        <Image src={logo} alt={"logo"} />
+        <Image src={logo} alt={"logo"} width={150} className="min-w-[120px]" />
       </Link>
-      <NavigationMenu>
-        <NavigationMenuList>
-          {routes.map(({ title, link }, index) => {
-            const isActive = pathname === link;
+      <div className="flex gap-10">
+        <div className="hidden md:inline-flex gap-4">
+          <ButtonSocial />
+        </div>
+        <NavigationMenu>
+          <NavigationMenuList>
+            {routes.map(({ title, link }, index) => {
+              const isActive = pathname === link;
 
-            return (
-              <NavigationMenuItem key={index}>
-                <NavigationMenuLink
-                  className={cn(navigationMenuTriggerStyle())}
-                  active={isActive}
-                  asChild
-                >
-                  <Link
-                    href={link}
-                    className="data-[active]:border-b-2 data-[active]:bg-inherit data-[active]:rounded-none"
+              return (
+                <NavigationMenuItem key={index}>
+                  <NavigationMenuLink
+                    className={cn(navigationMenuTriggerStyle())}
+                    active={isActive}
+                    asChild
                   >
-                    <div
-                      className={`text-[24px]`}
+                    <Link
+                      href={link}
+                      className="data-[active]:border-b-2 data-[active]:bg-inherit data-[active]:rounded-none"
                     >
-                      <LabelCustom>{title}</LabelCustom>
-                    </div>
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            );
-          })}
-        </NavigationMenuList>
-      </NavigationMenu>
+                      <LabelCustom classNameContainer="text-[24px]">{title}</LabelCustom>
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              );
+            })}
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
     </div>
   );
 }

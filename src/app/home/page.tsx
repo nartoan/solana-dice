@@ -5,9 +5,8 @@ import LabelCustom from "@/components/ui-custom/label-custom";
 import Image from "next/image";
 
 import diceSvg from "@/assets/img/dice.svg";
-import xSvg from "@/assets/img/x.svg";
-import telegramSvg from "@/assets/img/telegram.svg";
 import { Button } from "@/components/ui/button";
+import { ButtonSocial } from "@/components/buttons-social";
 
 export default function Home() {
   return (
@@ -24,13 +23,8 @@ export default function Home() {
             ROAD MAP
           </Button>
         </div>
-        <div className="flex gap-6 mt-24">
-          <Button size="icon">
-            <Image src={xSvg} alt={"X"} />
-          </Button>
-          <Button size="icon">
-            <Image src={telegramSvg} alt={"Telegram"} />
-          </Button>
+        <div className="flex gap-6 mt-24 md:hidden">
+          <ButtonSocial />
         </div>
       </div>
     </div>
