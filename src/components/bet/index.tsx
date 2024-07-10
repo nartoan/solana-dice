@@ -38,7 +38,7 @@ function Bet({
   return (
     <div className="relative">
       <div className="flex flex-col gap-[20px]">
-        <div className="flex justify-around items-center">
+        <div className="flex justify-between items-center gap-2 md:gap-10">
           <PriceBet
             price={0.1}
             selectedPrice={selectedPrice}

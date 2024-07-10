@@ -38,26 +38,33 @@ export default function BetHistory({
           />
         </div>
         <div>
-          <span className="text-[8px]">Total amount:</span>
-          <span className="text-[12px] font-bold ml-3">
+          <span className="text-[8px] md:text-sm">Total amount:</span>
+          <span className="text-[12px] md:text-base font-bold ml-3">
             {total.toFixed(3)} Sol
           </span>
         </div>
       </div>
 
       {dataBets.length <= 0 ? (
-        <div className="w-full h-[100px] flex flex-col justify-center items-center">
-          <Image src={noDataSvg} alt="No data" width={22} />
-          <span className="text-[12px] mt-1">No bets yet</span>
+        <div className="w-full h-[100px] md:h-[150px] flex flex-col justify-center items-center">
+          <Image
+            src={noDataSvg}
+            alt="No data"
+            width={22}
+            className="md:w-[30px]"
+          />
+          <span className="text-[12px] md:text-[16px] mt-1">No bets yet</span>
         </div>
       ) : (
-        <div className="w-full min-h-[100px]">
+        <div className="w-full min-h-[100px] md:min-h-[150px]">
           {dataBets.map((bet, index) => (
             <div className="flex justify-between w-full mt-[10px]" key={index}>
-              <span className="w-1/4 truncate text-[12px]">{bet.address}</span>
+              <span className="w-1/4 truncate text-[12px] md:text-[16px]">
+                {bet.address}
+              </span>
               <div className="flex items-center justify-between">
                 <Image src={solanaSvg} alt="up icon" width={15} />
-                <span className="text-[12px] w-[60px] text-end">
+                <span className="text-[12px] md:text-[16px] w-[60px] text-end">
                   {bet.amount.toFixed(3)} Sol
                 </span>
               </div>

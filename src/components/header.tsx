@@ -21,7 +21,7 @@ const routes = [
   { title: "Roadmap", link: "/roadmap", isDisable: false },
 ];
 
-export default function Header() {
+export default function Header({ isShowSocial = false }: { isShowSocial: boolean }) {
   const pathname = usePathname();
 
   return (
@@ -29,10 +29,12 @@ export default function Header() {
       <Link href="/">
         <Image src={logo} alt={"logo"} width={150} className="min-w-[120px]" />
       </Link>
-      <div className="flex gap-10">
-        <div className="hidden md:inline-flex gap-4">
-          <ButtonSocial />
-        </div>
+      <div className="flex gap-8">
+        {isShowSocial && (
+          <div className="hidden md:inline-flex gap-4">
+            <ButtonSocial />
+          </div>
+        )}
         <NavigationMenu>
           <NavigationMenuList>
             {routes.map(({ title, link }, index) => {
@@ -49,7 +51,7 @@ export default function Header() {
                       href={link}
                       className="data-[active]:border-b-2 data-[active]:bg-inherit data-[active]:rounded-none"
                     >
-                      <LabelCustom classNameContainer="text-[24px]">{title}</LabelCustom>
+                      {title}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>

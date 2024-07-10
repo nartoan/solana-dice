@@ -76,8 +76,12 @@ function Home() {
 
   // Use refs for values that don't need to trigger a re-render
   const currentGameStatus = useRef<IGameStatus | null>(null);
-  const currentPayoutHistories = useRef<{ results: DiceResult[]; address: string; }[]>([]);
-  const currentBetHistories = useRef<{ address: string; amount: number; type: IBetType; }[]>([]);
+  const currentPayoutHistories = useRef<
+    { results: DiceResult[]; address: string }[]
+  >([]);
+  const currentBetHistories = useRef<
+    { address: string; amount: number; type: IBetType }[]
+  >([]);
   const currentBetType = useRef<IBetType | null>(null);
   const currentRollResult = useRef<DiceResult[]>([]);
   const wasBetListEmpty = useRef(true);
@@ -87,7 +91,6 @@ function Home() {
   const showResultDialogCount = useRef(0);
   const showResultDialogDuration = 4;
   const showResultLastTime = useRef(0);
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -117,7 +120,10 @@ function Home() {
   }, []);
 
   const handleBetClosedTimeCheck = () => {
-    console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
+    console.log(
+      "timerRef.current.getRemainingTime: ",
+      timerRef.current.getRemainingTime()
+    );
     console.log("handleBetClosted finishedRolling: ", finishedRolling.current);
     console.log("handleBetClosted wasBetListEmpty: ", wasBetListEmpty.current);
     if (finishedRolling.current) {
@@ -168,11 +174,26 @@ function Home() {
   };
 
   const handleDefaultTimeCheck = () => {
-    console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
-    console.log("handleDefaultTimeCheck payoutHistoryUpdated: ", payoutHistoryUpdated.current);
-    console.log("handleDefaultTimeCheck finishedRolling: ", finishedRolling.current);
-    console.log("handleDefaultTimeCheck wasBetListEmpty: ", wasBetListEmpty.current);
-    console.log("handleDefaultTimeCheck rollingStartTime + 6000 > Date.now: ", (rollingStartTime.current + 6000 > Date.now()));
+    console.log(
+      "timerRef.current.getRemainingTime: ",
+      timerRef.current.getRemainingTime()
+    );
+    console.log(
+      "handleDefaultTimeCheck payoutHistoryUpdated: ",
+      payoutHistoryUpdated.current
+    );
+    console.log(
+      "handleDefaultTimeCheck finishedRolling: ",
+      finishedRolling.current
+    );
+    console.log(
+      "handleDefaultTimeCheck wasBetListEmpty: ",
+      wasBetListEmpty.current
+    );
+    console.log(
+      "handleDefaultTimeCheck rollingStartTime + 6000 > Date.now: ",
+      rollingStartTime.current + 6000 > Date.now()
+    );
 
     if (!wasBetListEmpty.current) {
       if (!payoutHistoryUpdated.current) {
@@ -189,7 +210,6 @@ function Home() {
       if (rollingStartTime.current + 6000 > Date.now()) {
         // Let rolling animation finish
         console.log("Let rolling animation finish");
-
       } else {
         if (showResultDialogCount.current <= showResultDialogDuration) {
           showResult();
@@ -242,8 +262,16 @@ function Home() {
       results: currentPayoutHistories.current[0].results,
       value: 0,
       isWin:
-        (currentBetType.current === BET_BIG && currentPayoutHistories.current[0].results.reduce((total, item) => total + item, 0) > 10) ||
-        (currentBetType.current === BET_SMALL && currentPayoutHistories.current[0].results.reduce((total, item) => total + item, 0) <= 10),
+        (currentBetType.current === BET_BIG &&
+          currentPayoutHistories.current[0].results.reduce(
+            (total, item) => total + item,
+            0
+          ) > 10) ||
+        (currentBetType.current === BET_SMALL &&
+          currentPayoutHistories.current[0].results.reduce(
+            (total, item) => total + item,
+            0
+          ) <= 10),
     };
   };
 
@@ -291,11 +319,11 @@ function Home() {
           .filter((bet: any) => bet !== null)
           .map(
             (bet: any) =>
-            ({
-              address: (bet.user as PublicKey).toBase58(),
-              amount: bet.amount / LAMPORTS_PER_SOL,
-              type: Object.keys(bet.betType)[0],
-            } as IBetHistory)
+              ({
+                address: (bet.user as PublicKey).toBase58(),
+                amount: bet.amount / LAMPORTS_PER_SOL,
+                type: Object.keys(bet.betType)[0],
+              } as IBetHistory)
           );
         const newBetHistories = bets.reverse();
         currentBetHistories.current = newBetHistories;
@@ -324,7 +352,11 @@ function Home() {
           };
         });
         const newPayoutHistory = histories.reverse();
-        if (currentPayoutHistories.current.length > 0 && currentPayoutHistories.current[0].address !== newPayoutHistory[0].address) {
+        if (
+          currentPayoutHistories.current.length > 0 &&
+          currentPayoutHistories.current[0].address !==
+            newPayoutHistory[0].address
+        ) {
           payoutHistoryUpdated.current = true;
         }
         currentPayoutHistories.current = newPayoutHistory;
@@ -339,24 +371,24 @@ function Home() {
 
   return (
     <div className="w-full max-w-5xl">
-      <Header />
+      <Header isShowSocial={false} />
       <WalletSelection />
       <div
-        className={`bg-[#0B0B1F] h-[130px] flex justify-center items-center text-center mt-[20px] text-[32px] leading-none`}
+        className={`bg-[#0B0B1F] h-[130px] md:h-[220px] flex justify-center items-center text-center mt-[20px] text-[32px] md:text-[50px] leading-none`}
       >
-        <LabelCustom className="max-w-[250px]">Big & Small Dice</LabelCustom>
+        <LabelCustom>大 Big & Small 細</LabelCustom>
       </div>
       <Container className={`flex flex-col mt-5 gap-[20px]`}>
         <div className="flex justify-between">
           <span className="text-[10px] md:hidden">
             Time left until the next game:
           </span>
-          <LabelCustom className="hidden md:block">
+          <LabelCustom className="hidden md:block text-[30px]">
             Time left until the next game:
           </LabelCustom>
           <Timer ref={timerRef} />
         </div>
-        <div className="rounded-[10px] border-solid border border-[#344EAD]">
+        <div className="flex items-center justify-center rounded-[10px] border-solid border border-[#344EAD]">
           <Dice
             rolling={gameStatus === GAME_STATUS.ROLLING}
             results={result?.results}
@@ -367,7 +399,9 @@ function Home() {
       </Container>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-[30px]">
         <div>
-          <LabelCustom>Active Bets</LabelCustom>
+          <LabelCustom classNameContainer="md:text-[24px]">
+            Active Bets
+          </LabelCustom>
           <Container className="mt-[20px]">
             <BetHistory typeBet={BET_BIG} betHistories={betHistories} />
           </Container>
@@ -378,8 +412,12 @@ function Home() {
 
         <div>
           <div className="flex justify-between items-center mt-[30px] md:mt-0">
-            <LabelCustom>Payout History</LabelCustom>
-            <LabelCustom>Solscan Link</LabelCustom>
+            <LabelCustom classNameContainer="md:text-[24px]">
+              Payout History
+            </LabelCustom>
+            <LabelCustom classNameContainer="md:text-[24px]">
+              Solscan Link
+            </LabelCustom>
           </div>
           <PayoutHistories data={payoutHistories} />
         </div>

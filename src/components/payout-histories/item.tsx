@@ -21,12 +21,16 @@ const PayoutHistoryItem: FC<PayoutHistoryItemProps> = ({ result }) => {
   const refLink = `https://explorer.solana.com/tx/${result.address}?cluster=${SOLANA_NETWORK}`;
 
   return (
-    <Container className="flex justify-between items-center text-[12px] mt-[15px]">
+    <Container className="flex justify-between items-center text-[12px] md:text-[16px] mt-[20px]">
       <span className="font-bold capitalize w-[60px] h-[23px] flex items-center">
         {getResultText(result.results)}
       </span>
       <PayoutHistoryImage results={result.results} />
-      <Link href={refLink} className="text-[#C9C9C9] w-[120px] truncate" target="_blank">
+      <Link
+        href={refLink}
+        className="text-[#C9C9C9] w-[120px] truncate"
+        target="_blank"
+      >
         {result.address}
       </Link>
     </Container>
