@@ -11,6 +11,7 @@ import {
   TimelineDescription,
   TimelineContent,
   TimelineTime,
+  TimelineSeparate,
 } from "@/components/ui/timeline/timeline";
 
 export interface TimelineElement {
@@ -25,34 +26,30 @@ interface TimelineLayoutProps {
 }
 export const TimelineLayout = ({ items }: TimelineLayoutProps) => {
   return (
-    <Timeline className="translate-x-1/3">
+    <Timeline className="w-full mt-4">
       <TimelineItem>
-        <TimelineConnector />
+        <TimelineSeparate>
+          <TimelineConnector />
+        </TimelineSeparate>
+        <TimelineContent />
       </TimelineItem>
       <TimelineItem>
-        <TimelineConnector />
+        <TimelineSeparate>
+          <TimelineConnector />
+        </TimelineSeparate>
+        <TimelineContent />
       </TimelineItem>
-      {items.map((item, index) => (
+      {items.map((item) => (
         <TimelineItem key={item.id}>
-          <TimelineHeader>
+          <TimelineSeparate>
             <TimelineIcon />
-            <TimelineTitle className={index % 2 !== 0 ? "-translate-x-32" : ""}>
-              {item.title}
-            </TimelineTitle>
-          </TimelineHeader>
+            <TimelineConnector />
+          </TimelineSeparate>
           <TimelineContent>
-            <TimelineDescription
-              className={index % 2 !== 0 ? "-translate-x-[10.5rem]" : ""}
-            >
-              {item.description}
-            </TimelineDescription>
+            <TimelineTitle>{item.title}</TimelineTitle>
+            <TimelineDescription>{item.description}</TimelineDescription>
+            <TimelineTime>{item.date}</TimelineTime>
           </TimelineContent>
-          <TimelineContent>
-            <TimelineTime className={index % 2 !== 0 ? "-translate-x-28" : ""}>
-              {item.date}
-            </TimelineTime>
-          </TimelineContent>
-          {index !== items.length - 1 && <TimelineConnector />}
         </TimelineItem>
       ))}
     </Timeline>

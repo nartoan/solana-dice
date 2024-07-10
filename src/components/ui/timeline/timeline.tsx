@@ -10,14 +10,17 @@ const Timeline = React.forwardRef<
 Timeline.displayName = "Timeline";
 
 const TimelineItem = React.forwardRef<
-	HTMLLIElement,
-	React.LiHTMLAttributes<HTMLLIElement>
+  HTMLLIElement,
+  React.LiHTMLAttributes<HTMLLIElement>
 >(({ className, ...props }, ref) => (
-	<li
-		ref={ref}
-		className={cn("relative flex flex-col p-6 pt-0 [&>*]:mb-3", className)}
-		{...props}
-	/>
+  <li
+    ref={ref}
+    className={cn(
+      "relative flex even:flex-row-reverse before:flex-1 before:px-4 before:pb-6 even:text-right",
+      className
+    )}
+    {...props}
+  />
 ));
 TimelineItem.displayName = "TimelineItem";
 
@@ -43,7 +46,7 @@ const TimelineConnector = React.forwardRef<
 	<div
 		ref={ref}
 		className={cn(
-			"absolute top-[5px] left-[30px] -translate-x-1/2 translate-y-2 h-full w-px bg-primary",
+			"h-full w-px bg-primary",
 			className,
 		)}
 		{...props}
@@ -51,17 +54,17 @@ const TimelineConnector = React.forwardRef<
 ));
 TimelineConnector.displayName = "TimelineConnector";
 
-const TimelineHeader = React.forwardRef<
+const TimelineSeparate = React.forwardRef<
 	HTMLDivElement,
 	React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
 	<div
 		ref={ref}
-		className={cn("flex items-center gap-4", className)}
+		className={cn("flex flex-col justify-center items-center", className)}
 		{...props}
 	/>
 ));
-TimelineHeader.displayName = "TimelineHeader";
+TimelineSeparate.displayName = "TimelineSeparate";
 
 const TimelineTitle = React.forwardRef<
 	HTMLHeadingElement,
@@ -97,32 +100,32 @@ const TimelineDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-base text-muted-foreground max-w-sm", className)}
+    className={cn("text-base text-muted-foreground", className)}
     {...props}
   />
 ));
 TimelineDescription.displayName = "TimelineDescription";
 
 const TimelineContent = React.forwardRef<
-	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-	<div
-		ref={ref}
-		className={cn("flex flex-col items-start p-6 pt-0 pb-0", className)}
-		{...props}
-	/>
+  <div
+    ref={ref}
+    className={cn("flex flex-col flex-1 px-4 pb-6 gap-2", className)}
+    {...props}
+  />
 ));
 TimelineContent.displayName = "TimelineContent";
 
 export {
-	Timeline,
-	TimelineItem,
-	TimelineConnector,
-	TimelineHeader,
-	TimelineTitle,
-	TimelineIcon,
-	TimelineDescription,
-	TimelineContent,
-	TimelineTime,
+  Timeline,
+  TimelineItem,
+  TimelineConnector,
+  TimelineSeparate,
+  TimelineTitle,
+  TimelineIcon,
+  TimelineDescription,
+  TimelineContent,
+  TimelineTime,
 };
