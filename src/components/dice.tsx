@@ -30,7 +30,7 @@ export default function Dice({
   results?: DiceResult[];
   timerRef: MutableRefObject<any>;
 }) {
-  const isTablet = useMediaQuery({ query: '(max-width: 1023px)' });
+  const isTablet = useMediaQuery({ query: '(max-width: 767px)' });
   const sizeDice = isTablet ? 50 : 150;
 
   const diceRef1 = useRef<TDiceRef>(null);
@@ -57,7 +57,7 @@ export default function Dice({
   }, [rolling, results, timerRef]);
 
   return (
-    <div className="flex justify-around items-center py-[20px] h-[98px] lg:h-[250px]">
+    <div className="flex justify-around items-center py-[20px] h-[98px] md:h-[250px]">
       <DiceRoll
         ref={diceRef1}
         size={sizeDice}
