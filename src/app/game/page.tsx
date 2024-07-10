@@ -346,7 +346,7 @@ function Home() {
             address: bs58.encode(txSig),
           };
         });
-        const newPayoutHistory = histories.toReversed();
+        const newPayoutHistory = histories.reverse();
         if (
           currentPayoutHistories.current.length > 0 &&
           currentPayoutHistories.current[0].address !==
