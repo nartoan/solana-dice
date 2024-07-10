@@ -19,10 +19,10 @@ export default function Home() {
           大 Big & Small 細
         </LabelCustom>
         <div className="flex flex-col md:flex-row gap-4 mt-10 w-4/5">
-          <Button className="rounded-none w-full">
+          <Button className="rounded-none w-full" asChild>
             <Link href="/game">ENTER GAME</Link>
           </Button>
-          <Button className="rounded-none w-full" variant="outline">
+          <Button className="rounded-none w-full" variant="outline" asChild>
             <Link href="/roadmap">ROAD MAP</Link>
           </Button>
         </div>
