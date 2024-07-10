@@ -86,10 +86,16 @@ function Home() {
   const rollingStartTime = useRef(Date.now());
   const showResultDialogCount = useRef(0);
   const showResultDialogDuration = 4;
+  const showResultLastTime = useRef(0);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
+
+      if (showResultLastTime.current + 4000 > Date.now()) {
+        updateGameStatus(GAME_STATUS.BETTING);
+      }
 
       if (finishedRolling.current) {
         resetBetState();
@@ -163,8 +169,11 @@ function Home() {
 
   const handleDefaultTimeCheck = () => {
     console.log("timerRef.current.getRemainingTime: ", timerRef.current.getRemainingTime());
+    console.log("handleDefaultTimeCheck payoutHistoryUpdated: ", payoutHistoryUpdated.current);
     console.log("handleDefaultTimeCheck finishedRolling: ", finishedRolling.current);
     console.log("handleDefaultTimeCheck wasBetListEmpty: ", wasBetListEmpty.current);
+    console.log("handleDefaultTimeCheck rollingStartTime + 6000 > Date.now: ", (rollingStartTime.current + 6000 > Date.now()));
+
     if (!wasBetListEmpty.current) {
       if (!payoutHistoryUpdated.current) {
         // Maintain game status Bets Closed
@@ -179,14 +188,19 @@ function Home() {
     } else {
       if (rollingStartTime.current + 6000 > Date.now()) {
         // Let rolling animation finish
+        console.log("Let rolling animation finish");
+
       } else {
         if (showResultDialogCount.current <= showResultDialogDuration) {
           showResult();
           showResultDialogCount.current++;
+          showResultLastTime.current = Date.now();
         } else {
           updateGameStatus(GAME_STATUS.BETTING);
         }
+        console.log("set finishedRolling TRUE: ");
         finishedRolling.current = true;
+        wasBetListEmpty.current = false;
       }
     }
   };
