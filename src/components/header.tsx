@@ -33,7 +33,7 @@ export default function Header({
   return (
     <div className="w-full flex items-center justify-between ">
       <Link href="/">
-        <Image src={logo} alt={"logo"} width={150} className="min-w-[120px]" />
+        <Image src={logo} alt={"logo"} width={150} className="min-w-[120px] md:w-[220px]" />
       </Link>
       <div className="flex gap-8">
         {isShowSocial && (

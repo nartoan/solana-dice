@@ -374,7 +374,7 @@ function Home() {
       <Header isShowSocial={false} />
       <WalletSelection />
       <div
-        className={`bg-[#0B0B1F] h-[130px] md:h-[220px] flex justify-center items-center text-center mt-[20px] text-[32px] md:text-[50px] leading-none`}
+        className={`bg-[#0B0B1F] h-[130px] md:h-[200px] flex justify-center items-center text-center mt-[20px] text-[32px] md:text-[45px] leading-none`}
       >
         <LabelCustom>大 Big & Small 細</LabelCustom>
       </div>
@@ -383,7 +383,7 @@ function Home() {
           <span className="text-[10px] md:hidden">
             Time left until the next game:
           </span>
-          <LabelCustom className="hidden md:block text-[30px]">
+          <LabelCustom className="hidden md:block text-[25px]">
             Time left until the next game:
           </LabelCustom>
           <Timer ref={timerRef} />
