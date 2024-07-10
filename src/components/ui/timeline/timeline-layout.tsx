@@ -25,7 +25,7 @@ interface TimelineLayoutProps {
 }
 export const TimelineLayout = ({ items }: TimelineLayoutProps) => {
   return (
-    <Timeline className="w-full mt-4 md:h-[300px]">
+    <Timeline className="w-full mt-4 md:h-[300px] md:justify-center">
       <TimelineItem>
         <TimelineSeparate>
           <TimelineConnector />
