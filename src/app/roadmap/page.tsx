@@ -52,7 +52,7 @@ const timelineData: TimelineElement[] = [
 export default function Rules() {
   return (
     <div className="w-full max-w-5xl">
-      <Header />
+      <Header isShowSocial isStyled />
       <div className="flex flex-col items-center mt-20">
         <div>Token Sale</div>
         <LabelCustom classNameContainer="mt-4 text-[32px]">

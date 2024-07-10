@@ -12,17 +12,24 @@ import { ButtonSocial } from "@/components/buttons-social";
 export default function Home() {
   return (
     <div className="w-full max-w-5xl">
-      <Header />
-      <div className="flex flex-col items-center mt-20 md:mt-32">
-        <Image src={diceSvg} alt={"Dice icon"} />
-        <LabelCustom classNameContainer="mt-4 text-[32px]">
+      <Header isShowSocial isStyled />
+      <div className="flex flex-col items-center mt-20 md:mt-30">
+        <Image src={diceSvg} alt={"Dice icon"} className="md:w-[200px]" />
+        <LabelCustom classNameContainer="mt-4 text-[32px] md:text-[55px]">
           大 Big & Small 細
         </LabelCustom>
-        <div className="flex flex-col md:flex-row gap-4 mt-10 w-4/5">
-          <Button className="rounded-none w-full" asChild>
+        <div className="flex flex-col md:flex-row justify-center gap-4 mt-10 w-4/5">
+          <Button
+            className="rounded-none w-full max-w-[310px] font-bold md:h-[50px]"
+            asChild
+          >
             <Link href="/game">ENTER GAME</Link>
           </Button>
-          <Button className="rounded-none w-full" variant="outline" asChild>
+          <Button
+            className="rounded-none w-full max-w-[310px] font-bold md:h-[50px]"
+            variant="outline"
+            asChild
+          >
             <Link href="/roadmap">ROAD MAP</Link>
           </Button>
         </div>
