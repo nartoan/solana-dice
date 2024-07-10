@@ -2,10 +2,14 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const Timeline = React.forwardRef<
-	HTMLOListElement,
-	React.HTMLAttributes<HTMLOListElement>
+  HTMLOListElement,
+  React.HTMLAttributes<HTMLOListElement>
 >(({ className, ...props }, ref) => (
-	<ol ref={ref} className={cn("flex flex-col", className)} {...props} />
+  <ol
+    ref={ref}
+    className={cn("flex flex-col md:flex-row", className)}
+    {...props}
+  />
 ));
 Timeline.displayName = "Timeline";
 
@@ -16,7 +20,7 @@ const TimelineItem = React.forwardRef<
   <li
     ref={ref}
     className={cn(
-      "relative flex even:flex-row-reverse before:flex-1 before:px-4 before:pb-6 even:text-right",
+      "relative flex even:flex-row-reverse md:flex-col md:even:flex-col-reverse before:flex-1 before:px-4 before:pb-6 md:before:py-4 even:text-right md:text-center md:[&>div]:even:justify-end",
       className
     )}
     {...props}
@@ -40,57 +44,58 @@ const TimelineTime = React.forwardRef<
 TimelineTime.displayName = "TimelineTime";
 
 const TimelineConnector = React.forwardRef<
-	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-	<div
-		ref={ref}
-		className={cn(
-			"h-full w-px bg-primary",
-			className,
-		)}
-		{...props}
-	/>
+  <div
+    ref={ref}
+    className={cn("h-full md:h-[1px] w-px md:w-full bg-primary", className)}
+    {...props}
+  />
 ));
 TimelineConnector.displayName = "TimelineConnector";
 
 const TimelineSeparate = React.forwardRef<
-	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-	<div
-		ref={ref}
-		className={cn("flex flex-col justify-center items-center", className)}
-		{...props}
-	/>
+  <div
+    ref={ref}
+    className={cn(
+      "flex flex-col md:flex-row justify-center items-center",
+      className
+    )}
+    {...props}
+  />
 ));
 TimelineSeparate.displayName = "TimelineSeparate";
 
 const TimelineTitle = React.forwardRef<
-	HTMLHeadingElement,
-	React.HTMLAttributes<HTMLHeadingElement>
+  HTMLHeadingElement,
+  React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, children, ...props }, ref) => (
-	<h3
-		ref={ref}
-		className={cn(
-			"font-semibold leading-none tracking-tight text-secondary-foreground",
-			className,
-		)}
-		{...props}>
-		{children}
-	</h3>
+  <h3
+    ref={ref}
+    className={cn(
+      "font-semibold leading-none tracking-tight text-secondary-foreground",
+      className
+    )}
+    {...props}
+  >
+    {children}
+  </h3>
 ));
 TimelineTitle.displayName = "CardTitle";
 
 const TimelineIcon = React.forwardRef<
-	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-	<div
-		ref={ref}
-		className={cn("flex flex-col size-3 bg-primary rounded-full", className)}
-		{...props}
-	/>
+  <div
+    ref={ref}
+    className={cn("flex flex-col size-3 bg-primary rounded-full", className)}
+    {...props}
+  />
 ));
 TimelineIcon.displayName = "TimelineIcon";
 
@@ -112,7 +117,10 @@ const TimelineContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col flex-1 px-4 pb-6 gap-2", className)}
+    className={cn(
+      "flex flex-col flex-1 px-4 pb-6 md:py-4 gap-2 md:text-center md:-translate-x-1/2",
+      className
+    )}
     {...props}
   />
 ));

@@ -5,7 +5,6 @@ import {
   Timeline,
   TimelineItem,
   TimelineConnector,
-  TimelineHeader,
   TimelineTitle,
   TimelineIcon,
   TimelineDescription,
@@ -26,7 +25,7 @@ interface TimelineLayoutProps {
 }
 export const TimelineLayout = ({ items }: TimelineLayoutProps) => {
   return (
-    <Timeline className="w-full mt-4">
+    <Timeline className="w-full mt-4 md:h-[300px]">
       <TimelineItem>
         <TimelineSeparate>
           <TimelineConnector />
