@@ -19,13 +19,15 @@ export default function BetButton({
 
   return (
     <Button
-      className="flex flex-col h-[78px] w-1/2 rounded-xl"
+      className="flex flex-col md:flex-row justify-around h-[78px] md:h-[120px] w-1/2 rounded-xl"
       variant={"outline"}
       onClick={() => onClick(bet)}
     >
-      <span className="text-[8px]">Place bet</span>
-      <span className="font-bold capitalize">{bet}</span>
-      <span className="text-[8px]">({betType?.range[0]}-{betType?.range[1]})</span>
+      <span className="text-[8px] md:text-sm">Place bet</span>
+      <span className="font-bold capitalize md:text-xl">{bet}</span>
+      <span className="text-[8px] md:text-sm">
+        ({betType?.range[0]}-{betType?.range[1]})
+      </span>
     </Button>
   );
 }

@@ -46,12 +46,12 @@ export default function BetHistory({
       </div>
 
       {dataBets.length <= 0 ? (
-        <div className="w-full h-[90px] flex flex-col justify-center items-center">
+        <div className="w-full h-[100px] flex flex-col justify-center items-center">
           <Image src={noDataSvg} alt="No data" width={22} />
           <span className="text-[12px] mt-1">No bets yet</span>
         </div>
       ) : (
-        <div className="w-full min-h-[90px]">
+        <div className="w-full min-h-[100px]">
           {dataBets.map((bet, index) => (
             <div className="flex justify-between w-full mt-[10px]" key={index}>
               <span className="w-1/4 truncate text-[12px]">{bet.address}</span>
