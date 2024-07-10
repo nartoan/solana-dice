@@ -21,7 +21,7 @@ const routes = [
   { title: "Roadmap", link: "/roadmap", isDisable: false },
 ];
 
-export default function Header({ isShowSocial = false }: { isShowSocial: boolean }) {
+export default function Header({ isShowSocial = false }: { isShowSocial?: boolean }) {
   const pathname = usePathname();
 
   return (

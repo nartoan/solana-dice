@@ -4,7 +4,7 @@ import Header from "@/components/header";
 import LabelCustom from "@/components/ui-custom/label-custom";
 import { TimelineLayout } from "@/components/ui/timeline/timeline-layout";
 
-export const timelineData = [
+export const timelineData: TimelineElement[] = [
   {
     id: 1,
     title: "Token Sale",
