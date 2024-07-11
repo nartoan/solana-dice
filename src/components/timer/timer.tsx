@@ -18,16 +18,14 @@ const RenderTimer: FC<{ children: ReactNode }> = ({ children }) => (
   </span>
 );
 
-const RenderCountDown: FC<CountdownRenderProps> = ({ minutes, seconds }) => {
-  console.log("minutes", minutes, "seconds", seconds)
-  return <RenderTimer>
+const RenderCountDown: FC<CountdownRenderProps> = ({ minutes, seconds }) => (<RenderTimer>
     {minutes.toString().padStart(2, "0")} :{" "}
     {seconds.toString().padStart(2, "0")}
   </RenderTimer>
-}
+);
 
 const Timer = forwardRef((_, ref) => {
-  const { data, isLoading } = useSWR("https://worldtimeapi.org/api/timezone/Etc/UTC", {revalidateOnFocus: false});
+  const { data, isLoading } = useSWR("https://worldtimeapi.org/api/timezone/Etc/UTC", { revalidateOnFocus: false });
 
   const [targetDate, setTargetDate] = useState(0);
   const countdownRef = useRef<Countdown | null>(null);
@@ -56,7 +54,7 @@ const Timer = forwardRef((_, ref) => {
   if (isLoading) {
     return <RenderTimer>Loading...</RenderTimer>;
   }
-  console.log("RERENDER")
+
   return (
     <Countdown
       ref={countdownRef}
