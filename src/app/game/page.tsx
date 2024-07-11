@@ -380,10 +380,7 @@ function Home() {
       </div>
       <Container className={`flex flex-col mt-5 gap-[20px]`}>
         <div className="flex justify-between">
-          <span className="text-[10px] md:hidden">
-            Time left until the next game:
-          </span>
-          <LabelCustom className="hidden md:block text-[25px]">
+          <LabelCustom className="text-[12px] md:text-[25px]">
             Time left until the next game:
           </LabelCustom>
           <Timer ref={timerRef} />
