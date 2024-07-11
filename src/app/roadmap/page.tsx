@@ -2,9 +2,9 @@
 
 import Header from "@/components/header";
 import LabelCustom from "@/components/ui-custom/label-custom";
-import { TimelineLayout } from "@/components/ui/timeline/timeline-layout";
+import { TimelineElement, TimelineLayout } from "@/components/ui/timeline/timeline-layout";
 
-export const timelineData: TimelineElement[] = [
+const timelineData: TimelineElement[] = [
   {
     id: 1,
     title: "Token Sale",
@@ -49,20 +49,11 @@ export const timelineData: TimelineElement[] = [
   },
 ];
 
-export type TimelineData = (typeof timelineData)[number];
-
-export interface TimelineElement {
-  id: number;
-  title: string;
-  date: string;
-  description: string;
-}
-
 export default function Rules() {
   return (
     <div className="w-full max-w-5xl">
-      <Header />
-      <div className="flex flex-col items-center mt-20">
+      <Header isShowSocial isStyled />
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-72px)]">
         <div>Token Sale</div>
         <LabelCustom classNameContainer="mt-4 text-[32px]">
           Company Roadmap

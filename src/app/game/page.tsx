@@ -366,19 +366,16 @@ function Home() {
 
   return (
     <div className="w-full max-w-5xl">
-      <Header isShowSocial={false} />
+      <Header isShowSocial isStyled />
       <WalletSelection />
       <div
-        className={`bg-[#0B0B1F] h-[130px] md:h-[220px] flex justify-center items-center text-center mt-[20px] text-[32px] md:text-[50px] leading-none`}
+        className={`bg-[#0B0B1F] h-[130px] md:h-[200px] flex justify-center items-center text-center mt-[20px] text-[32px] md:text-[45px] leading-none`}
       >
         <LabelCustom>大 Big & Small 細</LabelCustom>
       </div>
       <Container className={`flex flex-col mt-5 gap-[20px]`}>
         <div className="flex justify-between">
-          <span className="text-[10px] md:hidden">
-            Time left until the next game:
-          </span>
-          <LabelCustom className="hidden md:block text-[30px]">
+          <LabelCustom className="text-[12px] md:text-[25px]">
             Time left until the next game:
           </LabelCustom>
           <Timer ref={timerRef} />
@@ -392,7 +389,7 @@ function Home() {
         </div>
         <Bet gameStatus={gameStatus} bet={handleBet} />
       </Container>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-[30px]">
+      <div className="grid grid-cols-1 gap-4 mt-[30px]">
         <div>
           <LabelCustom classNameContainer="md:text-[24px]">
             Active Bets
@@ -411,7 +408,7 @@ function Home() {
               Payout History
             </LabelCustom>
             <LabelCustom classNameContainer="md:text-[24px]">
-              Solscan Link
+              SolScan Link
             </LabelCustom>
           </div>
           <PayoutHistories data={payoutHistories} />

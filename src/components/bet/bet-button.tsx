@@ -19,7 +19,7 @@ export default function BetButton({
 
   return (
     <Button
-      className="flex flex-col md:flex-row justify-around h-[78px] md:h-[100px] w-1/2 rounded-xl"
+      className="flex flex-col md:flex-row justify-around h-[78px] md:h-[90px] w-1/2 rounded-xl"
       variant={"outline"}
       onClick={() => onClick(bet)}
     >

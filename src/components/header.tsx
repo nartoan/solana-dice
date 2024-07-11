@@ -21,13 +21,19 @@ const routes = [
   { title: "Roadmap", link: "/roadmap", isDisable: false },
 ];
 
-export default function Header({ isShowSocial = false }: { isShowSocial?: boolean }) {
+export default function Header({
+  isShowSocial = false,
+  isStyled = false,
+}: {
+  isShowSocial?: boolean;
+  isStyled?: boolean;
+}) {
   const pathname = usePathname();
 
   return (
     <div className="w-full flex items-center justify-between ">
       <Link href="/">
-        <Image src={logo} alt={"logo"} width={150} className="min-w-[120px]" />
+        <Image src={logo} alt={"logo"} width={150} className="min-w-[120px] md:w-[220px]" />
       </Link>
       <div className="flex gap-8">
         {isShowSocial && (
@@ -51,7 +57,7 @@ export default function Header({ isShowSocial = false }: { isShowSocial?: boolea
                       href={link}
                       className="data-[active]:border-b-2 data-[active]:bg-inherit data-[active]:rounded-none"
                     >
-                      {title}
+                      {isStyled ? <LabelCustom classNameContainer="text-[16px] md:text-[24px]">{title}</LabelCustom> : title}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>

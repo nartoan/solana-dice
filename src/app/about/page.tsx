@@ -53,12 +53,10 @@ export default function About() {
 
   return (
     <div className="w-full max-w-5xl">
-      <Header />
+      <Header isShowSocial isStyled />
       {about.map(({ title, content }, index) => (
         <div key={index} className="mt-[20px]">
-          <div
-            className={`text-[24px]`}
-          >
+          <div className={`text-[24px]`}>
             <LabelCustom>{title}</LabelCustom>
           </div>
           <div className="text-[14px] text-[#C2C2C2] mt-[4px]">{content}</div>
