@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="w-full max-w-5xl">
       <Header isShowSocial isStyled />
-      <div className="flex flex-col items-center mt-20 md:mt-30">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-72px)]">
         <Image src={diceSvg} alt={"Dice icon"} className="md:w-[200px]" />
         <LabelCustom classNameContainer="mt-4 text-[32px] md:text-[55px]">
           大 Big & Small 細

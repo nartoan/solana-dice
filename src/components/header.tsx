@@ -57,7 +57,7 @@ export default function Header({
                       href={link}
                       className="data-[active]:border-b-2 data-[active]:bg-inherit data-[active]:rounded-none"
                     >
-                      {isStyled ? <LabelCustom classNameContainer="text-[24px]">{title}</LabelCustom> : title}
+                      {isStyled ? <LabelCustom classNameContainer="text-[16px] md:text-[24px]">{title}</LabelCustom> : title}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
