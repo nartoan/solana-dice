@@ -18,7 +18,7 @@ import WalletSelection from "@/components/wallet-selection";
 import Container from "@/components/ui-custom/container";
 import PayoutHistories from "@/components/payout-histories";
 import Bet from "@/components/bet";
-import Timer from "@/components/timer";
+import Timer from "@/components/timer/timer";
 import LabelCustom from "@/components/ui-custom/label-custom";
 import { BetDialog, BetResult } from "@/components/bet-result-dialog";
 import { IResultBet } from "@/components/payout-histories/item";
