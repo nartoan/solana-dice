@@ -18,7 +18,7 @@ export default function Home() {
         <LabelCustom classNameContainer="mt-4 text-[32px] md:text-[55px]">
           大 Big & Small 細
         </LabelCustom>
-        <div className="flex flex-col md:flex-row justify-center gap-4 mt-10 w-4/5">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-10 w-4/5">
           <Button
             className="rounded-none w-full max-w-[310px] font-bold md:h-[50px]"
             asChild
