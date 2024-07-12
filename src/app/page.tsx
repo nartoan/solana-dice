@@ -8,10 +8,11 @@ import LabelCustom from "@/components/ui-custom/label-custom";
 import diceSvg from "@/assets/img/dice.svg";
 import { Button } from "@/components/ui/button";
 import { ButtonSocial } from "@/components/buttons-social";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="w-full max-w-5xl">
+    <div className="w-full max-w-5xl relative">
       <Header isShowSocial isStyled />
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-72px)]">
         <Image src={diceSvg} alt={"Dice icon"} className="md:w-[200px]" />
@@ -37,6 +38,7 @@ export default function Home() {
           <ButtonSocial />
         </div>
       </div>
+      <Footer isAbsolute />
     </div>
   );
 }

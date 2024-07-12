@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import Header from "@/components/header";
 import LabelCustom from "@/components/ui-custom/label-custom";
 
@@ -62,6 +63,7 @@ export default function About() {
           <div className="text-[14px] text-[#C2C2C2] mt-[4px]">{content}</div>
         </div>
       ))}
+      <Footer className="static mt-12" />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import Header from "@/components/header";
 import LabelCustom from "@/components/ui-custom/label-custom";
 import { TimelineElement, TimelineLayout } from "@/components/ui/timeline/timeline-layout";
@@ -60,6 +61,7 @@ export default function Rules() {
         </LabelCustom>
         <TimelineLayout items={timelineData} />
       </div>
+      <Footer className="static md:absolute mt-6 md:mt-0 md:mb-4" />
     </div>
   );
 }

@@ -31,6 +31,7 @@ import { useAnchor } from "@/anchor/setup";
 import { DiceResult } from "@/types/dice-result";
 import { generateNumbers } from "@/lib/utils";
 import { IBetType } from "@/types/bet";
+import Footer from "@/components/Footer";
 
 // Define the mapping object
 const betMapping = {
@@ -419,6 +420,7 @@ function Home() {
           <PayoutHistories data={payoutHistories} />
         </div>
       </div>
+      <Footer className="static mt-6" />
       <BetDialog open={isOpen} setOpen={setIsOpen} result={result} />
     </div>
   );
