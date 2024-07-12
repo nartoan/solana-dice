@@ -13,16 +13,16 @@ import Countdown, { CountdownRenderProps } from "react-countdown";
 import useSWR from "swr";
 
 const RenderTimer: FC<{ children: ReactNode }> = ({ children }) => (
-  <span className="w-[92px] h-[20px] bg-primary flex justify-center items-center text-[12px] rounded-sm font-bold">
+  <span className="w-[92px] md:w-[120px] h-[18px] md:h-[50px] bg-primary flex justify-center items-center text-[12px] md:text-[20px] rounded-sm font-bold">
     {children}
   </span>
 );
 
 const RenderCountDown: FC<CountdownRenderProps> = ({ minutes, seconds }) => (<RenderTimer>
-    {minutes.toString().padStart(2, "0")} :{" "}
-    {seconds.toString().padStart(2, "0")}
-  </RenderTimer>
-);
+      {minutes.toString().padStart(2, "0")} :{" "}
+      {seconds.toString().padStart(2, "0")}
+    </RenderTimer>
+  );
 
 const Timer = forwardRef((_, ref) => {
   const { data, isLoading } = useSWR("https://worldtimeapi.org/api/timezone/Etc/UTC", { revalidateOnFocus: false });
