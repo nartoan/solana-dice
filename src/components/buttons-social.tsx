@@ -7,12 +7,16 @@ import { Button } from "./ui/button";
 export function ButtonSocial() {
     return (
         <>
-            <Button size="icon">
-                <Image src={xSvg} alt={"X"} />
-            </Button>
-            <Button size="icon">
-                <Image src={telegramSvg} alt={"Telegram"} />
-            </Button>
+            <a href="https://x.com/degendice_sol" target="_blank" rel="noopener noreferrer">
+                <Button size="icon">
+                    <Image src={xSvg} alt={"X"} />
+                </Button>
+            </a>
+            <a href="https://t.me/DEGENDICE1" target="_blank" rel="noopener noreferrer">
+                <Button size="icon">
+                    <Image src={telegramSvg} alt={"Telegram"} />
+                </Button>
+            </a>
         </>
     );
 }
