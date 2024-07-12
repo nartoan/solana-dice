@@ -16,14 +16,14 @@ export const BET_TYPE: Array<{ title: IBetType; range: number[] }> = [
   },
 ];
 
-export const GAME_STATUS: { [key: string]: IGameStatus } = {
+export const GAME_STATUS = {
   BETTING: "betting",
   ROLLING: "rolling",
   BET_CLOSED: "bet_closed",
   RESULT_THREE_OF_A_KIND: "three_of_a_kind",
   RESULT_BIG_WINS: "big_wins",
   RESULT_SMALL_WINS: "small_wins",
-  LOADING: "loading",
-};
+  LOADING: "loading"
+} as const;
 
 export const SOLANA_NETWORK = WalletAdapterNetwork.Mainnet
