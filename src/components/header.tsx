@@ -19,21 +19,29 @@ import { ButtonSocial } from "./buttons-social";
 const routes = [
   { title: "About", link: "/about", isDisable: false },
   { title: "Roadmap", link: "/roadmap", isDisable: false },
+  { title: "Game", link: "/game", isDisable: false },
 ];
 
 export default function Header({
   isShowSocial = false,
   isStyled = false,
+  isShowGame = false,
 }: {
   isShowSocial?: boolean;
   isStyled?: boolean;
+  isShowGame?: boolean;
 }) {
   const pathname = usePathname();
 
   return (
     <div className="w-full flex items-center justify-between ">
       <Link href="/">
-        <Image src={logo} alt={"logo"} width={150} className="min-w-[120px] md:w-[220px]" />
+        <Image
+          src={logo}
+          alt={"logo"}
+          width={150}
+          className="min-w-[120px] md:w-[220px]"
+        />
       </Link>
       <div className="flex gap-8">
         {isShowSocial && (
@@ -44,6 +52,9 @@ export default function Header({
         <NavigationMenu>
           <NavigationMenuList>
             {routes.map(({ title, link }, index) => {
+              if (title === "Game" && !isShowGame) {
+                return "";
+              }
               const isActive = pathname === link;
 
               return (
@@ -57,7 +68,13 @@ export default function Header({
                       href={link}
                       className="data-[active]:border-b-2 data-[active]:bg-inherit data-[active]:rounded-none"
                     >
-                      {isStyled ? <LabelCustom classNameContainer="text-[16px] md:text-[24px]">{title}</LabelCustom> : title}
+                      {isStyled ? (
+                        <LabelCustom classNameContainer="text-[16px] md:text-[24px]">
+                          {title}
+                        </LabelCustom>
+                      ) : (
+                        title
+                      )}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>

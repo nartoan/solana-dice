@@ -53,7 +53,7 @@ export default function About() {
 
   return (
     <div className="w-full max-w-5xl">
-      <Header isShowSocial isStyled />
+      <Header isShowSocial isStyled isShowGame />
       {about.map(({ title, content }, index) => (
         <div key={index} className="mt-[20px]">
           <div className={`text-[24px]`}>
