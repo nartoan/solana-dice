@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     description: "Welcome to a game of Big & Small Dice",
     images: [
       {
-        url: "./opengraph-image.png",
+        url: "/opengraph-image.png",
         width: 200,
         height: 200,
       },
