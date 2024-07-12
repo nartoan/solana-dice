@@ -96,8 +96,13 @@ function Home() {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
 
+      // if (showResultLastTime.current + 4000 > Date.now()) {
+      //   updateGameStatus(GAME_STATUS.BETTING);
+      // }
+
       if (finishedRolling.current) {
         resetBetState();
+        // updateGameStatus(GAME_STATUS.BETTING);
       }
 
       if (remainingTime > 10000 && remainingTime <= 15000) {
