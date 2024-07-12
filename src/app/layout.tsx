@@ -9,17 +9,19 @@ import "./globals.css";
 const fontSans = FontSans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://degen-dice.vercel.app/'),
+  metadataBase: new URL("https://degen-dice.vercel.app/"),
   title: "Degen Dice",
   description: "Welcome to a game of Big & Small Dice",
   openGraph: {
     title: "Degen Dice",
     description: "Welcome to a game of Big & Small Dice",
-    images: [{
-      url: "../og-image.png",
-      width: 200,
-      height: 200
-    }],
+    images: [
+      {
+        url: "./opengraph-image.png",
+        width: 200,
+        height: 200,
+      },
+    ],
   },
 };
 
