@@ -18,7 +18,7 @@ import WalletSelection from "@/components/wallet-selection";
 import Container from "@/components/ui-custom/container";
 import PayoutHistories from "@/components/payout-histories";
 import Bet from "@/components/bet";
-import Timer from "@/components/timer";
+import Timer from "@/components/timer/timer";
 import LabelCustom from "@/components/ui-custom/label-custom";
 import { BetDialog, BetResult } from "@/components/bet-result-dialog";
 import { IResultBet } from "@/components/payout-histories/item";
@@ -96,13 +96,13 @@ function Home() {
     const interval = setInterval(() => {
       const remainingTime = timerRef.current.getRemainingTime();
 
-      if (showResultLastTime.current + 4000 > Date.now()) {
-        updateGameStatus(GAME_STATUS.BETTING);
-      }
+      // if (showResultLastTime.current + 4000 > Date.now()) {
+      //   updateGameStatus(GAME_STATUS.BETTING);
+      // }
 
       if (finishedRolling.current) {
         resetBetState();
-        updateGameStatus(GAME_STATUS.BETTING);
+        // updateGameStatus(GAME_STATUS.BETTING);
       }
 
       if (remainingTime > 10000 && remainingTime <= 15000) {
@@ -283,7 +283,7 @@ function Home() {
   const updateGameStatus = (newStatus: IGameStatus) => {
     if (currentGameStatus.current !== newStatus) {
       currentGameStatus.current = newStatus;
-      setGameStatus(newStatus);
+      setGameStatus(() => newStatus);
     }
   };
 
