@@ -13,7 +13,7 @@ import Countdown, { CountdownRenderProps } from "react-countdown";
 import useSWR from "swr";
 
 const RenderTimer: FC<{ children: ReactNode }> = ({ children }) => (
-  <span className="w-[92px] md:w-[120px] h-[18px] md:h-[50px] bg-primary flex justify-center items-center text-[12px] md:text-[20px] rounded-sm font-bold">
+  <span className="w-[92px] md:w-[150px] h-[18px] md:h-[30px] bg-primary flex justify-center items-center text-[12px] md:text-[16px] rounded-sm font-bold">
     {children}
   </span>
 );

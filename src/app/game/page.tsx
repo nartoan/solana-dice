@@ -380,7 +380,7 @@ function Home() {
         <LabelCustom>大 Big & Small 細</LabelCustom>
       </div>
       <Container className={`flex flex-col mt-5 gap-[20px]`}>
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <LabelCustom className="text-[12px] md:text-[25px]">
             Time left until the next game:
           </LabelCustom>
