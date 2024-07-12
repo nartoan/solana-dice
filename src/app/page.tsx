@@ -38,7 +38,7 @@ export default function Home() {
           <ButtonSocial />
         </div>
       </div>
-      <Footer isAbsolute />
+      <Footer className=""/>
     </div>
   );
 }
