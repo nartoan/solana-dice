@@ -38,7 +38,7 @@ export default function Home() {
           <ButtonSocial />
         </div>
       </div>
-      <Footer className=""/>
+      <Footer className="landscape:[@media(hover:none)]:static" />
     </div>
   );
 }
