@@ -61,7 +61,7 @@ export default function Rules() {
         </LabelCustom>
         <TimelineLayout items={timelineData} />
       </div>
-      <Footer className="static md:absolute landscape:[@media(hover:none)]:static mt-6 md:mt-0 md:mb-4" />
+      <Footer className="static lg:absolute landscape:[@media(hover:none)]:static mt-6 lg:mt-0 lg:mb-4" />
     </div>
   );
 }

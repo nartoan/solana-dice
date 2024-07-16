@@ -7,7 +7,7 @@ const Timeline = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ol
     ref={ref}
-    className={cn("flex flex-col md:flex-row", className)}
+    className={cn("flex flex-col lg:flex-row", className)}
     {...props}
   />
 ));
@@ -20,7 +20,7 @@ const TimelineItem = React.forwardRef<
   <li
     ref={ref}
     className={cn(
-      "relative flex even:flex-row-reverse md:flex-col md:even:flex-col-reverse before:flex-1 before:px-4 before:pb-6 md:before:py-4 even:text-right md:text-center md:[&>div]:even:justify-end",
+      "relative flex even:flex-row-reverse lg:flex-col lg:even:flex-col-reverse before:flex-1 before:px-4 before:pb-6 lg:before:py-4 even:text-right lg:text-center lg:[&>div]:even:justify-end",
       className
     )}
     {...props}
@@ -49,7 +49,7 @@ const TimelineConnector = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("h-full md:h-[1px] w-px md:w-full bg-primary", className)}
+    className={cn("h-full lg:h-[1px] w-px lg:w-full bg-primary", className)}
     {...props}
   />
 ));
@@ -62,7 +62,7 @@ const TimelineSeparate = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "flex flex-col md:flex-row justify-center items-center",
+      "flex flex-col lg:flex-row justify-center items-center",
       className
     )}
     {...props}
@@ -118,7 +118,7 @@ const TimelineContent = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "flex flex-col flex-1 px-4 pb-6 md:py-4 gap-2 md:text-center md:-translate-x-1/2",
+      "flex flex-col flex-1 px-4 pb-6 lg:py-4 gap-2 lg:text-center lg:-translate-x-1/2",
       className
     )}
     {...props}
