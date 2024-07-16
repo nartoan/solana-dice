@@ -54,7 +54,7 @@ export default function Rules() {
   return (
     <div className="w-full max-w-5xl">
       <Header isShowSocial isStyled isShowGame />
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-72px)]">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-72px)] mt-4 md:mt-0">
         <div>Token Sale</div>
         <LabelCustom classNameContainer="mt-4 text-[32px]">
           Company Roadmap
